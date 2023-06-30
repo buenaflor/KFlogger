@@ -146,7 +146,8 @@ expect interface KLoggingApi<API : KLoggingApi<API>> {
      * @param unit the time unit for the duration
      * @throws IllegalArgumentException if `n` is negative.
      */
-    //API atMostEvery(int n, TimeUnit unit);
+    fun atMostEvery(n: Int, unit: KTimeUnit): API
+
     /**
      * Aggregates stateful logging with respect to a given `key`.
      *
@@ -195,7 +196,7 @@ expect interface KLoggingApi<API : KLoggingApi<API>> {
      *
      *
      * If a user knows that the given `key` values really do form a strictly bounded set,
-     * the [LogPerBucketingStrategy.knownBounded] strategy can be used, but it should always
+     * the [KLogPerBucketingStrategy.knownBounded] strategy can be used, but it should always
      * be documented as to why this is safe.
      *
      *
@@ -207,7 +208,7 @@ expect interface KLoggingApi<API : KLoggingApi<API>> {
      * If multiple aggregation keys are added to a single log statement, then they all take effect
      * and logging is aggregated by the unique combination of keys passed to all "per" methods.
      */
-    //fun <T> per(key: T, strategy: com.buenaflor.kflogger.LogPerBucketingStrategy<in T>?): API
+    fun <T> per(key: T?, strategy: KLogPerBucketingStrategy<in T>?): API
 
     /**
      * Aggregates stateful logging with respect to the given enum value.
@@ -314,7 +315,7 @@ expect interface KLoggingApi<API : KLoggingApi<API>> {
      *
      *
      *
-     * Metadata keys can support repeated values (see [MetadataKey.canRepeat]), and if a
+     * Metadata keys can support repeated values (see [KMetadataKey.canRepeat]), and if a
      * repeatable key is used multiple times in the same log statement, the effect is to collect all
      * the given values in order. If a non-repeatable key is passed multiple times, only the last
      * value is retained (though callers should not rely on this behavior and should simply avoid
@@ -328,9 +329,9 @@ expect interface KLoggingApi<API : KLoggingApi<API>> {
      * @param value a value to be associated with the key in this log statement. Null values are
      * allowed, but the effect is always a no-op
      * @throws NullPointerException if the given key is null
-     * @see MetadataKey
+     * @see KMetadataKey
      */
-    //fun <T> with(key: com.buenaflor.kflogger.MetadataKey<T>?, value: T): API
+    fun <T> with(key: KMetadataKey<T>, value: T?): API
 
     /**
      * Sets a boolean metadata key constant to `true` for this log statement in a structured way
@@ -351,9 +352,9 @@ expect interface KLoggingApi<API : KLoggingApi<API>> {
      *
      * @param key the boolean metadata key (expected to be a static constant)
      * @throws NullPointerException if the given key is null
-     * @see MetadataKey
+     * @see KMetadataKey
      */
-    //fun with(key: com.buenaflor.kflogger.MetadataKey<Boolean?>?): API
+    fun with(key: KMetadataKey<Boolean>?): API
 
     /**
      * Sets the log site for the current log statement. Explicit log site injection is very rarely
@@ -407,7 +408,7 @@ expect interface KLoggingApi<API : KLoggingApi<API>> {
      *
      * @param logSite Log site which uniquely identifies any per-log statement resources.
      */
-    //fun withInjectedLogSite(logSite: com.buenaflor.kflogger.LogSite?): API
+    fun withInjectedLogSite(logSite: KLogSite?): API
 
     /**
      * Internal method not for public use. This method is only intended for use by the logger
@@ -510,7 +511,9 @@ expect interface KLoggingApi<API : KLoggingApi<API>> {
      * methods below.
      */
     fun log(msg: String?)
+
     // ---- Overloads for object arguments (to avoid vararg array creation). ----
+
     /**
      * Logs a formatted representation of the given parameter, using the specified message template.
      * The message string is expected to contain argument placeholder terms appropriate to the
@@ -631,6 +634,7 @@ expect interface KLoggingApi<API : KLoggingApi<API>> {
         p10: Any?,
         vararg rest: Any?
     )
+
     // ---- Overloads for a single argument (to avoid auto-boxing and vararg array creation). ----
     /** Logs a message with formatted arguments (see [.log] for details).  */
     fun log(msg: String?, p1: Char)
@@ -646,7 +650,9 @@ expect interface KLoggingApi<API : KLoggingApi<API>> {
 
     /** Logs a message with formatted arguments (see [.log] for details).  */
     fun log(msg: String?, p1: Long)
+
     // ---- Overloads for two arguments (to avoid auto-boxing and vararg array creation). ----
+
     /*
    * It may not be obvious why we need _all_ combinations of fundamental types here (because some
    * combinations should be rare enough that we can ignore them). However due to the precedence in

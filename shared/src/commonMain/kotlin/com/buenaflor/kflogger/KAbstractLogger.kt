@@ -62,7 +62,7 @@ expect abstract class KAbstractLogger<API : KLoggingApi<API>>() {
     // need to push the LoggerConfig API down into the backend and expose it from there.
     // See b/14878562
     // TODO(dbeaumont): Make anonymous loggers work with the config() method and the LoggerConfig API.
-    // TODO protected open val name: String? = backend.loggerName
+    protected val name: String?
 
     /**
      * Returns whether the given KLevel is enabled for this logger. Users wishing to guard code with a

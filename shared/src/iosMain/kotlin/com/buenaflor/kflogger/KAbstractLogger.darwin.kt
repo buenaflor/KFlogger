@@ -75,6 +75,13 @@ actual abstract class KAbstractLogger<API : KLoggingApi<API>> {
     actual fun write(data: KLogData?) {
         TODO()
     }
+
+    /**
+     * Returns the non-null name of this logger (Flogger does not currently support anonymous
+     * loggers).
+     */
+    protected actual val name: String?
+        get() = TODO("Not yet implemented")
 }
 
 

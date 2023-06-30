@@ -125,7 +125,7 @@ actual interface KLoggingApi<API : KLoggingApi<API>>  {
      * @param unit the time unit for the duration
      * @throws IllegalArgumentException if `n` is negative.
      */
-    //API atMostEvery(int n, TimeUnit unit);
+    actual fun atMostEvery(n: Int, unit: KTimeUnit): API
     /**
      * Aggregates stateful logging with respect to a given `key`.
      *
@@ -186,7 +186,7 @@ actual interface KLoggingApi<API : KLoggingApi<API>>  {
      * If multiple aggregation keys are added to a single log statement, then they all take effect
      * and logging is aggregated by the unique combination of keys passed to all "per" methods.
      */
-    //actual fun <T> per(key: T, strategy: com.buenaflor.kflogger.LogPerBucketingStrategy<in T>?): API
+    actual fun <T> per(key: T?, strategy: KLogPerBucketingStrategy<in T>?): API
 
     /**
      * Aggregates stateful logging with respect to the given enum value.
@@ -309,7 +309,7 @@ actual interface KLoggingApi<API : KLoggingApi<API>>  {
      * @throws NullPointerException if the given key is null
      * @see MetadataKey
      */
-    //actual fun <T> with(key: com.buenaflor.kflogger.MetadataKey<T>?, value: T): API
+    actual fun <T> with(key: KMetadataKey<T>, value: T?): API
 
     /**
      * Sets a boolean metadata key constant to `true` for this log statement in a structured way
@@ -330,9 +330,9 @@ actual interface KLoggingApi<API : KLoggingApi<API>>  {
      *
      * @param key the boolean metadata key (expected to be a static constant)
      * @throws NullPointerException if the given key is null
-     * @see MetadataKey
+     * @see KMetadataKey
      */
-    //actual fun with(key: com.buenaflor.kflogger.MetadataKey<Boolean?>?): API
+    actual fun with(key: KMetadataKey<Boolean>?): API
 
     /**
      * Sets the log site for the current log statement. Explicit log site injection is very rarely
@@ -386,7 +386,7 @@ actual interface KLoggingApi<API : KLoggingApi<API>>  {
      *
      * @param logSite Log site which uniquely identifies any per-log statement resources.
      */
-    //actual fun withInjectedLogSite(logSite: com.buenaflor.kflogger.LogSite?): API
+    actual fun withInjectedLogSite(logSite: KLogSite?): API
 
     /**
      * Internal method not for public use. This method is only intended for use by the logger

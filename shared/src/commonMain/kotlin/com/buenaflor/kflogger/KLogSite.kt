@@ -20,49 +20,28 @@ package com.buenaflor.kflogger
  * `StackTraceElement`, this log site will not be unique if multiple log statements are on the
  * the same, or if line number information was stripped from the class file.
  */
-abstract class KLogSite : KLogSiteKey {
-    /** Returns the name of the class containing the log statement.  */
-    abstract val className: String?
+expect abstract class KLogSite : KLogSiteKey {
+    companion object {
+        /** A value used for line numbers when the true information is not available.  */
+        val UNKNOWN_LINE: Int
 
-    /** Returns the name of the method containing the log statement.  */
-    abstract val methodName: String?
+        /**
+         * An singleton LogSite instance used to indicate that valid log site information cannot be
+         * determined. This can be used to indicate that log site information is not available by
+         * injecting it via {@link LoggingApi#withInjectedLogSite} which will suppress any further
+         * log site analysis for that log statement. This is also returned if stack trace analysis
+         * fails for any reason.
+         * <p>
+         * If a log statement does end up with invalid log site information, then any fluent logging
+         * methods which rely on being able to look up site specific metadata will be disabled and
+         * essentially become "no ops".
+         */
+        val INVALID: KLogSite
+    }
 
-    /**
-     * Returns a valid line number for the log statement in the range 1 - 65535, or
-     * [.UNKNOWN_LINE] if not known.
-     *
-     *
-     * There is a limit of 16 bits for line numbers in a class. See
-     * [here](http://docs.oracle.com/javase/specs/jvms/se7/html/jvms-4.html#jvms-4.7.12)
-     * for more details.
-     */
-    abstract val lineNumber: Int
-
-    abstract val getFileName: String?
 
     // Provide a common toString() implementation for only the public attributes.
-    abstract override fun toString(): String
-}
-//TODO
-/**
-companion object {
-    /** A value used for line numbers when the true information is not available.  */
-    @JvmStatic
-    val UNKNOWN_LINE: Int
-
-    /**
-     * An singleton LogSite instance used to indicate that valid log site information cannot be
-     * determined. This can be used to indicate that log site information is not available by
-     * injecting it via [LoggingApi.withInjectedLogSite] which will suppress any further
-     * log site analysis for that log statement. This is also returned if stack trace analysis
-     * fails for any reason.
-     *
-     *
-     * If a log statement does end up with invalid log site information, then any fluent logging
-     * methods which rely on being able to look up site specific metadata will be disabled and
-     * essentially become "no ops".
-     */
-    val INVALID: KLogSite
+    final override fun toString(): String
 
     /**
      * Creates a log site injected from constants held a class' constant pool.
@@ -82,13 +61,40 @@ companion object {
      *
      */
     @Deprecated(
-        """this method is only be used for log-site injection and should not be called
-    directly."""
+        "this method is only be used for log-site injection and should not be called directly."
     )
-    fun injectedLogSite(
-        internalClassName: String,
-        methodName: String,
+    open fun injectedLogSite(
+        internalClassName: String?,
+        methodName: String?,
         encodedLineNumber: Int,
-        sourceFileName: String
+        sourceFileName: String?
     ): KLogSite
+}
+
+/** Returns the name of the class containing the log statement.  */
+expect val KLogSite.className: String?
+
+/** Returns the name of the method containing the log statement.  */
+expect val KLogSite.methodName: String?
+
+/**
+ * Returns a valid line number for the log statement in the range 1 - 65535, or
+ * [.UNKNOWN_LINE] if not known.
+ *
+ *
+ * There is a limit of 16 bits for line numbers in a class. See
+ * [here](http://docs.oracle.com/javase/specs/jvms/se7/html/jvms-4.html#jvms-4.7.12)
+ * for more details.
  */
+expect val KLogSite.lineNumber: Int
+
+/**
+ * Returns the name of the class file containing the log statement (or null if not known). The
+ * source file name is optional and strictly for debugging.
+ *
+ * <p>Normally this value (if present) is extracted from the SourceFile attribute of the class
+ * file (see the <a
+ * href="https://docs.oracle.com/javase/specs/jvms/se8/html/jvms-4.html#jvms-4.7.10">JVM class
+ * file format specification</a> for more details).
+ */
+expect val KLogSite.fileName: String?

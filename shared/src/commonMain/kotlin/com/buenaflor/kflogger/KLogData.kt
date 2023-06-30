@@ -12,29 +12,6 @@ package com.buenaflor.kflogger
  * using the hierarchical key. See [Metadata].
  */
 expect interface KLogData {
-    /*
-    /** Returns the log level for the current log statement.  */
-
-    val level: KLevel?
-
-    val timestampMicros: Long
-
-    /** Returns a nanosecond timestamp for the current log statement.  */
-    val timestampNanos: Long
-
-    /**
-     * Returns the logger name (which is usually a canonicalized class name) or `null` if not
-     * given.
-     */
-    val loggerName: String?
-
-    /**
-     * Returns the log site data for the current log statement.
-     *
-     * @throws IllegalStateException if called prior to the postProcess() method being called.
-     */
-    val logSite: KLogSite?
-
     /**
      * Returns any additional metadata for this log statement. If no additional metadata is present,
      * the immutable empty metadata instance is returned.
@@ -82,25 +59,44 @@ expect interface KLogData {
      * [.getLiteralArgument]).
      */
     // TODO: val templateContext: TemplateContext?
-
-    /**
-     * Returns the arguments to be formatted with the message. Arguments exist when a `log()`
-     * method with a format message and separate arguments was invoked.
-     *
-     * @throws IllegalStateException if no arguments are available (ie, when there is no template
-     * context).
-     */
-    val arguments: Array<Any?>?
-
-    /**
-     * Returns the single argument to be logged directly when no arguments were provided.
-     *
-     * @throws IllegalStateException if no single literal argument is available (ie, when a template
-     * context exists).
-     */
-    val literalArgument: Any?
-
-     */
 }
 
+/** Returns the log level for the current log statement.  */
 expect val KLogData.level: KLevel?
+
+/** Returns a microsecond timestamp for the current log statement.  */
+@Deprecated("Use timestampNanos")
+expect val KLogData.timestampMicros: Long
+
+/** Returns a nanosecond timestamp for the current log statement.  */
+expect val KLogData.timestampNanos: Long
+
+/**
+ * Returns the logger name (which is usually a canonicalized class name) or `null` if not
+ * given.
+ */
+expect val KLogData.loggerName: String?
+
+/**
+ * Returns the log site data for the current log statement.
+ *
+ * @throws IllegalStateException if called prior to the postProcess() method being called.
+ */
+expect val KLogData.logSite: KLogSite?
+
+/**
+ * Returns the arguments to be formatted with the message. Arguments exist when a `log()`
+ * method with a format message and separate arguments was invoked.
+ *
+ * @throws IllegalStateException if no arguments are available (ie, when there is no template
+ * context).
+ */
+expect val KLogData.arguments: Array<Any?>?
+
+/**
+ * Returns the single argument to be logged directly when no arguments were provided.
+ *
+ * @throws IllegalStateException if no single literal argument is available (ie, when a template
+ * context exists).
+ */
+expect val KLogData.literalArgument: Any?
