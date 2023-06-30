@@ -299,7 +299,7 @@ expect interface KLoggingApi<API : KLoggingApi<API>> {
      *
      * @param size the maximum size of the stack trace to be generated.
      */
-    //fun withStackTrace(size: com.buenaflor.kflogger.StackSize?): API
+    fun withStackTrace(size: KStackSize?): API
 
     /**
      * Associates a metadata key constant with a runtime value for this log statement in a structured
@@ -636,6 +636,7 @@ expect interface KLoggingApi<API : KLoggingApi<API>> {
     )
 
     // ---- Overloads for a single argument (to avoid auto-boxing and vararg array creation). ----
+
     /** Logs a message with formatted arguments (see [.log] for details).  */
     fun log(msg: String?, p1: Char)
 

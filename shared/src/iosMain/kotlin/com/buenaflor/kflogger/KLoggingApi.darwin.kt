@@ -277,7 +277,7 @@ actual interface KLoggingApi<API : KLoggingApi<API>>  {
      *
      * @param size the maximum size of the stack trace to be generated.
      */
-    //actual fun withStackTrace(size: com.buenaflor.kflogger.StackSize?): API
+    actual fun withStackTrace(size: KStackSize?): API
 
     /**
      * Associates a metadata key constant with a runtime value for this log statement in a structured
