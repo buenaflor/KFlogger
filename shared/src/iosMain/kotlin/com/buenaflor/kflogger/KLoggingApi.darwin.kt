@@ -263,7 +263,7 @@ actual interface KLoggingApi<API : KLoggingApi<API>>  {
      * @param scopeProvider a constant used to defined the type of the scope in which logging is
      * aggregated.
      */
-    //actual fun per(scopeProvider: com.buenaflor.kflogger.LoggingScopeProvider?): API
+    actual fun per(scopeProvider: KLoggingScopeProvider?): API
 
     /**
      * Creates a synthetic exception and attaches it as the "cause" of the log statement as a way to
