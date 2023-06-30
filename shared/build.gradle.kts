@@ -3,7 +3,11 @@ import org.jetbrains.kotlin.gradle.plugin.KotlinDependencyHandler
 plugins {
     kotlin("multiplatform")
     id("net.ltgt.errorprone") version "3.1.0"
+    `maven-publish`
 }
+
+group = "com.buenaflor"
+version = "0.0.1"
 
 kotlin {
     jvm {
@@ -107,4 +111,22 @@ fun KotlinDependencyHandler.`errorprone`(dependencyNotation: Any): Dependency? {
         project.configurations.getByName("errorprone").dependencies.add(dependency)
     }
     return dependency
+}
+
+publishing {
+    publications {
+        // Define the publication with the desired artifact name
+        create<MavenPublication>("maven") {
+            groupId = group.toString()
+            artifactId = "kflogger"
+            version = project.version.toString()
+
+            from(components["kotlin"])
+        }
+    }
+
+    repositories {
+        // Configure the Maven repository where we want to publish
+        mavenLocal()
+    }
 }
