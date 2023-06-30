@@ -1,6 +1,6 @@
 package com.buenaflor.kflogger
-
-actual abstract class KLogSite : LogSiteKey {
+/*
+actual abstract class KLogSite : KLogSiteKey {
     /** Returns the name of the class containing the log statement.  */
     actual abstract fun getClassName(): String?
 
@@ -18,4 +18,4 @@ actual abstract class KLogSite : LogSiteKey {
      */
     actual abstract fun getLineNumber(): Int
     actual abstract fun getFileName(): String?
-}
+}*/

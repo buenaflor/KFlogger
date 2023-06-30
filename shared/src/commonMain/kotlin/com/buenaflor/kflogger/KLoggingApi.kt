@@ -21,7 +21,7 @@ package com.buenaflor.kflogger
  * sub-APIs must eventually return the original logging API.
  */
 // NOTE: new methods to this interface should be coordinated with google-java-format
-expect interface KLoggingApi<API : KLoggingApi<API>?> {
+expect interface KLoggingApi<API : KLoggingApi<API>> {
     /**
      * Associates a [Throwable] instance with the current log statement, to be interpreted as
      * the cause of this statement. Typically this method will be used from within catch blocks to log

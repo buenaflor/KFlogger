@@ -1,7 +1,5 @@
 package com.buenaflor.kflogger
 
-import kotlin.jvm.JvmStatic
-
 /**
  * A value type which representing the location of a single log statement. This class is similar to
  * the `StackTraceElement` class but differs in one important respect.
@@ -22,12 +20,12 @@ import kotlin.jvm.JvmStatic
  * `StackTraceElement`, this log site will not be unique if multiple log statements are on the
  * the same, or if line number information was stripped from the class file.
  */
-expect abstract class KLogSite : LogSiteKey {
+abstract class KLogSite : KLogSiteKey {
     /** Returns the name of the class containing the log statement.  */
-    abstract fun getClassName(): String?
+    abstract val className: String?
 
     /** Returns the name of the method containing the log statement.  */
-    abstract fun getMethodName(): String?
+    abstract val methodName: String?
 
     /**
      * Returns a valid line number for the log statement in the range 1 - 65535, or
@@ -38,12 +36,12 @@ expect abstract class KLogSite : LogSiteKey {
      * [here](http://docs.oracle.com/javase/specs/jvms/se7/html/jvms-4.html#jvms-4.7.12)
      * for more details.
      */
-    abstract fun getLineNumber(): Int
+    abstract val lineNumber: Int
 
-    abstract fun getFileName(): String?
+    abstract val getFileName: String?
 
     // Provide a common toString() implementation for only the public attributes.
-    final override fun toString(): String
+    abstract override fun toString(): String
 }
 //TODO
 /**

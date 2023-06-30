@@ -1,6 +1,6 @@
 package com.buenaflor.kflogger 
 
-actual interface KLoggingApi<API : KLoggingApi<API>?>  {
+actual interface KLoggingApi<API : KLoggingApi<API>>  {
     /**
      * Associates a [Throwable] instance with the current log statement, to be interpreted as
      * the cause of this statement. Typically this method will be used from within catch blocks to log

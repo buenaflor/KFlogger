@@ -28,11 +28,6 @@ package com.buenaflor.kflogger
  * other garbage collector issues.
  */
 expect abstract class KLoggerBackend {
-    /**
-     * Returns the logger name (which is usually a canonicalized class name) or `null` if not
-     * given.
-     */
-    abstract fun getLoggerName(): String?
 
     /**
      * Returns whether logging is enabled for the given level for this backend. Different backends may
@@ -82,3 +77,9 @@ expect abstract class KLoggerBackend {
      */
     abstract fun handleError(error: RuntimeException, badData: KLogData)
 }
+
+/**
+ * Returns the logger name (which is usually a canonicalized class name) or `null` if not
+ * given.
+ */
+expect val KLoggerBackend.loggerName: String?

@@ -24,5 +24,5 @@ package com.buenaflor.kflogger;
  * and must be at least as unique as the associated {@code LogSite} (i.e. two keys created for
  * different log sites must never be equal).
  */
-interface LogSiteKey
+interface KLogSiteKey
 

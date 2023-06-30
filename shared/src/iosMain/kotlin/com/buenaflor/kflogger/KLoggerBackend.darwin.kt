@@ -2,12 +2,6 @@ package com.buenaflor.kflogger
 
 actual abstract class KLoggerBackend {
     /**
-     * Returns the logger name (which is usually a canonicalized class name) or `null` if not
-     * given.
-     */
-    actual abstract fun getLoggerName(): String?
-
-    /**
      * Returns whether logging is enabled for the given level for this backend. Different backends may
      * return different values depending on the class with which they are associated.
      */
@@ -57,4 +51,9 @@ actual abstract class KLoggerBackend {
         error: RuntimeException,
         badData: KLogData
     )
+
+}
+
+actual val KLoggerBackend.loggerName: String? get() {
+    TODO()
 }

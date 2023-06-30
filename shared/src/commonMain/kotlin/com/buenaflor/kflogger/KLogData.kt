@@ -12,26 +12,28 @@ package com.buenaflor.kflogger
  * using the hierarchical key. See [Metadata].
  */
 expect interface KLogData {
+    /*
     /** Returns the log level for the current log statement.  */
-    fun getLevel(): KLevel?
 
-    fun getTimestampMicros(): Long
+    val level: KLevel?
+
+    val timestampMicros: Long
 
     /** Returns a nanosecond timestamp for the current log statement.  */
-    fun getTimestampNanos(): Long
+    val timestampNanos: Long
 
     /**
      * Returns the logger name (which is usually a canonicalized class name) or `null` if not
      * given.
      */
-    fun getLoggerName(): String?
+    val loggerName: String?
 
     /**
      * Returns the log site data for the current log statement.
      *
      * @throws IllegalStateException if called prior to the postProcess() method being called.
      */
-    fun getLogSite(): KLogSite?
+    val logSite: KLogSite?
 
     /**
      * Returns any additional metadata for this log statement. If no additional metadata is present,
@@ -88,7 +90,7 @@ expect interface KLogData {
      * @throws IllegalStateException if no arguments are available (ie, when there is no template
      * context).
      */
-    fun getArguments(): Array<Any?>?
+    val arguments: Array<Any?>?
 
     /**
      * Returns the single argument to be logged directly when no arguments were provided.
@@ -96,5 +98,9 @@ expect interface KLogData {
      * @throws IllegalStateException if no single literal argument is available (ie, when a template
      * context exists).
      */
-    fun getLiteralArgument(): Any?
+    val literalArgument: Any?
+
+     */
 }
+
+expect val KLogData.level: KLevel?
