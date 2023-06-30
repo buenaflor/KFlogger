@@ -14,4 +14,4 @@ dependencyResolutionManagement {
 }
 
 rootProject.name = "KFlogger"
-include(":shared")
+include(":api")
