@@ -1,7 +1,7 @@
 import org.jetbrains.kotlin.gradle.plugin.KotlinDependencyHandler
 
 plugins {
-  kotlin("multiplatform")
+  alias(libs.plugins.kotlin.multiplatform)
   alias(libs.plugins.errorprone)
   `maven-publish`
 }
