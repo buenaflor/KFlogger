@@ -1,6 +1,6 @@
 package com.buenaflor.kflogger
 
-interface Api : KLoggingApi<Api>
+interface FluentLoggerApi : KLoggingApi<FluentLoggerApi>
 
 /**
  * The default implementation of [KAbstractLogger] which returns the basic [KLoggingApi]
@@ -16,8 +16,8 @@ interface Api : KLoggingApi<Api>
  * The choice to prevent direct extension of loggers was made deliberately to ensure that users of
  * a specific logger implementation always get the same behavior.
  */
-expect class KFluentLogger : KAbstractLogger<Api> {
-    override fun at(level: KLevel?): Api
+expect class KFluentLogger : KAbstractLogger<FluentLoggerApi> {
+    override fun at(level: KLevel?): FluentLoggerApi
 
     companion object {
 
