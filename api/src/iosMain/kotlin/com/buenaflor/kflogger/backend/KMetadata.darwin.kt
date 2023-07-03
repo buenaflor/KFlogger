@@ -1,5 +1,8 @@
 package com.buenaflor.kflogger
 
+import com.buenaflor.kflogger.backend.KMetadata
+import com.buenaflor.kflogger.backend.KMetadataKey
+
 /**
  * A sequence of metadata key/value pairs which can be associated to a log statement, either
  * directly via methods in the fluent API, of as part of a scoped logging context.

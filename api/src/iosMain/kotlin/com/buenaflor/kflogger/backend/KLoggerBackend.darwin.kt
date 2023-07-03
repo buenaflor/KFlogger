@@ -1,5 +1,8 @@
 package com.buenaflor.kflogger
 
+import com.buenaflor.kflogger.backend.KLogData
+import com.buenaflor.kflogger.backend.KLoggerBackend
+
 actual abstract class KLoggerBackend {
     /**
      * Returns whether logging is enabled for the given level for this backend. Different backends may

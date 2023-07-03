@@ -1,5 +1,7 @@
 package com.buenaflor.kflogger
 
+import com.buenaflor.kflogger.backend.KLogData
+
 actual interface KLogData {
     /**
      * Returns whether this log statement should be emitted regardless of its log level or any other
