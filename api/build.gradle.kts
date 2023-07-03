@@ -94,10 +94,6 @@ val generateStackGetterJavaLangAccessImpl by tasks.registering(Jar::class) {
     dependsOn(javaLangAccessStackGetter)
 }
 
-tasks.named("jar") {
-    dependsOn(generateStackGetterJavaLangAccessImpl)
-}
-
 tasks.named("compileJava", JavaCompile::class) {
     exclude("**/JavaLangAccessStackGetter.java")
     exclude(checksSources)
