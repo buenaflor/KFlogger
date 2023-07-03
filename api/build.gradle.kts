@@ -25,7 +25,6 @@ kotlin {
         }
     }
 
-
     sourceSets {
         val commonMain by getting
         val commonTest by getting {
@@ -114,6 +113,7 @@ fun KotlinDependencyHandler.errorprone(dependencyNotation: Any): Dependency? {
 }
 
 publishing {
+    // TODO: Create a separate publication for "system-backend"
     publications {
         // Define the publication with the desired artifact name
         create<MavenPublication>("KFlogger") {
