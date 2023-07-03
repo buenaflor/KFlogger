@@ -6,8 +6,8 @@ plugins {
     `maven-publish`
 }
 
-group = "com.buenaflor"
-version = "0.0.1"
+group = properties["groupName"].toString()
+version = properties["versionName"].toString()
 
 kotlin {
     jvm {
@@ -35,10 +35,10 @@ kotlin {
         }
         val jvmMain by getting {
             dependencies {
-                implementation("org.checkerframework:checker:3.34.0")
-                implementation("org.checkerframework:checker-compat-qual:2.5.5")
+                implementation(libs.checker)
+                implementation(libs.checker.compat.qual)
                 implementation(files("build/libs/stack_getter_java_lang_access_impl.jar"))
-                errorprone("com.google.errorprone:error_prone_core:2.19.1")
+                errorprone(libs.errorprone.core)
             }
         }
         val jvmTest by getting
@@ -105,7 +105,7 @@ tasks.named("compileJava", JavaCompile::class) {
     exclude(stackGetterCommonSources)
 }
 
-fun KotlinDependencyHandler.`errorprone`(dependencyNotation: Any): Dependency? {
+fun KotlinDependencyHandler.errorprone(dependencyNotation: Any): Dependency? {
     val dependency = implementation(dependencyNotation)
     dependency?.let {
         project.configurations.getByName("errorprone").dependencies.add(dependency)
@@ -116,10 +116,10 @@ fun KotlinDependencyHandler.`errorprone`(dependencyNotation: Any): Dependency? {
 publishing {
     publications {
         // Define the publication with the desired artifact name
-        create<MavenPublication>("maven") {
-            groupId = group.toString()
+        create<MavenPublication>("KFlogger") {
             artifactId = "kflogger"
-            version = project.version.toString()
+            groupId = group.toString()
+            version = version.toString()
 
             from(components["kotlin"])
         }

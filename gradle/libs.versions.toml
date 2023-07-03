@@ -1,0 +1,15 @@
+[versions]
+kotlin = "1.8.21"
+errorprone-plugin = "3.1.0"
+errorprone = "2.20.0"
+checker = "3.35.0"
+checker-compat-qual = "2.5.5"
+
+[libraries]
+errorprone-core = { group = "com.google.errorprone", name = "error_prone_core", version.ref = "errorprone" }
+checker = { group = "org.checkerframework", name = "checker", version.ref = "checker" }
+checker-compat-qual = { group = "org.checkerframework", name = "checker-compat-qual", version.ref = "checker-compat-qual" }
+
+[plugins]
+kotlin-multiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
+errorprone = { id = "net.ltgt.errorprone", version.ref = "errorprone-plugin" }
