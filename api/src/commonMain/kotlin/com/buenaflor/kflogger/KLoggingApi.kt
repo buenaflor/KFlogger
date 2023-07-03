@@ -910,7 +910,7 @@ expect interface KLoggingApi<API : KLoggingApi<API>> {
  * This class (or a subclass in the case of an extended API) should be returned whenever logging
  * is definitely disabled (e.g. when the log level is too low).
  */
-expect open class KLoggingNoOp<API : KLoggingApi<API>> : KLoggingApi<API> {
+expect open class KLoggingApiNoOp<API : KLoggingApi<API>>() : KLoggingApi<API> {
 
     protected fun noOp(): API
 

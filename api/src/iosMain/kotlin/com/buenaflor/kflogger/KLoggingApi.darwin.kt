@@ -876,7 +876,7 @@ actual interface KLoggingApi<API : KLoggingApi<API>>  {
     actual fun log(msg: String?, p1: Double, p2: Double)
 }
 
-actual open class KLoggingNoOp<API : KLoggingApi<API>> : KLoggingApi<API> {
+actual open class KLoggingApiNoOp<API : KLoggingApi<API>> : KLoggingApi<API> {
     protected actual fun noOp(): API {
         return this as API
     }
