@@ -1,6 +1,6 @@
 package com.buenaflor.kflogger
 
-actual class KFluentLogger: KAbstractLogger<Api>() {
+actual class KFluentLogger: KAbstractLogger<FluentLoggerApi>() {
 
     /**
      * The non-wildcard, fully specified, no-op API implementation. This is required to provide a
@@ -26,7 +26,7 @@ actual class KFluentLogger: KAbstractLogger<Api>() {
         }
     }
 
-    actual override fun at(level: KLevel?): Api {
+    actual override fun at(level: KLevel?): FluentLoggerApi {
         TODO("Not yet implemented")
     }
 }
