@@ -1,5 +1,7 @@
 package com.buenaflor.kflogger
 
+import com.buenaflor.kflogger.backend.KMetadataKey
+
 /**
  * The basic logging API. An implementation of this API (or an extension of it) will be
  * returned by any fluent logger, and forms the basis of the fluent call chain.

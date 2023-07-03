@@ -1,4 +1,7 @@
-package com.buenaflor.kflogger
+package com.buenaflor.kflogger.backend
+
+import com.buenaflor.kflogger.KLevel
+import com.buenaflor.kflogger.KLogSite
 
 
 /**

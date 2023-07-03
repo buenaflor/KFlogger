@@ -1,4 +1,4 @@
-package com.buenaflor.kflogger
+package com.buenaflor.kflogger.backend
 
 /**
  * A sequence of metadata key/value pairs which can be associated to a log statement, either

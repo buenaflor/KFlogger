@@ -1,6 +1,4 @@
-package com.buenaflor.kflogger
-
-import com.buenaflor.kflogger.backend.KMetadataKey
+package com.buenaflor.kflogger.backend
 
 /**
  * Key for logging semi-structured metadata values.

@@ -1,4 +1,6 @@
-package com.buenaflor.kflogger
+package com.buenaflor.kflogger.backend
+
+import com.buenaflor.kflogger.MetadataKey
 
 @Suppress("NO_ACTUAL_CLASS_MEMBER_FOR_EXPECTED_CLASS")
 actual typealias KMetadataKey<T> = MetadataKey<T>

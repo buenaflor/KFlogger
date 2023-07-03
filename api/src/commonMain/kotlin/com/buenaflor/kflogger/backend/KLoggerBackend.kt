@@ -1,6 +1,6 @@
-package com.buenaflor.kflogger
+package com.buenaflor.kflogger.backend
 
-import com.buenaflor.kflogger.backend.KLogData
+import com.buenaflor.kflogger.KLevel
 
 /**
  * Interface for all logger backends.

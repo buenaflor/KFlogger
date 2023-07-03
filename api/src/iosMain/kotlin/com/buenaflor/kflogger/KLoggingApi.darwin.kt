@@ -1,4 +1,6 @@
-package com.buenaflor.kflogger 
+package com.buenaflor.kflogger
+
+import com.buenaflor.kflogger.backend.KMetadataKey
 
 actual interface KLoggingApi<API : KLoggingApi<API>>  {
     /**

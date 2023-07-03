@@ -1,5 +1,8 @@
 package com.buenaflor.kflogger
 
+import com.buenaflor.kflogger.backend.KLogData
+import com.buenaflor.kflogger.backend.KLoggerBackend
+
 
 /**
  * Base class for the fluent logger API. This class is a factory for instances of a fluent logging

@@ -1,4 +1,4 @@
-package com.buenaflor.kflogger
+package com.buenaflor.kflogger.backend
 
 @Suppress("NO_ACTUAL_CLASS_MEMBER_FOR_EXPECTED_CLASS")
-actual typealias KMetadata = com.buenaflor.kflogger.backend.Metadata
+actual typealias KMetadata = Metadata

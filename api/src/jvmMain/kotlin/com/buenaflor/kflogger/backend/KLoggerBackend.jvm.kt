@@ -1,5 +1,5 @@
-package com.buenaflor.kflogger
+package com.buenaflor.kflogger.backend
 
-actual typealias KLoggerBackend = com.buenaflor.kflogger.backend.LoggerBackend
+actual typealias KLoggerBackend = LoggerBackend
 
 actual val KLoggerBackend.loggerName: String? get() = loggerName

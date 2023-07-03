@@ -1,5 +1,8 @@
 package com.buenaflor.kflogger
 
+import com.buenaflor.kflogger.backend.KLogData
+import com.buenaflor.kflogger.backend.KLoggerBackend
+
 actual abstract class KAbstractLogger<API : KLoggingApi<API>> {
     /**
      * Returns a fluent logging API appropriate for the specified log KLevel.

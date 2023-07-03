@@ -1,6 +1,9 @@
-package com.buenaflor.kflogger
+package com.buenaflor.kflogger.backend
 
-actual typealias KLogData = com.buenaflor.kflogger.backend.LogData
+import com.buenaflor.kflogger.KLevel
+import com.buenaflor.kflogger.KLogSite
+
+actual typealias KLogData = LogData
 
 /** Returns the log level for the current log statement.  */
 actual val KLogData.level: KLevel? get() = level

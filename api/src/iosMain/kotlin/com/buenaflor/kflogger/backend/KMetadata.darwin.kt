@@ -1,7 +1,4 @@
-package com.buenaflor.kflogger
-
-import com.buenaflor.kflogger.backend.KMetadata
-import com.buenaflor.kflogger.backend.KMetadataKey
+package com.buenaflor.kflogger.backend
 
 /**
  * A sequence of metadata key/value pairs which can be associated to a log statement, either

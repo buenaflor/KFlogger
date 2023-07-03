@@ -1,4 +1,4 @@
-package com.buenaflor.kflogger
+package com.buenaflor.kflogger.backend
 
 /**
  * Key for logging semi-structured metadata values.
