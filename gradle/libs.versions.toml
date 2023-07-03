@@ -4,6 +4,7 @@ errorprone-plugin = "3.1.0"
 errorprone = "2.20.0"
 checker = "3.35.0"
 checker-compat-qual = "2.5.5"
+spotless = "6.19.0"
 
 [libraries]
 errorprone-core = { group = "com.google.errorprone", name = "error_prone_core", version.ref = "errorprone" }
@@ -13,3 +14,4 @@ checker-compat-qual = { group = "org.checkerframework", name = "checker-compat-q
 [plugins]
 kotlin-multiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
 errorprone = { id = "net.ltgt.errorprone", version.ref = "errorprone-plugin" }
+spotless = { id = "com.diffplug.spotless", version.ref = "spotless"}
