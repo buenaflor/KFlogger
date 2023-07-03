@@ -875,3 +875,349 @@ actual interface KLoggingApi<API : KLoggingApi<API>>  {
     /** Logs a message with formatted arguments (see [.log] for details).  */
     actual fun log(msg: String?, p1: Double, p2: Double)
 }
+
+actual open class KLoggingNoOp<API : KLoggingApi<API>> : KLoggingApi<API> {
+    protected actual fun noOp(): API {
+        return this as API
+    }
+
+    actual override fun withCause(cause: Throwable?): API {
+        return noOp()
+    }
+
+    actual final override fun every(n: Int): API {
+        return noOp()
+    }
+
+    actual final override fun onAverageEvery(n: Int): API {
+        return noOp()
+    }
+
+    actual final override fun atMostEvery(n: Int, unit: KTimeUnit): API {
+        return noOp()
+    }
+
+    actual final override fun <T> per(key: T?, strategy: KLogPerBucketingStrategy<in T>?): API {
+        return noOp()
+    }
+
+    actual final override fun per(key: Enum<*>?): API {
+        return noOp()
+    }
+
+    actual final override fun per(scopeProvider: KLoggingScopeProvider?): API {
+        return noOp()
+    }
+
+    actual final override fun withStackTrace(size: KStackSize?): API {
+        return noOp()
+    }
+
+
+    actual final override fun <T> with(key: KMetadataKey<T>, value: T?): API {
+        return noOp()
+    }
+
+    actual final override fun with(key: KMetadataKey<Boolean>?): API {
+        return noOp()
+    }
+
+    actual final override fun withInjectedLogSite(logSite: KLogSite?): API {
+        return noOp()
+    }
+
+    actual final override fun withInjectedLogSite(
+        internalClassName: String?,
+        methodName: String?,
+        encodedLineNumber: Int,
+        sourceFileName: String?
+    ): API {
+        return noOp()
+    }
+
+    actual final override fun isEnabled(): Boolean {
+        return false
+    }
+
+    actual final override fun logVarargs(message: String?, varargs: Array<Any?>?) { }
+
+    actual final override fun log() {}
+
+    actual final override fun log(msg: String?) {}
+
+    // ---- Overloads for object arguments (to avoid vararg array creation). ----
+
+    actual final override fun log(msg: String?, p1: Any?) {}
+
+    actual final override fun log(msg: String?, p1: Any?, p2: Any?) {}
+
+
+    actual final override fun log(msg: String?, p1: Any?, p2: Any?, p3: Any?) {}
+
+
+    actual final override fun log(
+        msg: String?,
+        p1: Any?,
+        p2: Any?,
+        p3: Any?,
+        p4: Any?
+    ) {}
+
+    actual final override fun log(
+        msg: String?,
+        p1: Any?,
+        p2: Any?,
+        p3: Any?,
+        p4: Any?,
+        p5: Any?
+    ) {}
+
+    actual final override fun log(
+        msg: String?,
+        p1: Any?,
+        p2: Any?,
+        p3: Any?,
+        p4: Any?,
+        p5: Any?,
+        p6: Any?
+    ) {}
+
+    actual final override fun log(
+        msg: String?,
+        p1: Any?,
+        p2: Any?,
+        p3: Any?,
+        p4: Any?,
+        p5: Any?,
+        p6: Any?,
+        p7: Any?
+    ) {}
+
+    actual final override fun log(
+        msg: String?,
+        p1: Any?,
+        p2: Any?,
+        p3: Any?,
+        p4: Any?,
+        p5: Any?,
+        p6: Any?,
+        p7: Any?,
+        p8: Any?
+    ) {}
+
+    actual final override fun log(
+        msg: String?,
+        p1: Any?,
+        p2: Any?,
+        p3: Any?,
+        p4: Any?,
+        p5: Any?,
+        p6: Any?,
+        p7: Any?,
+        p8: Any?,
+        p9: Any?
+    ) {}
+
+    actual final override fun log(
+        msg: String?,
+        p1: Any?,
+        p2: Any?,
+        p3: Any?,
+        p4: Any?,
+        p5: Any?,
+        p6: Any?,
+        p7: Any?,
+        p8: Any?,
+        p9: Any?,
+        p10: Any?
+    ) {}
+
+    actual final override fun log(
+        msg: String?,
+        p1: Any?,
+        p2: Any?,
+        p3: Any?,
+        p4: Any?,
+        p5: Any?,
+        p6: Any?,
+        p7: Any?,
+        p8: Any?,
+        p9: Any?,
+        p10: Any?,
+        vararg rest: Any?
+    ) {}
+
+    // ---- Overloads for a single argument (to avoid auto-boxing and vararg array creation). ----
+
+    actual final override fun log(msg: String?, p1: Char) {}
+
+    actual final override fun log(msg: String?, p1: Byte) {}
+
+    actual final override fun log(msg: String?, p1: Short) {}
+
+    actual final override fun log(msg: String?, p1: Int) {}
+
+    actual final override fun log(msg: String?, p1: Long) {}
+
+    // ---- Overloads for two arguments (to avoid auto-boxing and vararg array creation). ----
+
+    actual final override fun log(msg: String?, p1: Any?, p2: Boolean) {}
+
+    actual final override fun log(msg: String?, p1: Any?, p2: Char) {}
+
+    actual final override fun log(msg: String?, p1: Any?, p2: Byte) {}
+
+    actual final override fun log(msg: String?, p1: Any?, p2: Short) {}
+
+    actual final override fun log(msg: String?, p1: Any?, p2: Int) {}
+
+    actual final override fun log(msg: String?, p1: Any?, p2: Long) {}
+
+    actual final override fun log(msg: String?, p1: Any?, p2: Float) {}
+
+    actual final override fun log(msg: String?, p1: Any?, p2: Double) {}
+
+    actual final override fun log(msg: String?, p1: Boolean, p2: Any?) {}
+
+    actual final override fun log(msg: String?, p1: Char, p2: Any?) {}
+
+    actual final override fun log(msg: String?, p1: Byte, p2: Any?) {}
+
+    actual final override fun log(msg: String?, p1: Short, p2: Any?) {}
+
+    actual final override fun log(msg: String?, p1: Int, p2: Any?) {}
+
+    actual final override fun log(msg: String?, p1: Long, p2: Any?) {}
+
+    actual final override fun log(msg: String?, p1: Float, p2: Any?) {}
+
+    actual final override fun log(msg: String?, p1: Double, p2: Any?) {}
+
+    actual final override fun log(msg: String?, p1: Boolean, p2: Boolean) {}
+
+    actual final override fun log(msg: String?, p1: Char, p2: Boolean) {}
+
+    actual final override fun log(msg: String?, p1: Byte, p2: Boolean) {}
+
+    actual final override fun log(msg: String?, p1: Short, p2: Boolean) {}
+
+    actual final override fun log(msg: String?, p1: Int, p2: Boolean) {}
+
+    actual final override fun log(msg: String?, p1: Long, p2: Boolean) {}
+
+    actual final override fun log(msg: String?, p1: Float, p2: Boolean) {}
+
+    actual final override fun log(msg: String?, p1: Double, p2: Boolean) {}
+
+    actual final override fun log(msg: String?, p1: Boolean, p2: Char) {}
+
+    actual final override fun log(msg: String?, p1: Char, p2: Char) {}
+
+    actual final override fun log(msg: String?, p1: Byte, p2: Char) {}
+
+    actual final override fun log(msg: String?, p1: Short, p2: Char) {}
+
+    actual final override fun log(msg: String?, p1: Int, p2: Char) {}
+
+    actual final override fun log(msg: String?, p1: Long, p2: Char) {}
+
+    actual final override fun log(msg: String?, p1: Float, p2: Char) {}
+
+    actual final override fun log(msg: String?, p1: Double, p2: Char) {}
+
+    actual final override fun log(msg: String?, p1: Boolean, p2: Byte) {}
+
+    actual final override fun log(msg: String?, p1: Char, p2: Byte) {}
+
+    actual final override fun log(msg: String?, p1: Byte, p2: Byte) {}
+
+    actual final override fun log(msg: String?, p1: Short, p2: Byte) {}
+
+    actual final override fun log(msg: String?, p1: Int, p2: Byte) {}
+
+    actual final override fun log(msg: String?, p1: Long, p2: Byte) {}
+
+    actual final override fun log(msg: String?, p1: Float, p2: Byte) {}
+
+    actual final override fun log(msg: String?, p1: Double, p2: Byte) {}
+
+    actual final override fun log(msg: String?, p1: Boolean, p2: Short) {}
+
+    actual final override fun log(msg: String?, p1: Char, p2: Short) {}
+
+    actual final override fun log(msg: String?, p1: Byte, p2: Short) {}
+
+    actual final override fun log(msg: String?, p1: Short, p2: Short) {}
+
+    actual final override fun log(msg: String?, p1: Int, p2: Short) {}
+
+    actual final override fun log(msg: String?, p1: Long, p2: Short) {}
+
+    actual final override fun log(msg: String?, p1: Float, p2: Short) {}
+
+    actual final override fun log(msg: String?, p1: Double, p2: Short) {}
+
+    actual final override fun log(msg: String?, p1: Boolean, p2: Int) {}
+
+    actual final override fun log(msg: String?, p1: Char, p2: Int) {}
+
+    actual final override fun log(msg: String?, p1: Byte, p2: Int) {}
+
+    actual final override fun log(msg: String?, p1: Short, p2: Int) {}
+
+    actual final override fun log(msg: String?, p1: Int, p2: Int) {}
+
+    actual final override fun log(msg: String?, p1: Long, p2: Int) {}
+
+    actual final override fun log(msg: String?, p1: Float, p2: Int) {}
+
+    actual final override fun log(msg: String?, p1: Double, p2: Int) {}
+
+    actual final override fun log(msg: String?, p1: Boolean, p2: Long) {}
+
+    actual final override fun log(msg: String?, p1: Char, p2: Long) {}
+
+    actual final override fun log(msg: String?, p1: Byte, p2: Long) {}
+
+    actual final override fun log(msg: String?, p1: Short, p2: Long) {}
+
+    actual final override fun log(msg: String?, p1: Int, p2: Long) {}
+
+    actual final override fun log(msg: String?, p1: Long, p2: Long) {}
+
+    actual final override fun log(msg: String?, p1: Float, p2: Long) {}
+
+    actual final override fun log(msg: String?, p1: Double, p2: Long) {}
+
+    actual final override fun log(msg: String?, p1: Boolean, p2: Float) {}
+
+    actual final override fun log(msg: String?, p1: Char, p2: Float) {}
+
+    actual final override fun log(msg: String?, p1: Byte, p2: Float) {}
+
+    actual final override fun log(msg: String?, p1: Short, p2: Float) {}
+
+    actual final override fun log(msg: String?, p1: Int, p2: Float) {}
+
+    actual final override fun log(msg: String?, p1: Long, p2: Float) {}
+
+    actual final override fun log(msg: String?, p1: Float, p2: Float) {}
+
+    actual final override fun log(msg: String?, p1: Double, p2: Float) {}
+
+    actual final override fun log(msg: String?, p1: Boolean, p2: Double) {}
+
+    actual final override fun log(msg: String?, p1: Char, p2: Double) {}
+
+    actual final override fun log(msg: String?, p1: Byte, p2: Double) {}
+
+    actual final override fun log(msg: String?, p1: Short, p2: Double) {}
+
+    actual final override fun log(msg: String?, p1: Int, p2: Double) {}
+
+    actual final override fun log(msg: String?, p1: Long, p2: Double) {}
+
+    actual final override fun log(msg: String?, p1: Float, p2: Double) {}
+
+    actual final override fun log(msg: String?, p1: Double, p2: Double) {}
+}
