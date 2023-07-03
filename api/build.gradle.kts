@@ -2,7 +2,7 @@ import org.jetbrains.kotlin.gradle.plugin.KotlinDependencyHandler
 
 plugins {
     kotlin("multiplatform")
-    id("net.ltgt.errorprone") version "3.1.0"
+    alias(libs.plugins.errorprone)
     `maven-publish`
 }
 
@@ -37,7 +37,7 @@ kotlin {
                 implementation(libs.checker)
                 implementation(libs.checker.compat.qual)
                 implementation(files("build/libs/stack_getter_java_lang_access_impl.jar"))
-                errorprone(libs.errorprone.core)
+                errorprone(libs.errorprone.core.get())
             }
         }
         val jvmTest by getting
@@ -106,10 +106,10 @@ tasks.named("compileJava", JavaCompile::class) {
 
 fun KotlinDependencyHandler.errorprone(dependencyNotation: Any): Dependency? {
     val dependency = implementation(dependencyNotation)
-    dependency?.let {
+    return dependency?.let {
         project.configurations.getByName("errorprone").dependencies.add(dependency)
+        it
     }
-    return dependency
 }
 
 publishing {
