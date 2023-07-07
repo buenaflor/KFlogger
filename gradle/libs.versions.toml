@@ -5,11 +5,19 @@ errorprone = "2.20.0"
 checker = "3.35.0"
 checker-compat-qual = "2.5.5"
 spotless = "6.19.0"
+truth = "1.1.5"
+mockito = "3.12.4"
+guava-jre = "32.1.0-jre"
+auto-service = "1.1.0"
 
 [libraries]
 errorprone-core = { group = "com.google.errorprone", name = "error_prone_core", version.ref = "errorprone" }
 checker = { group = "org.checkerframework", name = "checker", version.ref = "checker" }
 checker-compat-qual = { group = "org.checkerframework", name = "checker-compat-qual", version.ref = "checker-compat-qual" }
+truth = { group = "com.google.truth", name = "truth" , version.ref = "truth"}
+mockito-core = { group = "org.mockito", name = "mockito-core", version.ref = "mockito" }
+guava-jre = { group = "com.google.guava", name = "guava", version.ref = "guava-jre" }
+auto-service = { group = "com.google.auto.service", name = "auto-service", version.ref = "auto-service" }
 
 [plugins]
 kotlin-multiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }

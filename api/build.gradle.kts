@@ -1,8 +1,10 @@
+import org.jetbrains.kotlin.gradle.internal.KaptWithoutKotlincTask
 import org.jetbrains.kotlin.gradle.plugin.KotlinDependencyHandler
 
 plugins {
   alias(libs.plugins.kotlin.multiplatform)
   alias(libs.plugins.errorprone)
+  kotlin("kapt")
   `maven-publish`
 }
 
@@ -31,7 +33,15 @@ kotlin {
         errorprone(libs.errorprone.core.get())
       }
     }
-    val jvmTest by getting
+    val jvmTest by getting {
+      dependencies {
+        implementation(libs.truth)
+        implementation(libs.mockito.core)
+        implementation(libs.guava.jre)
+        configurations["kaptTest"].dependencies.add(implementation(libs.auto.service.get()))
+        implementation(libs.auto.service)
+      }
+    }
     val iosX64Main by getting
     val iosArm64Main by getting
     val iosSimulatorArm64Main by getting
@@ -90,6 +100,42 @@ tasks.named("compileJava", JavaCompile::class) {
   exclude("**/JavaLangAccessStackGetter.java")
   exclude(checksSources)
   exclude(stackGetterCommonSources)
+  dependsOn(generateStackGetterJavaLangAccessImpl)
+}
+
+tasks.withType<KaptWithoutKotlincTask> { mustRunAfter(generateStackGetterJavaLangAccessImpl) }
+
+/**
+ * Task for removing service files from the build directory produced by @AutoService during tests.
+ */
+private val deleteServiceFilesFromBuildDir by
+    tasks.registering(Delete::class) {
+      delete(
+          fileTree(buildDir) {
+            include("**/*backend.system.BackendFactory")
+            include("**/*context.ContextDataProvider")
+          })
+    }
+
+/**
+ * Task for running tests from the FluentLoggerTest.java file.
+ *
+ * It depends on deleteServiceFilesFromBuildDir in order to remove service files that persist during
+ * DefaultPlatformServiceLoadingTest. If not deleted, this will automatically try to load the
+ * services that have been injected during DefaultPlatformServiceLoadingTest in the FluentLoggerTest
+ * which causes that test to fail.
+ *
+ * This task has to be executed after all the other tests have finished.
+ */
+private val jvmFluentLoggerTest by
+    tasks.registering(Test::class) {
+      filter { includeTestsMatching("*FluentLoggerTest.testCreate") }
+      dependsOn("deleteBuildFilesForSpecificTest")
+    }
+
+tasks.named<Test>("jvmTest") {
+  filter { excludeTestsMatching("com.buenaflor.kflogger.FluentLoggerTest.testCreate") }
+  finalizedBy(jvmFluentLoggerTest)
 }
 
 fun KotlinDependencyHandler.errorprone(dependencyNotation: Any): Dependency? {
