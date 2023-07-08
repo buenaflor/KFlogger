@@ -12,6 +12,8 @@ group = properties["groupName"].toString()
 
 version = properties["versionName"].toString()
 
+private val stackGetterJarName = "stack_getter_java_lang_access_impl.jar"
+
 kotlin {
   jvm {
     withJava()
@@ -29,7 +31,7 @@ kotlin {
       dependencies {
         implementation(libs.checker)
         implementation(libs.checker.compat.qual)
-        implementation(files("build/libs/stack_getter_java_lang_access_impl.jar"))
+        implementation(files("build/libs/$stackGetterJarName"))
         errorprone(libs.errorprone.core.get())
       }
     }
@@ -63,43 +65,44 @@ kotlin {
   }
 }
 
-val checksSources = listOf("src/jvmMain/java/com/buenaflor/kflogger/util/Checks.java")
+private val applicationPackageDirPath = "com/buenaflor/kflogger"
+private val jvmMainPackageDirPath = "src/jvmMain/java/${applicationPackageDirPath}"
 
-val stackGetterCommonSources =
+private val checksSources = listOf("${jvmMainPackageDirPath}/util/Checks.java")
+
+private val stackGetterCommonSources =
     listOf(
-        "src/jvmMain/java/com/buenaflor/kflogger/util/StackGetter.java",
-        "src/jvmMain/java/com/buenaflor/kflogger/util/ThrowableStackGetter.java")
+        "${jvmMainPackageDirPath}/util/StackGetter.java",
+        "${jvmMainPackageDirPath}/util/ThrowableStackGetter.java")
 
-val stackGetterCommon: Configuration by configurations.creating { isCanBeResolved = true }
+private val javaLangStackGetterSource =
+    "${jvmMainPackageDirPath}/util/JavaLangAccessStackGetter.java"
 
-val javaLangAccessStackGetter by
+private val stackGetterCommon: Configuration by configurations.creating { isCanBeResolved = true }
+
+private val java8CompilerToolchain: Provider<JavaCompiler> =
+    javaToolchains.compilerFor { languageVersion.set(JavaLanguageVersion.of("8")) }
+
+private val javaLangAccessStackGetter by
     tasks.registering(JavaCompile::class) {
       sourceCompatibility = "8"
       targetCompatibility = "8"
       classpath = stackGetterCommon + files(configurations.getByName("errorprone"))
-      destinationDirectory.set(file("$buildDir/classes/java"))
-      include("**/StackGetter.java")
-      include("**/ThrowableStackGetter.java")
-      include("**/Checks.java")
-      include("**/JavaLangAccessStackGetter.java")
-      source(
-          stackGetterCommonSources +
-              checksSources +
-              "src/jvmMain/java/com/buenaflor/kflogger/util/JavaLangAccessStackGetter.java")
+      destinationDirectory.set(file("$buildDir/classes/java/${applicationPackageDirPath}/util"))
+      source(stackGetterCommonSources + checksSources + javaLangStackGetterSource)
+      javaCompiler.set(java8CompilerToolchain)
     }
 
-val generateStackGetterJavaLangAccessImpl by
+private val generateStackGetterJavaLangAccessImpl by
     tasks.registering(Jar::class) {
       archiveClassifier.set("")
       from(javaLangAccessStackGetter.get().destinationDirectory)
-      archiveFileName.set("stack_getter_java_lang_access_impl.jar")
+      archiveFileName.set(stackGetterJarName)
       dependsOn(javaLangAccessStackGetter)
     }
 
 tasks.named("compileJava", JavaCompile::class) {
   exclude("**/JavaLangAccessStackGetter.java")
-  exclude(checksSources)
-  exclude(stackGetterCommonSources)
   dependsOn(generateStackGetterJavaLangAccessImpl)
 }
 
@@ -130,11 +133,11 @@ private val deleteServiceFilesFromBuildDir by
 private val jvmFluentLoggerTest by
     tasks.registering(Test::class) {
       filter { includeTestsMatching("*FluentLoggerTest.testCreate") }
-      dependsOn("deleteBuildFilesForSpecificTest")
+      dependsOn(deleteServiceFilesFromBuildDir)
     }
 
 tasks.named<Test>("jvmTest") {
-  filter { excludeTestsMatching("com.buenaflor.kflogger.FluentLoggerTest.testCreate") }
+  filter { excludeTestsMatching("*FluentLoggerTest.testCreate") }
   finalizedBy(jvmFluentLoggerTest)
 }
 
