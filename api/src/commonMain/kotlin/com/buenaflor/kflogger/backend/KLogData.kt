@@ -14,16 +14,6 @@ import com.buenaflor.kflogger.KLogSite
  */
 expect interface KLogData {
   /**
-   * Returns any additional metadata for this log statement. If no additional metadata is present,
-   * the immutable empty metadata instance is returned.
-   *
-   * IMPORTANT: The returned instance is restricted to metadata added at the log site, and will not
-   * include any scoped metadata to be applied to the log statement. To process combined log site
-   * and scoped metadata, obtain or create a [MetadataProcessor].
-   */
-  // TODO: val metadata: Metadata?
-
-  /**
    * Returns whether this log statement should be emitted regardless of its log level or any other
    * properties.
    *
@@ -57,6 +47,17 @@ expect interface KLogData {
    */
   // TODO: val templateContext: TemplateContext?
 }
+
+/**
+ * Returns any additional metadata for this log statement. If no additional metadata is present,
+ * the immutable empty metadata instance is returned.
+ *
+ * IMPORTANT: The returned instance is restricted to metadata added at the log site, and will not
+ * include any scoped metadata to be applied to the log statement. To process combined log site
+ * and scoped metadata, obtain or create a [MetadataProcessor].
+ */
+expect val KLogData.metadata: KMetadata?
+
 
 /** Returns the log level for the current log statement. */
 expect val KLogData.level: KLevel?

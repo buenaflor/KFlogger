@@ -5,6 +5,9 @@ import com.buenaflor.kflogger.KLogSite
 
 actual typealias KLogData = LogData
 
+actual val KLogData.metadata: KMetadata?
+  get() = metadata
+
 actual val KLogData.level: KLevel?
   get() = level
 
