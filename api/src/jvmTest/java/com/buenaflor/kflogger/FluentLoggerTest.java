@@ -18,7 +18,6 @@ package com.buenaflor.kflogger;
 
 import static com.google.common.truth.Truth.assertThat;
 
-import com.buenaflor.kflogger.FluentLogger.Context;
 import com.buenaflor.kflogger.testing.FakeLoggerBackend;
 import java.util.logging.Level;
 import org.junit.Test;
@@ -53,11 +52,11 @@ public class FluentLoggerTest {
 
     // Down to and including the configured log level are not the no-op instance.
     assertThat(logger.atSevere()).isNotSameInstanceAs(FluentLogger.NO_OP);
-    assertThat(logger.atSevere()).isInstanceOf(Context.class);
+    assertThat(logger.atSevere()).isInstanceOf(FluentLogger.Context.class);
     assertThat(logger.atWarning()).isNotSameInstanceAs(FluentLogger.NO_OP);
-    assertThat(logger.atWarning()).isInstanceOf(Context.class);
+    assertThat(logger.atWarning()).isInstanceOf(FluentLogger.Context.class);
     assertThat(logger.atInfo()).isNotSameInstanceAs(FluentLogger.NO_OP);
-    assertThat(logger.atInfo()).isInstanceOf(Context.class);
+    assertThat(logger.atInfo()).isInstanceOf(FluentLogger.Context.class);
 
     // Below the configured log level you only get the singleton no-op instance.
     assertThat(logger.atFine()).isSameInstanceAs(FluentLogger.NO_OP);

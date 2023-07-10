@@ -1,6 +1,8 @@
 package com.buenaflor.kflogger
 
-actual class KFluentLogger : KAbstractLogger<KFluentLoggerApi>() {
+import com.buenaflor.kflogger.backend.KLoggerBackend
+
+actual class KFluentLogger(backend: KLoggerBackend) : KAbstractLogger<KFluentLoggerApi>(backend) {
 
   actual companion object {
     // Singleton instance of the no-op API. This variable is purposefully declared as an instance of
