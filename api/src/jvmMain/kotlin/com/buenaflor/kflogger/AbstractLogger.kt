@@ -30,8 +30,8 @@ import java.util.logging.Level
  * Base class for the fluent logger API. This class is a factory for instances of a fluent logging
  * API, used to build log statements via method chaining.
  *
- * @param <API> the logging API provided by this logger.
-</API> */
+ * @param <API> the logging API provided by this logger. </API>
+ */
 abstract class AbstractLogger<API : LoggingApi<API>?> protected constructor(backend: LoggerBackend) {
     /**
      * Returns the logging backend (not visible to logger subclasses to discourage tightly coupled
@@ -115,7 +115,7 @@ abstract class AbstractLogger<API : LoggingApi<API>?> protected constructor(back
      * Returns whether the given level is enabled for this logger. Users wishing to guard code with a
      * check for "loggability" should use `logger.atLevel().isEnabled()` instead.
      */
-    protected fun isLoggable(level: Level?): Boolean {
+    fun isLoggable(level: Level?): Boolean {
         return backend.isLoggable(level)
     }
     // ---- IMPLEMENTATION DETAIL (only visible to the base logging context) ----
