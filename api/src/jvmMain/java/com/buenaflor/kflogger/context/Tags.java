@@ -21,7 +21,6 @@ import static com.buenaflor.kflogger.util.Checks.checkMetadataIdentifier;
 import static com.buenaflor.kflogger.util.Checks.checkNotNull;
 
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
-
 import java.util.AbstractMap;
 import java.util.AbstractSet;
 import java.util.ArrayList;
@@ -35,8 +34,6 @@ import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.Set;
 import org.checkerframework.checker.nullness.compatqual.NullableDecl;
-
-// TODO: Handle error prone
 
 /**
  * Immutable tags which can be attached to log statements via platform specific injection

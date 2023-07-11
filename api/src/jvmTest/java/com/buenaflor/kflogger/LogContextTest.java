@@ -16,9 +16,9 @@
 
 package com.buenaflor.kflogger;
 
-import static com.google.common.collect.ImmutableList.toImmutableList;
 import static com.buenaflor.kflogger.LogContextTest.LogType.BAR;
 import static com.buenaflor.kflogger.LogContextTest.LogType.FOO;
+import static com.google.common.collect.ImmutableList.toImmutableList;
 import static com.buenaflor.kflogger.LogPerBucketingStrategy.byClass;
 import static com.buenaflor.kflogger.LogSites.logSite;
 import static com.google.common.truth.Correspondence.transforming;

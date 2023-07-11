@@ -17,6 +17,7 @@
 package com.buenaflor.kflogger.backend;
 
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
+
 /**
  * API for formatting Flogger log messages from logData and scoped metadata.
  *

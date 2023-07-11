@@ -29,7 +29,7 @@ import java.util.concurrent.ConcurrentLinkedQueue;
  * stateful logging operations (e.g. rate limiting).
  *
  * <p>Scopes are provided via the {@link Provider} interface and found by looking for
- * the current {@link com.buenaflor.kflogger.context.ScopedLoggingContext ScopedLoggingContexts}.
+ * the current {@link com.google.common.flogger.context.ScopedLoggingContext ScopedLoggingContexts}.
  *
  * <p>Stateful fluent logging APIs which need to look up per log site information (e.g. rate limit
  * state) should do so via a {@link LogSiteMap} using the {@link LogSiteKey} passed into the {@link

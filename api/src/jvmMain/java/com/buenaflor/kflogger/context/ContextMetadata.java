@@ -27,8 +27,6 @@ import java.util.Arrays;
 import java.util.List;
 import org.checkerframework.checker.nullness.compatqual.NullableDecl;
 
-// TODO: Handle error prone
-
 /**
  * Immutable {@link Metadata} implementation intended for use in nested contexts. Scope metadata can
  * be concatenated to inherit metadata from a parent context. This class is only expected to be

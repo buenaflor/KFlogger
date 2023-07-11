@@ -33,8 +33,8 @@ public class ScopedLoggingContextTest {
   private static final ScopedLoggingContext ERROR_CONTEXT =
       new ScopedLoggingContext() {
         @Override
-        public ScopedLoggingContext.Builder newContext() {
-          return new ScopedLoggingContext.Builder() {
+        public Builder newContext() {
+          return new Builder() {
             @Override
             public LoggingContextCloseable install() {
               return () -> {

@@ -31,10 +31,10 @@ import org.checkerframework.checker.nullness.compatqual.NullableDecl;
 
 /** A <a href="https://github.com/google/truth">Truth</a> subject for {@link Metadata}. */
 public final class MetadataSubject extends Subject {
-  private static final Subject.Factory<MetadataSubject, Metadata> METADATA_SUBJECT_FACTORY =
+  private static final Factory<MetadataSubject, Metadata> METADATA_SUBJECT_FACTORY =
       MetadataSubject::new;
 
-  public static Subject.Factory<MetadataSubject, Metadata> metadata() {
+  public static Factory<MetadataSubject, Metadata> metadata() {
     return METADATA_SUBJECT_FACTORY;
   }
 

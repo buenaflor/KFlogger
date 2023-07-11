@@ -30,10 +30,10 @@ import org.checkerframework.checker.nullness.compatqual.NullableDecl;
 
 /** A <a href="https://github.com/google/truth">Truth</a> subject for {@link LogData}. */
 public final class LogDataSubject extends Subject {
-  private static final Subject.Factory<LogDataSubject, LogData> LOG_DATA_SUBJECT_FACTORY =
+  private static final Factory<LogDataSubject, LogData> LOG_DATA_SUBJECT_FACTORY =
       LogDataSubject::new;
 
-  public static Subject.Factory<LogDataSubject, LogData> logData() {
+  public static Factory<LogDataSubject, LogData> logData() {
     return LOG_DATA_SUBJECT_FACTORY;
   }
 

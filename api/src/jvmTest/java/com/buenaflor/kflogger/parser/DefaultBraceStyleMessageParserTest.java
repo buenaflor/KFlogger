@@ -48,16 +48,14 @@ public class DefaultBraceStyleMessageParserTest {
     // Capture the parameter created by the parsing of the printf term.
     ArgumentCaptor<Parameter> param = ArgumentCaptor.forClass(Parameter.class);
     verify(builder).addParameterImpl(eq(6), eq(9), param.capture());
-    //assertThat(param.getValue().getIndex()).isEqualTo(1);
-/*
+    assertThat(param.getValue().getIndex()).isEqualTo(1);
+
     // Now visit the parameter and verify the expected callback occurred (doing it this way avoids
     // needing to open up methods on the Parameter interface just for testing).
     ParameterVisitor out = mock(ParameterVisitor.class);
     param.getValue().accept(out, new Object[] {"Answer: ", 42});
     // Check the expected values were passed (decimals should be formatted like "%,d").
     verify(out).visit(eq(42), eq(FormatChar.DECIMAL), eq(WITH_GROUPING));
-
- */
   }
 
   @Test

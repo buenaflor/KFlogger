@@ -61,8 +61,8 @@ final class NoOpContextDataProvider extends ContextDataProvider {
     }
 
     @Override
-    public ScopedLoggingContext.Builder newContext() {
-      return new ScopedLoggingContext.Builder() {
+    public Builder newContext() {
+      return new Builder() {
         @Override
         public LoggingContextCloseable install() {
           logWarningOnceOnly();
@@ -72,7 +72,7 @@ final class NoOpContextDataProvider extends ContextDataProvider {
     }
 
     @Override
-    public ScopedLoggingContext.Builder newContext(ScopeType scopeType) {
+    public Builder newContext(ScopeType scopeType) {
       // Ignore scope bindings when there's no way to propagate them.
       return newContext();
     }

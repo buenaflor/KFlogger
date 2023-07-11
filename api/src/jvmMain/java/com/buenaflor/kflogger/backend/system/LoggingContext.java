@@ -39,8 +39,8 @@ public abstract class LoggingContext extends ContextDataProvider {
   private static final class NoOpScopedLoggingContext extends ScopedLoggingContext
       implements LoggingContextCloseable {
     @Override
-    public Builder newContext() {
-      return new Builder() {
+    public ScopedLoggingContext.Builder newContext() {
+      return new ScopedLoggingContext.Builder() {
         @Override
         public LoggingContextCloseable install() {
           return NoOpScopedLoggingContext.this;

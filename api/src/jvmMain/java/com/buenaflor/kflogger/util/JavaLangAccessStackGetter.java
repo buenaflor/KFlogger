@@ -16,9 +16,10 @@
 
 package com.buenaflor.kflogger.util;
 
+import static com.buenaflor.kflogger.util.Checks.checkArgument;
+
 import sun.misc.JavaLangAccess;
 import sun.misc.SharedSecrets;
-
 
 /**
  * {@link JavaLangAccess} based implementation of {@link StackGetter}.
@@ -27,12 +28,11 @@ import sun.misc.SharedSecrets;
  * private api.
  */
 final class JavaLangAccessStackGetter implements StackGetter {
-
   private static final JavaLangAccess access = SharedSecrets.getJavaLangAccess();
 
   @Override
   public StackTraceElement callerOf(Class<?> target, int skipFrames) {
-    Checks.checkArgument(skipFrames >= 0, "skipFrames must be >= 0");
+    checkArgument(skipFrames >= 0, "skipFrames must be >= 0");
     Throwable throwable = new Throwable();
     int index = findCallerIndex(throwable, target, skipFrames + 1);
     return index == -1 ? null : access.getStackTraceElement(throwable, index);
@@ -40,8 +40,8 @@ final class JavaLangAccessStackGetter implements StackGetter {
 
   @Override
   public StackTraceElement[] getStackForCaller(Class<?> target, int maxDepth, int skipFrames) {
-    Checks.checkArgument(maxDepth == -1 || maxDepth > 0, "maxDepth must be > 0 or -1");
-    Checks.checkArgument(skipFrames >= 0, "skipFrames must be >= 0");
+    checkArgument(maxDepth == -1 || maxDepth > 0, "maxDepth must be > 0 or -1");
+    checkArgument(skipFrames >= 0, "skipFrames must be >= 0");
     Throwable throwable = new Throwable();
     int callerIndex = findCallerIndex(throwable, target, skipFrames + 1);
     if (callerIndex == -1) {

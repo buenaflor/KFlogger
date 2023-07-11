@@ -22,7 +22,6 @@ import com.buenaflor.kflogger.FluentLogger;
 import com.buenaflor.kflogger.MetadataKey;
 import com.buenaflor.kflogger.StackSize;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
-// TODO: Handle error prone
 
 /**
  * Static methods equivalent to the instance methods on {@link ScopedLoggingContext} but which

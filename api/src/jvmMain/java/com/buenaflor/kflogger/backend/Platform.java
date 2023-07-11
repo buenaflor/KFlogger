@@ -69,7 +69,7 @@ public abstract class Platform {
       Platform platform = null;
       // Try the platform provider first, if it's available.
       try {
-        // TODO: platform = PlatformProvider.getPlatform();
+        // TODO KFlogger: platform = PlatformProvider.getPlatform();
       } catch (NoClassDefFoundError e) {
         // May be an expected error: The PlatformProvider is an optional dependency that can
         // be provided at runtime. Inside Google we use a generator to create the class file for

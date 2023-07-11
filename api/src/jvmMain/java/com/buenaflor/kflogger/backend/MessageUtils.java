@@ -22,7 +22,6 @@ import static com.buenaflor.kflogger.backend.FormatOptions.FLAG_UPPER_CASE;
 
 import com.buenaflor.kflogger.LogSite;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
-
 import java.io.IOException;
 import java.math.BigInteger;
 import java.util.Arrays;

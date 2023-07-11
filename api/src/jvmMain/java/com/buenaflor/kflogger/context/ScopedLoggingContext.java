@@ -27,8 +27,6 @@ import java.io.Closeable;
 import java.util.concurrent.Callable;
 import org.checkerframework.checker.nullness.compatqual.NullableDecl;
 
-// TODO: Handle error prone
-
 /**
  * A user facing API for creating and modifying scoped logging contexts in applications.
  *

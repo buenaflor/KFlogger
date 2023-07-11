@@ -15,6 +15,8 @@ version = properties["versionName"].toString()
 private val stackGetterJarName = "stack_getter_java_lang_access_impl.jar"
 
 kotlin {
+  explicitApi()
+
   jvm {
     withJava()
     jvmToolchain(11)

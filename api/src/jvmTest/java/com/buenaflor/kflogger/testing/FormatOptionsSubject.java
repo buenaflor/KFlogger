@@ -36,7 +36,7 @@ public final class FormatOptionsSubject extends Subject {
     return assertAbout(FormatOptionsSubject.FORMAT_OPTIONS_FACTORY).that(formatOptions);
   }
 
-  private static final Subject.Factory<FormatOptionsSubject, FormatOptions> FORMAT_OPTIONS_FACTORY =
+  private static final Factory<FormatOptionsSubject, FormatOptions> FORMAT_OPTIONS_FACTORY =
       FormatOptionsSubject::new;
 
   private final FormatOptions actual;

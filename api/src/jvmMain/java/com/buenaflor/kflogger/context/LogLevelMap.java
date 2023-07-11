@@ -19,15 +19,12 @@ package com.buenaflor.kflogger.context;
 import static com.buenaflor.kflogger.util.Checks.checkNotNull;
 
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
-
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 import java.util.logging.Level;
-
-// TODO: Handle error prone
 
 /**
  * A hierarchical mapping from logger name to {@link Level} used to override the configured log
