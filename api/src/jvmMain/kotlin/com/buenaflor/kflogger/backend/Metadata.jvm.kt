@@ -87,8 +87,7 @@ public actual abstract class Metadata {
    * @throws NullPointerException if `key` is `null`.
    */
   // TODO(dbeaumont): Make this throw an exception for repeated keys.
-  @NullableDecl
-  public actual abstract fun <T> findValue(key: MetadataKey<T>?): T?
+  @NullableDecl public actual abstract fun <T> findValue(key: MetadataKey<T>?): T?
 
   public actual companion object {
     /** Returns an immutable [Metadata] that has no items. */

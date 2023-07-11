@@ -54,13 +54,13 @@ package com.buenaflor.kflogger
  */
 public actual open class MetadataKey<T> {
   /**
-   * Callback interface to handle additional contextual `Metadata` in log statements. This
-   * interface is only intended to be implemented by logger backend classes as part of handling
-   * metadata, and should not be used in any general application code, other than to implement the
+   * Callback interface to handle additional contextual `Metadata` in log statements. This interface
+   * is only intended to be implemented by logger backend classes as part of handling metadata, and
+   * should not be used in any general application code, other than to implement the
    * [MetadataKey.emit] method in this class.
    */
   public actual interface KeyValueHandler {
-    /** Handle a single key/value pair of contextual metadata for a log statement.  */
+    /** Handle a single key/value pair of contextual metadata for a log statement. */
     public actual fun handle(key: String?, value: Any?)
   }
 
@@ -81,12 +81,12 @@ public actual open class MetadataKey<T> {
   public actual val bloomFilterMask: Long
     get() = TODO("Not yet implemented")
 
-  /** Cast an arbitrary value to the type of this key.  */
+  /** Cast an arbitrary value to the type of this key. */
   public actual fun cast(value: Any?): T {
     TODO("Not yet implemented")
   }
 
-  /** Whether this key can be used to set more than one value in the metadata.  */
+  /** Whether this key can be used to set more than one value in the metadata. */
   public actual fun canRepeat(): Boolean {
     TODO("Not yet implemented")
   }
@@ -95,83 +95,56 @@ public actual open class MetadataKey<T> {
    * Emits one or more key/value pairs for the given metadata value. Call this method in preference
    * to using [.emitRepeated] directly to protect against unbounded reentrant logging.
    */
-  public actual fun safeEmit(value: T, kvh: KeyValueHandler) {
-  }
+  public actual fun safeEmit(value: T, kvh: KeyValueHandler) {}
 
   /**
    * Emits one or more key/value pairs for a sequence of repeated metadata values. Call this method
-   * in preference to using [.emitRepeated] directly to protect against unbounded reentrant
-   * logging.
+   * in preference to using [.emitRepeated] directly to protect against unbounded reentrant logging.
    */
-  public fun safeEmitRepeated(
-    values: Iterator<T>,
-    kvh: KeyValueHandler
-  ) {
-  }
+  public fun safeEmitRepeated(values: Iterator<T>, kvh: KeyValueHandler) {}
 
   /**
    * Override this method to provide custom logic for emitting one or more key/value pairs for a
-   * given metadata value (call [.safeEmit] from logging code to
-   * actually emit values).
-   *
+   * given metadata value (call [.safeEmit] from logging code to actually emit values).
    *
    * By default this method simply emits the given value with this key's label, but it can be
    * customized key/value pairs if necessary.
    *
-   *
    * Note that if multiple key/value pairs are emitted, the following best-practice should be
    * followed:
-   *
-   *
-   *  * Key names should be of the form `"<label>.<suffix>"`.
-   *  * Suffixes should only contain lower case ASCII letters and underscore (i.e. [a-z_]).
-   *
-   *
+   * * Key names should be of the form `"<label>.<suffix>"`.
+   * * Suffixes should only contain lower case ASCII letters and underscore (i.e. [a-z_]).
    *
    * This method is called as part of logs processing and could be invoked a very large number of
    * times in performance critical code. Implementations must be very careful to avoid calling any
    * code which might risk deadlocks, stack overflow, concurrency issues or performance problems. In
    * particular, implementations of this method should be careful to avoid:
+   * * Calling any code which could log using the same `MetadataKey` instance (unless you implement
+   *   protection against reentrant calling in this method).
+   * * Calling code which might block (e.g. performing file I/O or acquiring locks).
+   * * Allocating non-trivial amounds of memory (e.g. recording values in an unbounded data
+   *   structure).
    *
-   *
-   *  * Calling any code which could log using the same `MetadataKey` instance (unless you
-   * implement protection against reentrant calling in this method).
-   *  * Calling code which might block (e.g. performing file I/O or acquiring locks).
-   *  * Allocating non-trivial amounds of memory (e.g. recording values in an unbounded data
-   * structure).
-   *
-   *
-   *
-   * If you do implement a `MetadataKey` with non-trivial value processing, you should
-   * always make it very clear in the documentation that the key may not be suitable for widespread
-   * use.
-   *
+   * If you do implement a `MetadataKey` with non-trivial value processing, you should always make
+   * it very clear in the documentation that the key may not be suitable for widespread use.
    *
    * By default this method just calls `out.handle(getLabel(), value)`.
    */
-  protected actual open fun emit(value: T, kvh: KeyValueHandler) {
-  }
+  protected actual open fun emit(value: T, kvh: KeyValueHandler) {}
 
   /**
    * Override this method to provide custom logic for emitting one or more key/value pairs for a
-   * sequence of metadata values (call [.safeEmitRepeated] from
-   * logging code to actually emit values).
+   * sequence of metadata values (call [.safeEmitRepeated] from logging code to actually emit
+   * values).
    *
+   * Emits one or more key/value pairs for a sequence of repeated metadata values. By default this
+   * method simply calls [.emit] once for each value, in order. However it could be overridden to
+   * treat the sequence of values for a repeated key as a single entity (e.g. by joining elements
+   * with a separator).
    *
-   * Emits one or more key/value pairs for a sequence of repeated metadata values. By default
-   * this method simply calls [.emit] once for each value, in order.
-   * However it could be overridden to treat the sequence of values for a repeated key as a single
-   * entity (e.g. by joining elements with a separator).
-   *
-   *
-   * See the [.emit] method for additional caveats for custom
-   * implementations.
+   * See the [.emit] method for additional caveats for custom implementations.
    */
-  protected fun emitRepeated(
-    values: Iterator<T>,
-    kvh: KeyValueHandler
-  ) {
-  }
+  protected fun emitRepeated(values: Iterator<T>, kvh: KeyValueHandler) {}
 
   actual final override fun equals(obj: Any?): Boolean {
     TODO("Not yet implemented")
@@ -187,27 +160,25 @@ public actual open class MetadataKey<T> {
 
   public actual companion object {
     /**
-     * Creates a key for a single piece of metadata. If metadata is set more than once using this key
-     * for the same log statement, the last set value will be the one used, and other values will be
-     * ignored (although callers should never rely on this behavior).
+     * Creates a key for a single piece of metadata. If metadata is set more than once using this
+     * key for the same log statement, the last set value will be the one used, and other values
+     * will be ignored (although callers should never rely on this behavior).
      *
-     *
-     * Key instances behave like singletons, and two key instances with the same label will still
-     * be considered distinct. The recommended approach is to always assign `MetadataKey`
-     * instances to static final constants.
+     * Key instances behave like singletons, and two key instances with the same label will still be
+     * considered distinct. The recommended approach is to always assign `MetadataKey` instances to
+     * static final constants.
      */
     // @JvmStatic
     // TODO KFlogger: public fun <T> single(label: String, clazz: Class<out T>): MetadataKey<T>
 
     /**
-     * Creates a key for a repeated piece of metadata. If metadata is added more than once using this
-     * key for a log statement, all values will be retained as key/value pairs in the order they were
-     * added.
+     * Creates a key for a repeated piece of metadata. If metadata is added more than once using
+     * this key for a log statement, all values will be retained as key/value pairs in the order
+     * they were added.
      *
-     *
-     * Key instances behave like singletons, and two key instances with the same label will still
-     * be considered distinct. The recommended approach is to always assign `MetadataKey`
-     * instances to static final constants.
+     * Key instances behave like singletons, and two key instances with the same label will still be
+     * considered distinct. The recommended approach is to always assign `MetadataKey` instances to
+     * static final constants.
      */
     // @JvmStatic
     // public fun <T> repeated(label: String, clazz: Class<T>): MetadataKey<T>

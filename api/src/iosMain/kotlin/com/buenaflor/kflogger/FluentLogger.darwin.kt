@@ -17,19 +17,19 @@ import com.buenaflor.kflogger.backend.LoggerBackend
 public actual class FluentLogger(backend: LoggerBackend) :
     AbstractLogger<FluentLogger.Api>(backend) {
 
-    public actual interface Api : LoggingApi<Api>
+  public actual interface Api : LoggingApi<Api>
 
-    actual override fun at(level: Level?): Api {
-        TODO()
-    }
+  actual override fun at(level: Level?): Api {
+    TODO()
+  }
 
-    public actual companion object {
-      /**
-       * Returns a new logger instance which parses log messages using printf format for the enclosing
-       * class using the system default logging backend.
-       */
-      public actual fun forEnclosingClass(): FluentLogger {
-        TODO("Not yet implemented")
-      }
+  public actual companion object {
+    /**
+     * Returns a new logger instance which parses log messages using printf format for the enclosing
+     * class using the system default logging backend.
+     */
+    public actual fun forEnclosingClass(): FluentLogger {
+      TODO("Not yet implemented")
     }
+  }
 }
