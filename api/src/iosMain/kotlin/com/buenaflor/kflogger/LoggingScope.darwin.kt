@@ -1,6 +1,6 @@
 package com.buenaflor.kflogger
 
-public actual abstract class KLoggingScope actual constructor(label: String) {
+public actual abstract class LoggingScope actual constructor(label: String) {
   /**
    * Returns a specialization of the given key which accounts for this scope instance. Two
    * specialized keys should compare as [Object.equals] if and only if they are specializations from
@@ -24,7 +24,7 @@ public actual abstract class KLoggingScope actual constructor(label: String) {
      * garbage collected. The given label is used only for debugging purposes and may appear in log
      * statements, it should not contain any user data or other runtime information.
      */
-    public actual fun create(label: String): KLoggingScope {
+    public actual fun create(label: String): LoggingScope {
       TODO("Not yet implemented")
     }
   }

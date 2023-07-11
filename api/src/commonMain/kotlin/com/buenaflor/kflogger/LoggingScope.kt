@@ -17,7 +17,7 @@ package com.buenaflor.kflogger
  * without rate limiting) since the log site key for that log statement will not be used in any
  * maps.
  */
-public expect abstract class KLoggingScope
+public expect abstract class LoggingScope
 /**
  * Creates a basic scope with the specified label. Custom subclasses of `LoggingScope` must manage
  * their own lifecycles to avoid leaking memory and polluting [LogSiteMap]s with unused keys.
@@ -61,6 +61,6 @@ protected constructor(label: String) {
      * statements, it should not contain any user data or other runtime information.
      */
     // TODO: Strongly consider making the label a compile time constant.
-    public fun create(label: String): KLoggingScope
+    public fun create(label: String): LoggingScope
   }
 }

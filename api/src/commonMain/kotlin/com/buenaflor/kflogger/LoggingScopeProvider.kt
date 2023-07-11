@@ -9,5 +9,5 @@ package com.buenaflor.kflogger
  * "request" scopes and a provider for "sub-task" scopes)
  */
 public expect interface LoggingScopeProvider {
-  public val currentScope: KLoggingScope?
+  public val currentScope: LoggingScope?
 }
