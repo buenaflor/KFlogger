@@ -14,8 +14,7 @@ import com.buenaflor.kflogger.backend.LoggerBackend
  * The choice to prevent direct extension of loggers was made deliberately to ensure that users of a
  * specific logger implementation always get the same behavior.
  */
-public actual class KFluentLogger(backend: LoggerBackend) :
-    AbstractLogger<Api>(backend) {
+public actual class KFluentLogger(backend: LoggerBackend) : AbstractLogger<Api>(backend) {
 
   actual override fun at(level: Level?): Api {
     TODO()
