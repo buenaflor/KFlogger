@@ -108,7 +108,7 @@ protected actual constructor(backend: LoggerBackend) {
    * Returns the non-null name of this logger (Flogger does not currently support anonymous
    * loggers).
    */
-  protected actual val name: String
+  public actual val name: String
     get() = backend.loggerName
 
   /**

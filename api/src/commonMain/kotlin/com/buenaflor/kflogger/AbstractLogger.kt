@@ -62,7 +62,7 @@ protected constructor(backend: LoggerBackend) {
    * Returns the non-null name of this logger (Flogger does not currently support anonymous
    * loggers).
    */
-  protected val name: String
+  public val name: String
 
   /**
    * Returns whether the given level is enabled for this logger. Users wishing to guard code with a

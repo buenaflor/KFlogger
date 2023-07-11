@@ -1,7 +1,5 @@
 package com.buenaflor.kflogger
 
-public interface Api : LoggingApi<Api>
-
 /**
  * The default implementation of [KAbstractLogger] which returns the basic [KLoggingApi]
  * and uses the default parser and system configured backend.
@@ -16,8 +14,10 @@ public interface Api : LoggingApi<Api>
  * The choice to prevent direct extension of loggers was made deliberately to ensure that users of
  * a specific logger implementation always get the same behavior.
  */
-public expect class KFluentLogger : AbstractLogger<Api> {
+public expect class FluentLogger : AbstractLogger<FluentLogger.Api> {
   override fun at(level: Level?): Api
+
+  public interface Api : LoggingApi<Api>
 
   public companion object {
 
@@ -25,6 +25,6 @@ public expect class KFluentLogger : AbstractLogger<Api> {
      * Returns a new logger instance which parses log messages using printf format for the enclosing
      * class using the system default logging backend.
      */
-    public fun forEnclosingClass(): KFluentLogger
+    public fun forEnclosingClass(): FluentLogger
   }
 }

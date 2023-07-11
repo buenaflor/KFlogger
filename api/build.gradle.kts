@@ -134,12 +134,12 @@ private val deleteServiceFilesFromBuildDir by
  */
 private val jvmFluentLoggerTest by
     tasks.registering(Test::class) {
-      filter { includeTestsMatching("*FluentLoggerTest.testCreate") }
+      filter { includeTestsMatching("*.testCreate") }
       dependsOn(deleteServiceFilesFromBuildDir)
     }
 
 tasks.named<Test>("jvmTest") {
-  filter { excludeTestsMatching("*FluentLoggerTest.testCreate") }
+  filter { excludeTestsMatching("*.testCreate") }
   finalizedBy(jvmFluentLoggerTest)
 }
 
