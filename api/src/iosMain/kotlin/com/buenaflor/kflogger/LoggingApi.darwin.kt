@@ -722,7 +722,7 @@ public actual interface LoggingApi<API : LoggingApi<API>?> {
    *   in some way).
    * * Key value pairs which are explicitly extracted from logs by tools.
    *
-   * Metadata keys can support repeated values (see [KMetadataKey.canRepeat]), and if a repeatable
+   * Metadata keys can support repeated values (see [MetadataKey.canRepeat]), and if a repeatable
    * key is used multiple times in the same log statement, the effect is to collect all the given
    * values in order. If a non-repeatable key is passed multiple times, only the last value is
    * retained (though callers should not rely on this behavior and should simply avoid repeating
@@ -735,9 +735,9 @@ public actual interface LoggingApi<API : LoggingApi<API>?> {
    * @param value a value to be associated with the key in this log statement. Null values are
    *   allowed, but the effect is always a no-op
    * @throws NullPointerException if the given key is null
-   * @see KMetadataKey
+   * @see MetadataKey
    */
-  public actual fun <T> with(key: KMetadataKey<T>?, value: T): API
+  public actual fun <T> with(key: MetadataKey<T>?, value: T): API
 
   /**
    * Sets a boolean metadata key constant to `true` for this log statement in a structured way that
@@ -753,9 +753,9 @@ public actual interface LoggingApi<API : LoggingApi<API>?> {
    *
    * @param key the boolean metadata key (expected to be a static constant)
    * @throws NullPointerException if the given key is null
-   * @see KMetadataKey
+   * @see MetadataKey
    */
-  public actual fun with(key: KMetadataKey<Boolean?>?): API
+  public actual fun with(key: MetadataKey<Boolean?>?): API
 
   /**
    * Returns true if logging is enabled at the level implied for this API, according to the current

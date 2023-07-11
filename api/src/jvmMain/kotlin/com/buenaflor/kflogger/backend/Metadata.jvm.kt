@@ -72,7 +72,7 @@ public actual abstract class Metadata {
    *
    * @throws IndexOutOfBoundsException if either `n < 0` or {n >= getCount()}.
    */
-  public actual abstract fun getKey(n: Int): com.buenaflor.kflogger.MetadataKey<*>?
+  public actual abstract fun getKey(n: Int): MetadataKey<*>?
 
   /**
    * Returns the non-null value for the Nth piece of metadata.
@@ -88,7 +88,7 @@ public actual abstract class Metadata {
    */
   // TODO(dbeaumont): Make this throw an exception for repeated keys.
   @NullableDecl
-  public actual abstract fun <T> findValue(key: com.buenaflor.kflogger.MetadataKey<T>?): T?
+  public actual abstract fun <T> findValue(key: MetadataKey<T>?): T?
 
   public actual companion object {
     /** Returns an immutable [Metadata] that has no items. */

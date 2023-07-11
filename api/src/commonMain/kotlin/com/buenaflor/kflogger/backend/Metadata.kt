@@ -1,12 +1,12 @@
 package com.buenaflor.kflogger.backend
 
-import com.buenaflor.kflogger.KMetadataKey
+import com.buenaflor.kflogger.MetadataKey
 
 /**
  * A sequence of metadata key/value pairs which can be associated to a log statement, either
  * directly via methods in the fluent API, of as part of a scoped logging context.
  *
- * Metadata keys can "single valued" or "repeating" based on [KMetadataKey.canRepeat], but it is
+ * Metadata keys can "single valued" or "repeating" based on [MetadataKey.canRepeat], but it is
  * permitted for a `Metadata` implementation to retain multiple single valued keys, and in that
  * situation the key at the largest index is the one which should be used.
  *
@@ -28,7 +28,7 @@ public expect abstract class Metadata {
    *
    * @throws IndexOutOfBoundsException if either `n < 0` or {n >= getCount()}.
    */
-  public abstract fun getKey(n: Int): KMetadataKey<*>?
+  public abstract fun getKey(n: Int): MetadataKey<*>?
 
   /**
    * Returns the non-null value for the Nth piece of metadata.
@@ -43,7 +43,7 @@ public expect abstract class Metadata {
    * @throws NullPointerException if `key` is `null`.
    */
   // TODO(dbeaumont): Make this throw an exception for repeated keys.
-  public abstract fun <T> findValue(key: KMetadataKey<T>?): T?
+  public abstract fun <T> findValue(key: MetadataKey<T>?): T?
 
   public companion object {
     /** Returns an immutable [Metadata] that has no items. */
