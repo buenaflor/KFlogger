@@ -14,10 +14,8 @@ import com.buenaflor.kflogger.backend.LoggerBackend
  * The choice to prevent direct extension of loggers was made deliberately to ensure that users of a
  * specific logger implementation always get the same behavior.
  */
-public actual class FluentLogger(backend: LoggerBackend) :
-    AbstractLogger<FluentLogger.Api>(backend) {
-
-  public actual interface Api : LoggingApi<Api>
+public actual class KFluentLogger(backend: LoggerBackend) :
+    AbstractLogger<Api>(backend) {
 
   actual override fun at(level: Level?): Api {
     TODO()
@@ -28,7 +26,7 @@ public actual class FluentLogger(backend: LoggerBackend) :
      * Returns a new logger instance which parses log messages using printf format for the enclosing
      * class using the system default logging backend.
      */
-    public actual fun forEnclosingClass(): FluentLogger {
+    public actual fun forEnclosingClass(): KFluentLogger {
       TODO()
     }
   }
