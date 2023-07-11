@@ -103,7 +103,7 @@ public actual open class MetadataKey<T> {
    * in preference to using [.emitRepeated] directly to protect against unbounded reentrant
    * logging.
    */
-  public actual fun safeEmitRepeated(
+  public fun safeEmitRepeated(
     values: Iterator<T>,
     kvh: KeyValueHandler
   ) {
@@ -167,7 +167,7 @@ public actual open class MetadataKey<T> {
    * See the [.emit] method for additional caveats for custom
    * implementations.
    */
-  protected actual fun emitRepeated(
+  protected fun emitRepeated(
     values: Iterator<T>,
     kvh: KeyValueHandler
   ) {
