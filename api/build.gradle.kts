@@ -28,7 +28,11 @@ kotlin {
 
   sourceSets {
     val commonMain by getting
-    val commonTest by getting { dependencies { implementation(kotlin("test")) } }
+    val commonTest by getting {
+      dependencies {
+        implementation(libs.kruth)
+      }
+    }
     val jvmMain by getting {
       dependencies {
         implementation(libs.checker)
