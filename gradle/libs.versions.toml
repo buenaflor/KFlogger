@@ -9,6 +9,7 @@ truth = "1.1.5"
 mockito = "3.12.4"
 guava-jre = "32.1.0-jre"
 auto-service = "1.1.0"
+kruth = "0.1.0-SNAPSHOT"
 
 [libraries]
 errorprone-core = { group = "com.google.errorprone", name = "error_prone_core", version.ref = "errorprone" }
@@ -18,6 +19,7 @@ truth = { group = "com.google.truth", name = "truth" , version.ref = "truth"}
 mockito-core = { group = "org.mockito", name = "mockito-core", version.ref = "mockito" }
 guava-jre = { group = "com.google.guava", name = "guava", version.ref = "guava-jre" }
 auto-service = { group = "com.google.auto.service", name = "auto-service", version.ref = "auto-service" }
+kruth = { group = "androidx.kruth", name = "kruth", version.ref = "kruth" }
 
 [plugins]
 kotlin-multiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
