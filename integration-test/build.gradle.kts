@@ -1,11 +1,5 @@
-plugins {
-    id("kotlin")
-}
+plugins { id("kotlin") }
 
-repositories {
-    mavenCentral()
-}
+repositories { mavenCentral() }
 
-dependencies {
-    implementation(project(":api"))
-}
+dependencies { implementation(project(":api")) }
