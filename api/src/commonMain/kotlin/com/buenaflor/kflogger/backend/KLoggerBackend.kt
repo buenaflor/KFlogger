@@ -25,7 +25,7 @@ import com.buenaflor.kflogger.KLevel
  * changing the lifetime of arbitrary user arguments, which can cause "use after close" bugs and
  * other garbage collector issues.
  */
-public expect abstract class KLoggerBackend {
+public expect abstract class KLoggerBackend() {
 
   /**
    * Returns whether logging is enabled for the given level for this backend. Different backends may
