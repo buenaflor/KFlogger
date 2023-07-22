@@ -4,13 +4,13 @@ package com.buenaflor.kflogger
 public actual typealias KLogSite = LogSite
 
 public actual val KLogSite.className: String?
-    get() = className
+  get() = className
 
 public actual val KLogSite.methodName: String?
-    get() = methodName
+  get() = methodName
 
 public actual val KLogSite.lineNumber: Int
-    get() = lineNumber
+  get() = lineNumber
 
 public actual val KLogSite.fileName: String?
-    get() = fileName
+  get() = fileName

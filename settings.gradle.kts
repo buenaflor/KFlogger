@@ -19,5 +19,3 @@ dependencyResolutionManagement {
 rootProject.name = "KFlogger"
 
 include(":api")
-
-include(":integration-test")

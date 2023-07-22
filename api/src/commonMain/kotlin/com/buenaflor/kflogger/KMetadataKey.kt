@@ -1,6 +1,5 @@
 package com.buenaflor.kflogger
 
-
 /**
  * Callback interface to handle additional contextual `Metadata` in log statements. This interface
  * is only intended to be implemented by logger backend classes as part of handling metadata, and
@@ -11,7 +10,6 @@ public expect interface KMetadataKeyKeyValueHandler {
   /** Handle a single key/value pair of contextual metadata for a log statement. */
   public fun handle(key: String?, value: Any?)
 }
-
 
 /**
  * Key for logging semi-structured metadata values.

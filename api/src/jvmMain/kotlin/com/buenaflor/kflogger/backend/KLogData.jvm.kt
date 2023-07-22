@@ -6,25 +6,25 @@ import com.buenaflor.kflogger.KLogSite
 public actual typealias KLogData = LogData
 
 public actual val KLogData.metadata: KMetadata?
-    get() = metadata
+  get() = metadata
 
 public actual val KLogData.level: KLevel?
-    get() = level
+  get() = level
 
 public actual val KLogData.timestampMicros: Long
-    get() = timestampMicros
+  get() = timestampMicros
 
 public actual val KLogData.timestampNanos: Long
-    get() = timestampNanos
+  get() = timestampNanos
 
 public actual val KLogData.loggerName: String?
-    get() = loggerName
+  get() = loggerName
 
 public actual val KLogData.logSite: KLogSite?
-    get() = logSite
+  get() = logSite
 
 public actual val KLogData.arguments: Array<Any?>?
-    get() = arguments
+  get() = arguments
 
 public actual val KLogData.literalArgument: Any?
-    get() = literalArgument
+  get() = literalArgument

@@ -78,18 +78,13 @@ public actual open class KMetadataKey<T> {
    * Emits one or more key/value pairs for the given metadata value. Call this method in preference
    * to using [.emitRepeated] directly to protect against unbounded reentrant logging.
    */
-  public actual fun safeEmit(value: T, kvh: KMetadataKeyKeyValueHandler) {
-  }
+  public actual fun safeEmit(value: T, kvh: KMetadataKeyKeyValueHandler) {}
 
   /**
    * Emits one or more key/value pairs for a sequence of repeated metadata values. Call this method
    * in preference to using [.emitRepeated] directly to protect against unbounded reentrant logging.
    */
-  public actual fun safeEmitRepeated(
-    values: Iterator<T>,
-    kvh: KMetadataKeyKeyValueHandler
-  ) {
-  }
+  public actual fun safeEmitRepeated(values: Iterator<T>, kvh: KMetadataKeyKeyValueHandler) {}
 
   /**
    * Override this method to provide custom logic for emitting one or more key/value pairs for a
@@ -118,8 +113,7 @@ public actual open class KMetadataKey<T> {
    *
    * By default this method just calls `out.handle(getLabel(), value)`.
    */
-  protected actual open fun emit(value: T, kvh: KMetadataKeyKeyValueHandler) {
-  }
+  protected actual open fun emit(value: T, kvh: KMetadataKeyKeyValueHandler) {}
 
   /**
    * Override this method to provide custom logic for emitting one or more key/value pairs for a
@@ -133,11 +127,7 @@ public actual open class KMetadataKey<T> {
    *
    * See the [.emit] method for additional caveats for custom implementations.
    */
-  protected actual open fun emitRepeated(
-    values: Iterator<T>,
-    kvh: KMetadataKeyKeyValueHandler
-  ) {
-  }
+  protected actual open fun emitRepeated(values: Iterator<T>, kvh: KMetadataKeyKeyValueHandler) {}
 }
 
 public actual val <T> KMetadataKey<T>.label: String
@@ -145,4 +135,3 @@ public actual val <T> KMetadataKey<T>.label: String
 
 public actual val <T> KMetadataKey<T>.bloomFilterMask: Long
   get() = TODO()
-

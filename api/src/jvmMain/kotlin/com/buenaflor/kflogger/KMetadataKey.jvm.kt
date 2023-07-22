@@ -6,7 +6,7 @@ public actual typealias KMetadataKey<T> = MetadataKey<T>
 public actual typealias KMetadataKeyKeyValueHandler = MetadataKey.KeyValueHandler
 
 public actual val <T> KMetadataKey<T>.label: String
-    get() = label
+  get() = label
 
 public actual val <T> KMetadataKey<T>.bloomFilterMask: Long
-    get() = bloomFilterMask
+  get() = bloomFilterMask

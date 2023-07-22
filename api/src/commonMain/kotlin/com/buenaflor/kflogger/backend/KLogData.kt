@@ -49,12 +49,12 @@ public expect interface KLogData {
 }
 
 /**
- * Returns any additional metadata for this log statement. If no additional metadata is present,
- * the immutable empty metadata instance is returned.
+ * Returns any additional metadata for this log statement. If no additional metadata is present, the
+ * immutable empty metadata instance is returned.
  *
  * IMPORTANT: The returned instance is restricted to metadata added at the log site, and will not
- * include any scoped metadata to be applied to the log statement. To process combined log site
- * and scoped metadata, obtain or create a [MetadataProcessor].
+ * include any scoped metadata to be applied to the log statement. To process combined log site and
+ * scoped metadata, obtain or create a [MetadataProcessor].
  */
 public expect val KLogData.metadata: KMetadata?
 
@@ -62,10 +62,10 @@ public expect val KLogData.metadata: KMetadata?
 public expect val KLogData.level: KLevel?
 
 /** Returns a microsecond timestamp for the current log statement. */
-@Deprecated("Use timestampNanos") public  expect val KLogData.timestampMicros: Long
+@Deprecated("Use timestampNanos") public expect val KLogData.timestampMicros: Long
 
 /** Returns a nanosecond timestamp for the current log statement. */
-public  expect val KLogData.timestampNanos: Long
+public expect val KLogData.timestampNanos: Long
 
 /** Returns the logger name (which is usually a canonicalized class name) or `null` if not given. */
 public expect val KLogData.loggerName: String?

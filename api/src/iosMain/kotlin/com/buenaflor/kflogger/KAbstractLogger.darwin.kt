@@ -84,4 +84,5 @@ protected actual constructor(backend: KLoggerBackend) {
   public actual fun write(data: KLogData) {}
 }
 
-public actual val <API : KLoggingApi<API>> KAbstractLogger<API>.backend: KLoggerBackend get() = TODO()
+public actual val <API : KLoggingApi<API>> KAbstractLogger<API>.backend: KLoggerBackend
+  get() = TODO()

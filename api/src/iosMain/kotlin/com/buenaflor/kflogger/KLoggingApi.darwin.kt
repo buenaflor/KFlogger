@@ -852,10 +852,10 @@ public actual open class KLoggingApiNoOp<API : KLoggingApi<API>> : KLoggingApi<A
   }
 
   actual final override fun withInjectedLogSite(
-    internalClassName: String?,
-    methodName: String?,
-    encodedLineNumber: Int,
-    sourceFileName: String?
+      internalClassName: String?,
+      methodName: String?,
+      encodedLineNumber: Int,
+      sourceFileName: String?
   ): API {
     return noOp()
   }
@@ -883,78 +883,78 @@ public actual open class KLoggingApiNoOp<API : KLoggingApi<API>> : KLoggingApi<A
   actual final override fun log(msg: String?, p1: Any?, p2: Any?, p3: Any?, p4: Any?, p5: Any?) {}
 
   actual final override fun log(
-    msg: String?,
-    p1: Any?,
-    p2: Any?,
-    p3: Any?,
-    p4: Any?,
-    p5: Any?,
-    p6: Any?
+      msg: String?,
+      p1: Any?,
+      p2: Any?,
+      p3: Any?,
+      p4: Any?,
+      p5: Any?,
+      p6: Any?
   ) {}
 
   actual final override fun log(
-    msg: String?,
-    p1: Any?,
-    p2: Any?,
-    p3: Any?,
-    p4: Any?,
-    p5: Any?,
-    p6: Any?,
-    p7: Any?
+      msg: String?,
+      p1: Any?,
+      p2: Any?,
+      p3: Any?,
+      p4: Any?,
+      p5: Any?,
+      p6: Any?,
+      p7: Any?
   ) {}
 
   actual final override fun log(
-    msg: String?,
-    p1: Any?,
-    p2: Any?,
-    p3: Any?,
-    p4: Any?,
-    p5: Any?,
-    p6: Any?,
-    p7: Any?,
-    p8: Any?
+      msg: String?,
+      p1: Any?,
+      p2: Any?,
+      p3: Any?,
+      p4: Any?,
+      p5: Any?,
+      p6: Any?,
+      p7: Any?,
+      p8: Any?
   ) {}
 
   actual final override fun log(
-    msg: String?,
-    p1: Any?,
-    p2: Any?,
-    p3: Any?,
-    p4: Any?,
-    p5: Any?,
-    p6: Any?,
-    p7: Any?,
-    p8: Any?,
-    p9: Any?
+      msg: String?,
+      p1: Any?,
+      p2: Any?,
+      p3: Any?,
+      p4: Any?,
+      p5: Any?,
+      p6: Any?,
+      p7: Any?,
+      p8: Any?,
+      p9: Any?
   ) {}
 
   actual final override fun log(
-    msg: String?,
-    p1: Any?,
-    p2: Any?,
-    p3: Any?,
-    p4: Any?,
-    p5: Any?,
-    p6: Any?,
-    p7: Any?,
-    p8: Any?,
-    p9: Any?,
-    p10: Any?
+      msg: String?,
+      p1: Any?,
+      p2: Any?,
+      p3: Any?,
+      p4: Any?,
+      p5: Any?,
+      p6: Any?,
+      p7: Any?,
+      p8: Any?,
+      p9: Any?,
+      p10: Any?
   ) {}
 
   actual final override fun log(
-    msg: String?,
-    p1: Any?,
-    p2: Any?,
-    p3: Any?,
-    p4: Any?,
-    p5: Any?,
-    p6: Any?,
-    p7: Any?,
-    p8: Any?,
-    p9: Any?,
-    p10: Any?,
-    vararg rest: Any?
+      msg: String?,
+      p1: Any?,
+      p2: Any?,
+      p3: Any?,
+      p4: Any?,
+      p5: Any?,
+      p6: Any?,
+      p7: Any?,
+      p8: Any?,
+      p9: Any?,
+      p10: Any?,
+      vararg rest: Any?
   ) {}
 
   // ---- Overloads for a single argument (to avoid auto-boxing and vararg array creation). ----
