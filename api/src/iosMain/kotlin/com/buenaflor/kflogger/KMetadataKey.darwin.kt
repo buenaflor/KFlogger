@@ -64,23 +64,6 @@ public actual interface KMetadataKeyKeyValueHandler {
  * enabled.
  */
 public actual open class KMetadataKey<T> {
-  /**
-   * Returns a short, human readable text label which will prefix the metadata in cases where it is
-   * formatted as part of the log message.
-   */
-  public actual val label: String
-    get() = TODO("Not yet implemented")
-
-  /**
-   * Returns a 64-bit bloom filter mask for this metadata key, usable by backend implementations to
-   * efficiently determine uniqueness of keys (e.g. for deduplication and grouping). This value is
-   * calculated on the assumption that there are normally not more than 10 distinct metadata keys
-   * being processed at any time. If more distinct keys need to be processed using this Bloom Filter
-   * mask, it will result in a higher than optimal false-positive rate.
-   */
-  public actual val bloomFilterMask: Long
-    get() = TODO("Not yet implemented")
-
   /** Cast an arbitrary value to the type of this key. */
   public actual fun cast(value: Any?): T {
     TODO("Not yet implemented")
@@ -95,13 +78,18 @@ public actual open class KMetadataKey<T> {
    * Emits one or more key/value pairs for the given metadata value. Call this method in preference
    * to using [.emitRepeated] directly to protect against unbounded reentrant logging.
    */
-  public actual fun safeEmit(value: T, kvh: KMetadataKeyKeyValueHandler) {}
+  public actual fun safeEmit(value: T, kvh: KMetadataKeyKeyValueHandler) {
+  }
 
   /**
    * Emits one or more key/value pairs for a sequence of repeated metadata values. Call this method
    * in preference to using [.emitRepeated] directly to protect against unbounded reentrant logging.
    */
-  public fun safeEmitRepeated(values: Iterator<T>, kvh: KMetadataKeyKeyValueHandler) {}
+  public actual fun safeEmitRepeated(
+    values: Iterator<T>,
+    kvh: KMetadataKeyKeyValueHandler
+  ) {
+  }
 
   /**
    * Override this method to provide custom logic for emitting one or more key/value pairs for a
@@ -130,7 +118,8 @@ public actual open class KMetadataKey<T> {
    *
    * By default this method just calls `out.handle(getLabel(), value)`.
    */
-  protected actual open fun emit(value: T, kvh: KMetadataKeyKeyValueHandler) {}
+  protected actual open fun emit(value: T, kvh: KMetadataKeyKeyValueHandler) {
+  }
 
   /**
    * Override this method to provide custom logic for emitting one or more key/value pairs for a
@@ -144,43 +133,16 @@ public actual open class KMetadataKey<T> {
    *
    * See the [.emit] method for additional caveats for custom implementations.
    */
-  protected fun emitRepeated(values: Iterator<T>, kvh: KMetadataKeyKeyValueHandler) {}
-
-  actual final override fun equals(obj: Any?): Boolean {
-    TODO("Not yet implemented")
-  }
-
-  actual override fun hashCode(): Int {
-    TODO("Not yet implemented")
-  }
-
-  actual override fun toString(): String {
-    TODO("Not yet implemented")
-  }
-
-  public actual companion object {
-    /**
-     * Creates a key for a single piece of metadata. If metadata is set more than once using this
-     * key for the same log statement, the last set value will be the one used, and other values
-     * will be ignored (although callers should never rely on this behavior).
-     *
-     * Key instances behave like singletons, and two key instances with the same label will still be
-     * considered distinct. The recommended approach is to always assign `MetadataKey` instances to
-     * static final constants.
-     */
-    // @JvmStatic
-    // TODO KFlogger: public fun <T> single(label: String, clazz: Class<out T>): MetadataKey<T>
-
-    /**
-     * Creates a key for a repeated piece of metadata. If metadata is added more than once using
-     * this key for a log statement, all values will be retained as key/value pairs in the order
-     * they were added.
-     *
-     * Key instances behave like singletons, and two key instances with the same label will still be
-     * considered distinct. The recommended approach is to always assign `MetadataKey` instances to
-     * static final constants.
-     */
-    // @JvmStatic
-    // public fun <T> repeated(label: String, clazz: Class<T>): MetadataKey<T>
+  protected actual open fun emitRepeated(
+    values: Iterator<T>,
+    kvh: KMetadataKeyKeyValueHandler
+  ) {
   }
 }
+
+public actual val <T> KMetadataKey<T>.label: String
+  get() = TODO()
+
+public actual val <T> KMetadataKey<T>.bloomFilterMask: Long
+  get() = TODO()
+

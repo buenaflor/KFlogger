@@ -4,18 +4,13 @@ import com.buenaflor.kflogger.KLevel
 
 public actual abstract class KLoggerBackend {
   /**
-   * Returns the logger name (which is usually a canonicalized class name) or `null` if not given.
-   */
-  public actual abstract val loggerName: String
-
-  /**
    * Returns whether logging is enabled for the given level for this backend. Different backends may
    * return different values depending on the class with which they are associated.
    */
-  public actual abstract fun isLoggable(lvl: KLevel?): Boolean
+  public actual abstract fun isLoggable(lvl: KLevel): Boolean
 
   /**
-   * Outputs the log statement represented by the given [LogData] instance.
+   * Outputs the log statement represented by the given [KLogData] instance.
    *
    * @param data user and logger supplied data to be rendered in a backend specific way. References
    *   to `data` must not be held after the [log] invocation returns.
@@ -26,7 +21,7 @@ public actual abstract class KLoggerBackend {
    * Handles an error in a log statement. Errors passed into this method are expected to have only
    * three distinct causes:
    * 1. Bad format strings in log messages (e.g. `"foo=%Q"`. These will always be instances of
-   *    [ParseException][com.buenaflor.kflogger.parser.ParseException] and contain human readable
+   *    [ParseException][com.google.common.flogger.parser.ParseException] and contain human readable
    *    error messages describing the problem.
    * 1. A backend optionally choosing not to handle errors from user code during formatting. This is
    *    not recommended (see below) but may be useful in testing or debugging.
@@ -50,5 +45,12 @@ public actual abstract class KLoggerBackend {
    *   after the [handleError] invocation returns.
    * @throws LoggingException to indicate an error which should be propagated into user code.
    */
-  public actual abstract fun handleError(error: RuntimeException?, badData: KLogData?)
+  public actual abstract fun handleError(
+    error: RuntimeException,
+    badData: KLogData
+  )
 }
+
+/** Returns the logger name (which is usually a canonicalized class name) or `null` if not given. */
+public actual val KLoggerBackend.loggerName: String? get() = TODO()
+

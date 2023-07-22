@@ -21,7 +21,7 @@ protected actual constructor(name: String) {
    *   internal Flogger data structures as part of the log aggregation feature. If `null` is
    *   returned, the corresponding call to `per(key, STRATEGY)` has no effect.
    */
-  protected actual abstract fun apply(key: T): Any?
+  public actual abstract fun apply(key: T): Any?
 
   public actual companion object {
     /**

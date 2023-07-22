@@ -1,15 +1,17 @@
 package com.buenaflor.kflogger
 
+
 /**
  * Callback interface to handle additional contextual `Metadata` in log statements. This interface
  * is only intended to be implemented by logger backend classes as part of handling metadata, and
  * should not be used in any general application code, other than to implement the
- * [MetadataKey.emit] method in this class.
+ * [KMetadataKey.emit] method in this class.
  */
 public expect interface KMetadataKeyKeyValueHandler {
   /** Handle a single key/value pair of contextual metadata for a log statement. */
   public fun handle(key: String?, value: Any?)
 }
+
 
 /**
  * Key for logging semi-structured metadata values.
@@ -19,7 +21,7 @@ public expect interface KMetadataKeyKeyValueHandler {
  * values with specific semantics and should not be seen as a replacement for logging arguments as
  * part of a formatted log message.
  *
- * Examples of where using `KMetadataKey` is suitable are:
+ * Examples of where using `MetadataKey` is suitable are:
  * * Logging a value with special semantics (e.g. values that are handled specially by the logger
  *   backend).
  * * Passing configuration to a specific logger backend to modify behaviour for individual log
@@ -35,12 +37,12 @@ public expect interface KMetadataKeyKeyValueHandler {
  * `equals()` (rather than '==') since this will be safe in cases where non-singleton keys exist,
  * and is just as fast if the keys are singletons.
  *
- * It is strongly recommended that any public [KMetadataKey] instances are defined as `public static
+ * It is strongly recommended that any public [MetadataKey] instances are defined as `public static
  * final` fields in a top-level or nested class which does no logging. Ideally a separate class
  * would be defined to hold only the keys, since this allows keys to be loaded very early in the
  * logging [Platform] lifecycle without risking any static initialization issues.
  *
- * Custom subclasses of `KMetadataKey` which override either of the protected [.emit] methods should
+ * Custom subclasses of `MetadataKey` which override either of the protected [.emit] methods should
  * take care to avoid calling any code which might trigger logging since this could lead to
  * unexpected recusrion, especially if the key is being logged as part of a `ScopedLoggingContext`.
  * While there is protection against unbounded reentrant logging in Flogger, it is still best
@@ -64,21 +66,18 @@ public expect interface KMetadataKeyKeyValueHandler {
  * enabled.
  */
 public expect open class KMetadataKey<T> {
-
+  /* TODO
   /**
-   * Returns a short, human readable text label which will prefix the metadata in cases where it is
-   * formatted as part of the log message.
+   * Constructor for custom key subclasses. Most use-cases will not require the use of custom keys,
+   * but occasionally it can be useful to create a specific subtype to control the formatting of
+   * values or to have a family of related keys with a common parent type.
    */
-  public val label: String
-
-  /**
-   * Returns a 64-bit bloom filter mask for this metadata key, usable by backend implementations to
-   * efficiently determine uniqueness of keys (e.g. for deduplication and grouping). This value is
-   * calculated on the assumption that there are normally not more than 10 distinct metadata keys
-   * being processed at any time. If more distinct keys need to be processed using this Bloom Filter
-   * mask, it will result in a higher than optimal false-positive rate.
-   */
-  public val bloomFilterMask: Long
+  protected constructor(label: String, clazz: java.lang.Class<out T>, canRepeat: Boolean) : this(
+      label,
+      clazz,
+      canRepeat,
+      true
+  )*/
 
   /** Cast an arbitrary value to the type of this key. */
   public fun cast(value: Any?): T
@@ -96,7 +95,7 @@ public expect open class KMetadataKey<T> {
    * Emits one or more key/value pairs for a sequence of repeated metadata values. Call this method
    * in preference to using [.emitRepeated] directly to protect against unbounded reentrant logging.
    */
-  // TODO KFlogger: public fun safeEmitRepeated(values: Iterator<T>, kvh: KeyValueHandler)
+  public fun safeEmitRepeated(values: Iterator<T>, kvh: KMetadataKeyKeyValueHandler)
 
   /**
    * Override this method to provide custom logic for emitting one or more key/value pairs for a
@@ -114,13 +113,13 @@ public expect open class KMetadataKey<T> {
    * times in performance critical code. Implementations must be very careful to avoid calling any
    * code which might risk deadlocks, stack overflow, concurrency issues or performance problems. In
    * particular, implementations of this method should be careful to avoid:
-   * * Calling any code which could log using the same `KMetadataKey` instance (unless you implement
+   * * Calling any code which could log using the same `MetadataKey` instance (unless you implement
    *   protection against reentrant calling in this method).
    * * Calling code which might block (e.g. performing file I/O or acquiring locks).
    * * Allocating non-trivial amounds of memory (e.g. recording values in an unbounded data
    *   structure).
    *
-   * If you do implement a `KMetadataKey` with non-trivial value processing, you should always make
+   * If you do implement a `MetadataKey` with non-trivial value processing, you should always make
    * it very clear in the documentation that the key may not be suitable for widespread use.
    *
    * By default this method just calls `out.handle(getLabel(), value)`.
@@ -139,39 +138,60 @@ public expect open class KMetadataKey<T> {
    *
    * See the [.emit] method for additional caveats for custom implementations.
    */
-  // TODO KFlogger:  protected fun emitRepeated(values: Iterator<T>, kvh: KeyValueHandler)
+  protected open fun emitRepeated(values: Iterator<T>, kvh: KMetadataKeyKeyValueHandler)
 
   // Prevent subclasses changing the singleton semantics of keys.
   final override fun hashCode(): Int
 
-  final override fun equals(obj: Any?): Boolean
+  final override fun equals(other: Any?): Boolean
 
   // Prevent subclasses using toString() for anything unexpected.
   final override fun toString(): String
 
-  public companion object {
-    /**
-     * Creates a key for a single piece of metadata. If metadata is set more than once using this
-     * key for the same log statement, the last set value will be the one used, and other values
-     * will be ignored (although callers should never rely on this behavior).
-     *
-     * Key instances behave like singletons, and two key instances with the same label will still be
-     * considered distinct. The recommended approach is to always assign `KMetadataKey` instances to
-     * static final constants.
-     */
-    // @JvmStatic
-    // TODO KFlogger: public fun <T> single(label: String, clazz: Class<out T>): KMetadataKey<T>
-
-    /**
-     * Creates a key for a repeated piece of metadata. If metadata is added more than once using
-     * this key for a log statement, all values will be retained as key/value pairs in the order
-     * they were added.
-     *
-     * Key instances behave like singletons, and two key instances with the same label will still be
-     * considered distinct. The recommended approach is to always assign `KMetadataKey` instances to
-     * static final constants.
-     */
-    // @JvmStatic
-    // public fun <T> repeated(label: String, clazz: Class<T>): KMetadataKey<T>
+  /* TODO KFlogger
+  companion object {
+  /**
+   * Creates a key for a single piece of metadata. If metadata is set more than once using this key
+   * for the same log statement, the last set value will be the one used, and other values will be
+   * ignored (although callers should never rely on this behavior).
+   *
+   *
+   * Key instances behave like singletons, and two key instances with the same label will still
+   * be considered distinct. The recommended approach is to always assign `MetadataKey`
+   * instances to static final constants.
+   */
+  fun <T> single(label: String, clazz: java.lang.Class<out T>): MetadataKey<T> {
+      return MetadataKey(label, clazz, false, false)
   }
+
+  /**
+   * Creates a key for a repeated piece of metadata. If metadata is added more than once using this
+   * key for a log statement, all values will be retained as key/value pairs in the order they were
+   * added.
+   *
+   *
+   * Key instances behave like singletons, and two key instances with the same label will still
+   * be considered distinct. The recommended approach is to always assign `MetadataKey`
+   * instances to static final constants.
+   */
+  fun <T> repeated(label: String, clazz: java.lang.Class<T>): MetadataKey<T> {
+      return MetadataKey(label, clazz, true, false)
+  }
+      }
+       */
 }
+
+/**
+ * Returns a short, human readable text label which will prefix the metadata in cases where it is
+ * formatted as part of the log message.
+ */
+public expect val <T> KMetadataKey<T>.label: String
+
+/**
+ * Returns a 64-bit bloom filter mask for this metadata key, usable by backend implementations to
+ * efficiently determine uniqueness of keys (e.g. for deduplication and grouping). This value is
+ * calculated on the assumption that there are normally not more than 10 distinct metadata keys
+ * being processed at any time. If more distinct keys need to be processed using this Bloom Filter
+ * mask, it will result in a higher than optimal false-positive rate.
+ */
+public expect val <T> KMetadataKey<T>.bloomFilterMask: Long

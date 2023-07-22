@@ -662,84 +662,6 @@ public actual interface KLoggingApi<API : KLoggingApi<API>?> {
   public actual fun atMostEvery(n: Int, unit: KTimeUnit?): API
 
   /**
-   * Aggregates stateful logging with respect to a given `key`.
-   *
-   * Normally log statements with conditional behaviour (e.g. rate limiting) use the same state for
-   * each invocation (e.g. counters or timestamps). This method allows an additional qualifier to be
-   * given which allows for different conditional state for each unique qualifier.
-   *
-   * This only makes a difference for log statements which use persistent state to control
-   * conditional behaviour (e.g. `atMostEvery()` or `every()`).
-   *
-   * This is the most general form of log aggregation and allows any keys to be used, but it
-   * requires the caller to have chosen a bucketing strategy. Where it is possible to refactor code
-   * to avoid passing keys from an unbounded space into the `per(...)` method (e.g. by mapping cases
-   * to an `Enum`), this is usually preferable.
-   *
-   * When using this method, a bucketing strategy is needed to reduce the risk of leaking memory.
-   * Consider the alternate API:
-   * <pre>`// Rate limit per unique error message ("No such file", "File corrupted" etc.).
-   * logger.atWarning().per(error.getMessage()).atMostEvery(30, SECONDS).log(...);
-   * `</pre> *
-   *
-   * A method such as the one above would need to store some record of all the unique messages it
-   * has seen in order to perform aggregation. This means that the API would suffer a potentially
-   * unbounded memory leak if a timestamp were included in the message (since all values would now
-   * be unique and need to be retained).
-   *
-   * To fix (or at least mitigate) this issue, a [LogPerBucketingStrategy] is passed to provide a
-   * mapping from "unbounded key space" (e.g. arbitrary strings) to a bounded set of "bucketed"
-   * values. In the case of error messages, you might implement a bucketing strategy to classify
-   * error messages based on the type of error.
-   *
-   * This method is most useful in helping to avoid cases where a rare event might never be logged
-   * due to rate limiting. For example, the following code will cause log statements with different
-   * types of `errorMessage`s to be rate-limited independently of each other.
-   * <pre>`// Rate limit for each type of error (FileNotFoundException, CorruptedFileException etc.).
-   * logger.atInfo().per(error, byClass()).atMostEvery(30, SECONDS).log(...);
-   * `</pre> *
-   *
-   * If a user knows that the given `key` values really do form a strictly bounded set, the
-   * [KLogPerBucketingStrategy.knownBounded] strategy can be used, but it should always be
-   * documented as to why this is safe.
-   *
-   * The `key` passed to this method should always be a variable (passing a constant value has no
-   * effect). If a `null` key is passed, this call has no effect (e.g. rate limiting will apply
-   * normally, without respect to any specific scope).
-   *
-   * If multiple aggregation keys are added to a single log statement, then they all take effect and
-   * logging is aggregated by the unique combination of keys passed to all "per" methods.
-   */
-  public actual fun <T> per(key: T, strategy: KLogPerBucketingStrategy<in T>?): API
-
-  /**
-   * Associates a metadata key constant with a runtime value for this log statement in a structured
-   * way that is accessible to logger backends.
-   *
-   * This method is not a replacement for general parameter passing in the [.log] method and should
-   * be reserved for keys/values with specific semantics. Examples include:
-   * * Keys that are recognised by specific logger backends (typically to control logging behaviour
-   *   in some way).
-   * * Key value pairs which are explicitly extracted from logs by tools.
-   *
-   * Metadata keys can support repeated values (see [MetadataKey.canRepeat]), and if a repeatable
-   * key is used multiple times in the same log statement, the effect is to collect all the given
-   * values in order. If a non-repeatable key is passed multiple times, only the last value is
-   * retained (though callers should not rely on this behavior and should simply avoid repeating
-   * non-repeatable keys).
-   *
-   * If `value` is `null`, this method is a no-op. This is useful for specifying conditional values
-   * (e.g. via `logger.atInfo().with(MY_KEY, getValueOrNull()).log(...)`).
-   *
-   * @param key the metadata key (expected to be a static constant)
-   * @param value a value to be associated with the key in this log statement. Null values are
-   *   allowed, but the effect is always a no-op
-   * @throws NullPointerException if the given key is null
-   * @see MetadataKey
-   */
-  public actual fun <T> with(key: KMetadataKey<T>?, value: T): API
-
-  /**
    * Sets a boolean metadata key constant to `true` for this log statement in a structured way that
    * is accessible to logger backends.
    *
@@ -792,5 +714,420 @@ public actual interface KLoggingApi<API : KLoggingApi<API>?> {
    *
    * always evaluates to `false` .
    */
-  public actual val isEnabled: Boolean
+  public actual fun isEnabled(): Boolean
+
+  /**
+   * Aggregates stateful logging with respect to a given `key`.
+   *
+   * Normally log statements with conditional behaviour (e.g. rate limiting) use the same state for
+   * each invocation (e.g. counters or timestamps). This method allows an additional qualifier to be
+   * given which allows for different conditional state for each unique qualifier.
+   *
+   * This only makes a difference for log statements which use persistent state to control
+   * conditional behaviour (e.g. `atMostEvery()` or `every()`).
+   *
+   * This is the most general form of log aggregation and allows any keys to be used, but it
+   * requires the caller to have chosen a bucketing strategy. Where it is possible to refactor code
+   * to avoid passing keys from an unbounded space into the `per(...)` method (e.g. by mapping cases
+   * to an `Enum`), this is usually preferable.
+   *
+   * When using this method, a bucketing strategy is needed to reduce the risk of leaking memory.
+   * Consider the alternate API:
+   * <pre>`// Rate limit per unique error message ("No such file", "File corrupted" etc.).
+   * logger.atWarning().per(error.getMessage()).atMostEvery(30, SECONDS).log(...);
+   * `</pre> *
+   *
+   * A method such as the one above would need to store some record of all the unique messages it
+   * has seen in order to perform aggregation. This means that the API would suffer a potentially
+   * unbounded memory leak if a timestamp were included in the message (since all values would now
+   * be unique and need to be retained).
+   *
+   * To fix (or at least mitigate) this issue, a [LogPerBucketingStrategy] is passed to provide a
+   * mapping from "unbounded key space" (e.g. arbitrary strings) to a bounded set of "bucketed"
+   * values. In the case of error messages, you might implement a bucketing strategy to classify
+   * error messages based on the type of error.
+   *
+   * This method is most useful in helping to avoid cases where a rare event might never be logged
+   * due to rate limiting. For example, the following code will cause log statements with different
+   * types of `errorMessage`s to be rate-limited independently of each other.
+   * <pre>`// Rate limit for each type of error (FileNotFoundException, CorruptedFileException etc.).
+   * logger.atInfo().per(error, byClass()).atMostEvery(30, SECONDS).log(...);
+   * `</pre> *
+   *
+   * If a user knows that the given `key` values really do form a strictly bounded set, the
+   * [LogPerBucketingStrategy.knownBounded] strategy can be used, but it should always be documented
+   * as to why this is safe.
+   *
+   * The `key` passed to this method should always be a variable (passing a constant value has no
+   * effect). If a `null` key is passed, this call has no effect (e.g. rate limiting will apply
+   * normally, without respect to any specific scope).
+   *
+   * If multiple aggregation keys are added to a single log statement, then they all take effect and
+   * logging is aggregated by the unique combination of keys passed to all "per" methods.
+   */
+  public actual fun <T> per(key: T?, strategy: KLogPerBucketingStrategy<in T>): API
+
+  /**
+   * Associates a metadata key constant with a runtime value for this log statement in a structured
+   * way that is accessible to logger backends.
+   *
+   * This method is not a replacement for general parameter passing in the [.log] method and should
+   * be reserved for keys/values with specific semantics. Examples include:
+   * * Keys that are recognised by specific logger backends (typically to control logging behaviour
+   *   in some way).
+   * * Key value pairs which are explicitly extracted from logs by tools.
+   *
+   * Metadata keys can support repeated values (see [MetadataKey.canRepeat]), and if a repeatable
+   * key is used multiple times in the same log statement, the effect is to collect all the given
+   * values in order. If a non-repeatable key is passed multiple times, only the last value is
+   * retained (though callers should not rely on this behavior and should simply avoid repeating
+   * non-repeatable keys).
+   *
+   * If `value` is `null`, this method is a no-op. This is useful for specifying conditional values
+   * (e.g. via `logger.atInfo().with(MY_KEY, getValueOrNull()).log(...)`).
+   *
+   * @param key the metadata key (expected to be a static constant)
+   * @param value a value to be associated with the key in this log statement. Null values are
+   *   allowed, but the effect is always a no-op
+   * @throws NullPointerException if the given key is null
+   * @see MetadataKey
+   */
+  public actual fun <T> with(key: KMetadataKey<T>, value: T?): API
+}
+
+/**
+ * An implementation of {@link KLoggingApi} which does nothing and discards all parameters.
+ *
+ * <p>
+ * This class (or a subclass in the case of an extended API) should be returned whenever logging is
+ * definitely disabled (e.g. when the log level is too low).
+ */
+public actual open class KLoggingApiNoOp<API : KLoggingApi<API>> : KLoggingApi<API> {
+  protected actual fun noOp(): API {
+    return this as API
+  }
+
+  actual override fun withCause(cause: Throwable?): API {
+    return noOp()
+  }
+
+  actual final override fun every(n: Int): API {
+    return noOp()
+  }
+
+  actual final override fun onAverageEvery(n: Int): API {
+    return noOp()
+  }
+
+  actual final override fun atMostEvery(n: Int, unit: KTimeUnit?): API {
+    return noOp()
+  }
+
+  actual final override fun <T> per(key: T?, strategy: KLogPerBucketingStrategy<in T>): API {
+    return noOp()
+  }
+
+  actual final override fun per(key: Enum<*>?): API {
+    return noOp()
+  }
+
+  actual final override fun per(scopeProvider: KLoggingScopeProvider?): API {
+    return noOp()
+  }
+
+  actual final override fun withStackTrace(size: KStackSize?): API {
+    return noOp()
+  }
+
+  actual final override fun <T> with(key: KMetadataKey<T>, value: T?): API {
+    return noOp()
+  }
+
+  actual final override fun with(key: KMetadataKey<Boolean?>?): API {
+    return noOp()
+  }
+
+  actual final override fun withInjectedLogSite(logSite: KLogSite?): API {
+    return noOp()
+  }
+
+  actual final override fun withInjectedLogSite(
+    internalClassName: String?,
+    methodName: String?,
+    encodedLineNumber: Int,
+    sourceFileName: String?
+  ): API {
+    return noOp()
+  }
+
+  actual final override fun isEnabled(): Boolean {
+    return false
+  }
+
+  actual final override fun logVarargs(message: String?, varargs: Array<Any?>?) {}
+
+  actual final override fun log() {}
+
+  actual final override fun log(msg: String?) {}
+
+  // ---- Overloads for object arguments (to avoid vararg array creation). ----
+
+  actual final override fun log(msg: String?, p1: Any?) {}
+
+  actual final override fun log(msg: String?, p1: Any?, p2: Any?) {}
+
+  actual final override fun log(msg: String?, p1: Any?, p2: Any?, p3: Any?) {}
+
+  actual final override fun log(msg: String?, p1: Any?, p2: Any?, p3: Any?, p4: Any?) {}
+
+  actual final override fun log(msg: String?, p1: Any?, p2: Any?, p3: Any?, p4: Any?, p5: Any?) {}
+
+  actual final override fun log(
+    msg: String?,
+    p1: Any?,
+    p2: Any?,
+    p3: Any?,
+    p4: Any?,
+    p5: Any?,
+    p6: Any?
+  ) {}
+
+  actual final override fun log(
+    msg: String?,
+    p1: Any?,
+    p2: Any?,
+    p3: Any?,
+    p4: Any?,
+    p5: Any?,
+    p6: Any?,
+    p7: Any?
+  ) {}
+
+  actual final override fun log(
+    msg: String?,
+    p1: Any?,
+    p2: Any?,
+    p3: Any?,
+    p4: Any?,
+    p5: Any?,
+    p6: Any?,
+    p7: Any?,
+    p8: Any?
+  ) {}
+
+  actual final override fun log(
+    msg: String?,
+    p1: Any?,
+    p2: Any?,
+    p3: Any?,
+    p4: Any?,
+    p5: Any?,
+    p6: Any?,
+    p7: Any?,
+    p8: Any?,
+    p9: Any?
+  ) {}
+
+  actual final override fun log(
+    msg: String?,
+    p1: Any?,
+    p2: Any?,
+    p3: Any?,
+    p4: Any?,
+    p5: Any?,
+    p6: Any?,
+    p7: Any?,
+    p8: Any?,
+    p9: Any?,
+    p10: Any?
+  ) {}
+
+  actual final override fun log(
+    msg: String?,
+    p1: Any?,
+    p2: Any?,
+    p3: Any?,
+    p4: Any?,
+    p5: Any?,
+    p6: Any?,
+    p7: Any?,
+    p8: Any?,
+    p9: Any?,
+    p10: Any?,
+    vararg rest: Any?
+  ) {}
+
+  // ---- Overloads for a single argument (to avoid auto-boxing and vararg array creation). ----
+
+  actual final override fun log(msg: String?, p1: Char) {}
+
+  actual final override fun log(msg: String?, p1: Byte) {}
+
+  actual final override fun log(msg: String?, p1: Short) {}
+
+  actual final override fun log(msg: String?, p1: Int) {}
+
+  actual final override fun log(msg: String?, p1: Long) {}
+
+  // ---- Overloads for two arguments (to avoid auto-boxing and vararg array creation). ----
+
+  actual final override fun log(msg: String?, p1: Any?, p2: Boolean) {}
+
+  actual final override fun log(msg: String?, p1: Any?, p2: Char) {}
+
+  actual final override fun log(msg: String?, p1: Any?, p2: Byte) {}
+
+  actual final override fun log(msg: String?, p1: Any?, p2: Short) {}
+
+  actual final override fun log(msg: String?, p1: Any?, p2: Int) {}
+
+  actual final override fun log(msg: String?, p1: Any?, p2: Long) {}
+
+  actual final override fun log(msg: String?, p1: Any?, p2: Float) {}
+
+  actual final override fun log(msg: String?, p1: Any?, p2: Double) {}
+
+  actual final override fun log(msg: String?, p1: Boolean, p2: Any?) {}
+
+  actual final override fun log(msg: String?, p1: Char, p2: Any?) {}
+
+  actual final override fun log(msg: String?, p1: Byte, p2: Any?) {}
+
+  actual final override fun log(msg: String?, p1: Short, p2: Any?) {}
+
+  actual final override fun log(msg: String?, p1: Int, p2: Any?) {}
+
+  actual final override fun log(msg: String?, p1: Long, p2: Any?) {}
+
+  actual final override fun log(msg: String?, p1: Float, p2: Any?) {}
+
+  actual final override fun log(msg: String?, p1: Double, p2: Any?) {}
+
+  actual final override fun log(msg: String?, p1: Boolean, p2: Boolean) {}
+
+  actual final override fun log(msg: String?, p1: Char, p2: Boolean) {}
+
+  actual final override fun log(msg: String?, p1: Byte, p2: Boolean) {}
+
+  actual final override fun log(msg: String?, p1: Short, p2: Boolean) {}
+
+  actual final override fun log(msg: String?, p1: Int, p2: Boolean) {}
+
+  actual final override fun log(msg: String?, p1: Long, p2: Boolean) {}
+
+  actual final override fun log(msg: String?, p1: Float, p2: Boolean) {}
+
+  actual final override fun log(msg: String?, p1: Double, p2: Boolean) {}
+
+  actual final override fun log(msg: String?, p1: Boolean, p2: Char) {}
+
+  actual final override fun log(msg: String?, p1: Char, p2: Char) {}
+
+  actual final override fun log(msg: String?, p1: Byte, p2: Char) {}
+
+  actual final override fun log(msg: String?, p1: Short, p2: Char) {}
+
+  actual final override fun log(msg: String?, p1: Int, p2: Char) {}
+
+  actual final override fun log(msg: String?, p1: Long, p2: Char) {}
+
+  actual final override fun log(msg: String?, p1: Float, p2: Char) {}
+
+  actual final override fun log(msg: String?, p1: Double, p2: Char) {}
+
+  actual final override fun log(msg: String?, p1: Boolean, p2: Byte) {}
+
+  actual final override fun log(msg: String?, p1: Char, p2: Byte) {}
+
+  actual final override fun log(msg: String?, p1: Byte, p2: Byte) {}
+
+  actual final override fun log(msg: String?, p1: Short, p2: Byte) {}
+
+  actual final override fun log(msg: String?, p1: Int, p2: Byte) {}
+
+  actual final override fun log(msg: String?, p1: Long, p2: Byte) {}
+
+  actual final override fun log(msg: String?, p1: Float, p2: Byte) {}
+
+  actual final override fun log(msg: String?, p1: Double, p2: Byte) {}
+
+  actual final override fun log(msg: String?, p1: Boolean, p2: Short) {}
+
+  actual final override fun log(msg: String?, p1: Char, p2: Short) {}
+
+  actual final override fun log(msg: String?, p1: Byte, p2: Short) {}
+
+  actual final override fun log(msg: String?, p1: Short, p2: Short) {}
+
+  actual final override fun log(msg: String?, p1: Int, p2: Short) {}
+
+  actual final override fun log(msg: String?, p1: Long, p2: Short) {}
+
+  actual final override fun log(msg: String?, p1: Float, p2: Short) {}
+
+  actual final override fun log(msg: String?, p1: Double, p2: Short) {}
+
+  actual final override fun log(msg: String?, p1: Boolean, p2: Int) {}
+
+  actual final override fun log(msg: String?, p1: Char, p2: Int) {}
+
+  actual final override fun log(msg: String?, p1: Byte, p2: Int) {}
+
+  actual final override fun log(msg: String?, p1: Short, p2: Int) {}
+
+  actual final override fun log(msg: String?, p1: Int, p2: Int) {}
+
+  actual final override fun log(msg: String?, p1: Long, p2: Int) {}
+
+  actual final override fun log(msg: String?, p1: Float, p2: Int) {}
+
+  actual final override fun log(msg: String?, p1: Double, p2: Int) {}
+
+  actual final override fun log(msg: String?, p1: Boolean, p2: Long) {}
+
+  actual final override fun log(msg: String?, p1: Char, p2: Long) {}
+
+  actual final override fun log(msg: String?, p1: Byte, p2: Long) {}
+
+  actual final override fun log(msg: String?, p1: Short, p2: Long) {}
+
+  actual final override fun log(msg: String?, p1: Int, p2: Long) {}
+
+  actual final override fun log(msg: String?, p1: Long, p2: Long) {}
+
+  actual final override fun log(msg: String?, p1: Float, p2: Long) {}
+
+  actual final override fun log(msg: String?, p1: Double, p2: Long) {}
+
+  actual final override fun log(msg: String?, p1: Boolean, p2: Float) {}
+
+  actual final override fun log(msg: String?, p1: Char, p2: Float) {}
+
+  actual final override fun log(msg: String?, p1: Byte, p2: Float) {}
+
+  actual final override fun log(msg: String?, p1: Short, p2: Float) {}
+
+  actual final override fun log(msg: String?, p1: Int, p2: Float) {}
+
+  actual final override fun log(msg: String?, p1: Long, p2: Float) {}
+
+  actual final override fun log(msg: String?, p1: Float, p2: Float) {}
+
+  actual final override fun log(msg: String?, p1: Double, p2: Float) {}
+
+  actual final override fun log(msg: String?, p1: Boolean, p2: Double) {}
+
+  actual final override fun log(msg: String?, p1: Char, p2: Double) {}
+
+  actual final override fun log(msg: String?, p1: Byte, p2: Double) {}
+
+  actual final override fun log(msg: String?, p1: Short, p2: Double) {}
+
+  actual final override fun log(msg: String?, p1: Int, p2: Double) {}
+
+  actual final override fun log(msg: String?, p1: Long, p2: Double) {}
+
+  actual final override fun log(msg: String?, p1: Float, p2: Double) {}
+
+  actual final override fun log(msg: String?, p1: Double, p2: Double) {}
 }

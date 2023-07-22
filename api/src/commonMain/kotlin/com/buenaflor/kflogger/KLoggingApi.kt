@@ -188,7 +188,7 @@ public expect interface KLoggingApi<API : KLoggingApi<API>?> {
    * If multiple aggregation keys are added to a single log statement, then they all take effect and
    * logging is aggregated by the unique combination of keys passed to all "per" methods.
    */
-  public fun <T> per(key: T, strategy: KLogPerBucketingStrategy<in T>?): API
+  public fun <T> per(key: T?, strategy: KLogPerBucketingStrategy<in T>): API
 
   /**
    * Aggregates stateful logging with respect to the given enum value.
@@ -289,7 +289,7 @@ public expect interface KLoggingApi<API : KLoggingApi<API>?> {
    * @throws NullPointerException if the given key is null
    * @see MetadataKey
    */
-  public fun <T> with(key: KMetadataKey<T>?, value: T): API
+  public fun <T> with(key: KMetadataKey<T>, value: T?): API
 
   /**
    * Sets a boolean metadata key constant to `true` for this log statement in a structured way that
@@ -411,7 +411,7 @@ public expect interface KLoggingApi<API : KLoggingApi<API>?> {
    *
    * always evaluates to `false` .
    */
-  public val isEnabled: Boolean
+  public fun isEnabled(): Boolean
 
   /**
    * Logs a formatted representation of values in the given array, using the specified message
@@ -809,4 +809,312 @@ public expect interface KLoggingApi<API : KLoggingApi<API>?> {
 
   /** Logs a message with formatted arguments (see [.log] for details). */
   public fun log(msg: String?, p1: Double, p2: Double)
+}
+
+/**
+ * An implementation of {@link KLoggingApi} which does nothing and discards all parameters.
+ *
+ * <p>
+ * This class (or a subclass in the case of an extended API) should be returned whenever logging is
+ * definitely disabled (e.g. when the log level is too low).
+ */
+public expect open class KLoggingApiNoOp<API : KLoggingApi<API>>() : KLoggingApi<API> {
+    protected fun noOp(): API
+
+    public final override fun withCause(cause: Throwable?): API
+
+    public final override fun every(n: Int): API
+
+    public final override fun onAverageEvery(n: Int): API
+
+    public final override fun atMostEvery(n: Int, unit: KTimeUnit?): API
+
+    public final override fun <T> per(key: T?, strategy: KLogPerBucketingStrategy<in T>): API
+
+    public final override fun per(key: Enum<*>?): API
+
+    public final override fun per(scopeProvider: KLoggingScopeProvider?): API
+
+    public final override fun withStackTrace(size: KStackSize?): API
+
+    public final override fun <T> with(key: KMetadataKey<T>, value: T?): API
+
+    public final override fun with(key: KMetadataKey<Boolean?>?): API
+
+    public final override fun withInjectedLogSite(logSite: KLogSite?): API
+
+    public final override fun withInjectedLogSite(
+        internalClassName: String?,
+        methodName: String?,
+        encodedLineNumber: Int,
+        sourceFileName: String?
+    ): API
+
+    public final override fun isEnabled(): Boolean
+
+    public final override fun logVarargs(message: String?, varargs: Array<Any?>?)
+
+    public final override fun log()
+
+    public final override fun log(msg: String?)
+
+    // ---- Overloads for object arguments (to avoid vararg array creation). ----
+
+    public final override fun log(msg: String?, p1: Any?)
+
+    public final override fun log(msg: String?, p1: Any?, p2: Any?)
+
+    public final override fun log(msg: String?, p1: Any?, p2: Any?, p3: Any?)
+
+    public final override fun log(msg: String?, p1: Any?, p2: Any?, p3: Any?, p4: Any?)
+
+    public final override fun log(msg: String?, p1: Any?, p2: Any?, p3: Any?, p4: Any?, p5: Any?)
+
+    public final override fun log(msg: String?, p1: Any?, p2: Any?, p3: Any?, p4: Any?, p5: Any?, p6: Any?)
+
+    public final override fun log(
+        msg: String?,
+        p1: Any?,
+        p2: Any?,
+        p3: Any?,
+        p4: Any?,
+        p5: Any?,
+        p6: Any?,
+        p7: Any?
+    )
+
+    public final override fun log(
+        msg: String?,
+        p1: Any?,
+        p2: Any?,
+        p3: Any?,
+        p4: Any?,
+        p5: Any?,
+        p6: Any?,
+        p7: Any?,
+        p8: Any?
+    )
+
+    public final override fun log(
+        msg: String?,
+        p1: Any?,
+        p2: Any?,
+        p3: Any?,
+        p4: Any?,
+        p5: Any?,
+        p6: Any?,
+        p7: Any?,
+        p8: Any?,
+        p9: Any?
+    )
+
+    public final override fun log(
+        msg: String?,
+        p1: Any?,
+        p2: Any?,
+        p3: Any?,
+        p4: Any?,
+        p5: Any?,
+        p6: Any?,
+        p7: Any?,
+        p8: Any?,
+        p9: Any?,
+        p10: Any?
+    )
+
+    public final override fun log(
+        msg: String?,
+        p1: Any?,
+        p2: Any?,
+        p3: Any?,
+        p4: Any?,
+        p5: Any?,
+        p6: Any?,
+        p7: Any?,
+        p8: Any?,
+        p9: Any?,
+        p10: Any?,
+        vararg rest: Any?
+    )
+
+    // ---- Overloads for a single argument (to avoid auto-boxing and vararg array creation). ----
+
+    public final override fun log(msg: String?, p1: Char)
+
+    public final override fun log(msg: String?, p1: Byte)
+
+    public final override fun log(msg: String?, p1: Short)
+
+    public final override fun log(msg: String?, p1: Int)
+
+    public final override fun log(msg: String?, p1: Long)
+
+    // ---- Overloads for two arguments (to avoid auto-boxing and vararg array creation). ----
+
+    /*
+     * It may not be obvious why we need _all_ combinations of final override fundamental types here (because some
+     * combinations should be rare enough that we can ignore them). However due to the precedence in
+     * the Java compiler for converting final override fundamental types in preference to auto-boxing, and the need
+     * to preserve information about the original type (byte, short, char etc...) when doing unsigned
+     * formatting, it turns out that all combinations are required.
+     */
+    public final override fun log(msg: String?, p1: Any?, p2: Boolean)
+
+    public final override fun log(msg: String?, p1: Any?, p2: Char)
+
+    public final override fun log(msg: String?, p1: Any?, p2: Byte)
+
+    public final override fun log(msg: String?, p1: Any?, p2: Short)
+
+    public final override fun log(msg: String?, p1: Any?, p2: Int)
+
+    public final override fun log(msg: String?, p1: Any?, p2: Long)
+
+    public final override fun log(msg: String?, p1: Any?, p2: Float)
+
+    public final override fun log(msg: String?, p1: Any?, p2: Double)
+
+    public final override fun log(msg: String?, p1: Boolean, p2: Any?)
+
+    public final override fun log(msg: String?, p1: Char, p2: Any?)
+
+    public final override fun log(msg: String?, p1: Byte, p2: Any?)
+
+    public final override fun log(msg: String?, p1: Short, p2: Any?)
+
+    public final override fun log(msg: String?, p1: Int, p2: Any?)
+
+    public final override fun log(msg: String?, p1: Long, p2: Any?)
+
+    public final override fun log(msg: String?, p1: Float, p2: Any?)
+
+    public final override fun log(msg: String?, p1: Double, p2: Any?)
+
+    public final override fun log(msg: String?, p1: Boolean, p2: Boolean)
+
+    public final override fun log(msg: String?, p1: Char, p2: Boolean)
+
+    public final override fun log(msg: String?, p1: Byte, p2: Boolean)
+
+    public final override fun log(msg: String?, p1: Short, p2: Boolean)
+
+    public final override fun log(msg: String?, p1: Int, p2: Boolean)
+
+    public final override fun log(msg: String?, p1: Long, p2: Boolean)
+
+    public final override fun log(msg: String?, p1: Float, p2: Boolean)
+
+    public final override fun log(msg: String?, p1: Double, p2: Boolean)
+
+    public final override fun log(msg: String?, p1: Boolean, p2: Char)
+
+    public final override fun log(msg: String?, p1: Char, p2: Char)
+
+    public final override fun log(msg: String?, p1: Byte, p2: Char)
+
+    public final override fun log(msg: String?, p1: Short, p2: Char)
+
+    public final override fun log(msg: String?, p1: Int, p2: Char)
+
+    public final override fun log(msg: String?, p1: Long, p2: Char)
+
+    public final override fun log(msg: String?, p1: Float, p2: Char)
+
+    public final override fun log(msg: String?, p1: Double, p2: Char)
+
+    public final override fun log(msg: String?, p1: Boolean, p2: Byte)
+
+    public final override fun log(msg: String?, p1: Char, p2: Byte)
+
+    public final override fun log(msg: String?, p1: Byte, p2: Byte)
+
+    public final override fun log(msg: String?, p1: Short, p2: Byte)
+
+    public final override fun log(msg: String?, p1: Int, p2: Byte)
+
+    public final override fun log(msg: String?, p1: Long, p2: Byte)
+
+    public final override fun log(msg: String?, p1: Float, p2: Byte)
+
+    public final override fun log(msg: String?, p1: Double, p2: Byte)
+
+    public final override fun log(msg: String?, p1: Boolean, p2: Short)
+
+    public final override fun log(msg: String?, p1: Char, p2: Short)
+
+    public final override fun log(msg: String?, p1: Byte, p2: Short)
+
+    public final override fun log(msg: String?, p1: Short, p2: Short)
+
+    public final override fun log(msg: String?, p1: Int, p2: Short)
+
+    public final override fun log(msg: String?, p1: Long, p2: Short)
+
+    public final override fun log(msg: String?, p1: Float, p2: Short)
+
+    public final override fun log(msg: String?, p1: Double, p2: Short)
+
+    public final override fun log(msg: String?, p1: Boolean, p2: Int)
+
+    public final override fun log(msg: String?, p1: Char, p2: Int)
+
+    public final override fun log(msg: String?, p1: Byte, p2: Int)
+
+    public final override fun log(msg: String?, p1: Short, p2: Int)
+
+    public final override fun log(msg: String?, p1: Int, p2: Int)
+
+    public final override fun log(msg: String?, p1: Long, p2: Int)
+
+    public final override fun log(msg: String?, p1: Float, p2: Int)
+
+    public final override fun log(msg: String?, p1: Double, p2: Int)
+
+    public final override fun log(msg: String?, p1: Boolean, p2: Long)
+
+    public final override fun log(msg: String?, p1: Char, p2: Long)
+
+    public final override fun log(msg: String?, p1: Byte, p2: Long)
+
+    public final override fun log(msg: String?, p1: Short, p2: Long)
+
+    public final override fun log(msg: String?, p1: Int, p2: Long)
+
+    public final override fun log(msg: String?, p1: Long, p2: Long)
+
+    public final override fun log(msg: String?, p1: Float, p2: Long)
+
+    public final override fun log(msg: String?, p1: Double, p2: Long)
+
+    public final override fun log(msg: String?, p1: Boolean, p2: Float)
+
+    public final override fun log(msg: String?, p1: Char, p2: Float)
+
+    public final override fun log(msg: String?, p1: Byte, p2: Float)
+
+    public final override fun log(msg: String?, p1: Short, p2: Float)
+
+    public final override fun log(msg: String?, p1: Int, p2: Float)
+
+    public final override fun log(msg: String?, p1: Long, p2: Float)
+
+    public final override fun log(msg: String?, p1: Float, p2: Float)
+
+    public final override fun log(msg: String?, p1: Double, p2: Float)
+
+    public final override fun log(msg: String?, p1: Boolean, p2: Double)
+
+    public final override fun log(msg: String?, p1: Char, p2: Double)
+
+    public final override fun log(msg: String?, p1: Byte, p2: Double)
+
+    public final override fun log(msg: String?, p1: Short, p2: Double)
+
+    public final override fun log(msg: String?, p1: Int, p2: Double)
+
+    public final override fun log(msg: String?, p1: Long, p2: Double)
+
+    public final override fun log(msg: String?, p1: Float, p2: Double)
+
+    public final override fun log(msg: String?, p1: Double, p2: Double)
 }

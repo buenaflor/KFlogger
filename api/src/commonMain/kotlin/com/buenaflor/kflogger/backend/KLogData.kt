@@ -13,36 +13,6 @@ import com.buenaflor.kflogger.KLogSite
  * using the hierarchical key. See [Metadata].
  */
 public expect interface KLogData {
-  /** Returns the log level for the current log statement. */
-  public val level: KLevel?
-
-  @get:Deprecated("Use getTimestampNanos()") public val timestampMicros: Long
-
-  /** Returns a nanosecond timestamp for the current log statement. */
-  public val timestampNanos: Long
-
-  /**
-   * Returns the logger name (which is usually a canonicalized class name) or `null` if not given.
-   */
-  public val loggerName: String?
-
-  /**
-   * Returns the log site data for the current log statement.
-   *
-   * @throws IllegalStateException if called prior to the postProcess() method being called.
-   */
-  public val logSite: KLogSite?
-
-  /**
-   * Returns any additional metadata for this log statement. If no additional metadata is present,
-   * the immutable empty metadata instance is returned.
-   *
-   * IMPORTANT: The returned instance is restricted to metadata added at the log site, and will not
-   * include any scoped metadata to be applied to the log statement. To process combined log site
-   * and scoped metadata, obtain or create a [MetadataProcessor].
-   */
-  public val metadata: KMetadata?
-
   /**
    * Returns whether this log statement should be emitted regardless of its log level or any other
    * properties.
@@ -76,21 +46,50 @@ public expect interface KLogData {
    * [.getLiteralArgument]).
    */
   // TODO KFlogger: val templateContext: TemplateContext?
-
-  /**
-   * Returns the arguments to be formatted with the message. Arguments exist when a `log()` method
-   * with a format message and separate arguments was invoked.
-   *
-   * @throws IllegalStateException if no arguments are available (ie, when there is no template
-   *   context).
-   */
-  public val arguments: Array<Any?>?
-
-  /**
-   * Returns the single argument to be logged directly when no arguments were provided.
-   *
-   * @throws IllegalStateException if no single literal argument is available (ie, when a template
-   *   context exists).
-   */
-  public val literalArgument: Any?
 }
+
+/**
+ * Returns any additional metadata for this log statement. If no additional metadata is present,
+ * the immutable empty metadata instance is returned.
+ *
+ * IMPORTANT: The returned instance is restricted to metadata added at the log site, and will not
+ * include any scoped metadata to be applied to the log statement. To process combined log site
+ * and scoped metadata, obtain or create a [MetadataProcessor].
+ */
+public expect val KLogData.metadata: KMetadata?
+
+/** Returns the log level for the current log statement. */
+public expect val KLogData.level: KLevel?
+
+/** Returns a microsecond timestamp for the current log statement. */
+@Deprecated("Use timestampNanos") public  expect val KLogData.timestampMicros: Long
+
+/** Returns a nanosecond timestamp for the current log statement. */
+public  expect val KLogData.timestampNanos: Long
+
+/** Returns the logger name (which is usually a canonicalized class name) or `null` if not given. */
+public expect val KLogData.loggerName: String?
+
+/**
+ * Returns the log site data for the current log statement.
+ *
+ * @throws IllegalStateException if called prior to the postProcess() method being called.
+ */
+public expect val KLogData.logSite: KLogSite?
+
+/**
+ * Returns the arguments to be formatted with the message. Arguments exist when a `log()` method
+ * with a format message and separate arguments was invoked.
+ *
+ * @throws IllegalStateException if no arguments are available (ie, when there is no template
+ *   context).
+ */
+public expect val KLogData.arguments: Array<Any?>?
+
+/**
+ * Returns the single argument to be logged directly when no arguments were provided.
+ *
+ * @throws IllegalStateException if no single literal argument is available (ie, when a template
+ *   context exists).
+ */
+public expect val KLogData.literalArgument: Any?

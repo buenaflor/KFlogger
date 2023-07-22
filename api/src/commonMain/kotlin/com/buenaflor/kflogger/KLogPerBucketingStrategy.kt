@@ -42,9 +42,9 @@ public expect abstract class KLogPerBucketingStrategy<T> protected constructor(n
    *   internal Flogger data structures as part of the log aggregation feature. If `null` is
    *   returned, the corresponding call to `per(key, STRATEGY)` has no effect.
    */
-  protected abstract fun apply(key: T): Any?
+  public abstract fun apply(key: T): Any?
 
-  final override public fun toString(): String
+  public final override fun toString(): String
 
   public companion object {
     /**

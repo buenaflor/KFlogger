@@ -39,7 +39,7 @@ protected constructor(label: String) {
    * implementations, passing in a suitable qualifier (which need not be the scope itself, but must
    * be unique per scope).
    */
-  protected abstract fun specialize(key: KLogSiteKey?): KLogSiteKey?
+  public abstract fun specialize(key: KLogSiteKey?): KLogSiteKey?
 
   /**
    * Registers "hooks" which should be called when this scope is "closed". The hooks are intended to
@@ -52,7 +52,7 @@ protected constructor(label: String) {
    */
   // TODO KFlogger: protected abstract fun onClose(removalHook: java.lang.Runnable?)
 
-  final override fun toString(): String
+  public final override fun toString(): String
 
   public companion object {
     /**

@@ -8,6 +8,6 @@ package com.buenaflor.kflogger
  * different providers can provide different types of scope (e.g. you can have a provider for
  * "request" scopes and a provider for "sub-task" scopes)
  */
-public expect interface KLoggingScopeProvider {
-  public val currentScope: KLoggingScope?
-}
+public expect interface KLoggingScopeProvider
+
+public expect val KLoggingScopeProvider.currentScope: KLoggingScope?

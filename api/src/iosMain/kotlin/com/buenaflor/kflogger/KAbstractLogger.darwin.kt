@@ -6,13 +6,6 @@ import com.buenaflor.kflogger.backend.KLoggerBackend
 public actual abstract class KAbstractLogger<API : KLoggingApi<API>>
 protected actual constructor(backend: KLoggerBackend) {
   /**
-   * Returns the logging backend (not visible to logger subclasses to discourage tightly coupled
-   * implementations).
-   */
-  public actual val backend: KLoggerBackend
-    get() = TODO("Not yet implemented")
-
-  /**
    * Returns a fluent logging API appropriate for the specified log level.
    *
    * If a logger implementation determines that logging is definitely disabled at this point then
@@ -90,3 +83,5 @@ protected actual constructor(backend: KLoggerBackend) {
    */
   public actual fun write(data: KLogData) {}
 }
+
+public actual val <API : KLoggingApi<API>> KAbstractLogger<API>.backend: KLoggerBackend get() = TODO()

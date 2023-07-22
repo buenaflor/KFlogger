@@ -11,12 +11,6 @@ import com.buenaflor.kflogger.backend.KLoggerBackend
  */
 public expect abstract class KAbstractLogger<API : KLoggingApi<API>>
 protected constructor(backend: KLoggerBackend) {
-  /**
-   * Returns the logging backend (not visible to logger subclasses to discourage tightly coupled
-   * implementations).
-   */
-  public val backend: KLoggerBackend
-
   // ---- PUBLIC API ----
   /**
    * Returns a fluent logging API appropriate for the specified log level.
@@ -81,3 +75,9 @@ protected constructor(backend: KLoggerBackend) {
    */
   public fun write(data: KLogData)
 }
+
+/**
+ * Returns the logging backend (not visible to logger subclasses to discourage tightly coupled
+ * implementations).
+ */
+public expect val <API : KLoggingApi<API>> KAbstractLogger<API>.backend: KLoggerBackend
