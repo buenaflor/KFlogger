@@ -7,8 +7,6 @@ public actual typealias KLoggingApi<API> = LoggingApi<API>
 @Suppress("NO_ACTUAL_CLASS_MEMBER_FOR_EXPECTED_CLASS")
 public actual typealias KLoggingApiNoOp<API> = LoggingApi.NoOp<API>
 
-// ---- LogData API ----
-
 public actual val <LOGGER : KAbstractLogger<API>, API : KLoggingApi<API>> KLogContext<LOGGER, API>.level: KLevel? get() = level
 
 @Deprecated("")
