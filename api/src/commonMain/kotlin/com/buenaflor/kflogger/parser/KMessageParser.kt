@@ -32,7 +32,7 @@ public expect abstract class KMessageParser() {
    * method of the supplied builder once for each parameter place-holder in the message.
    */
   // TODO KFlogger : @Throws(com.buenaflor.kflogger.parser.ParseException::class)
-  public abstract fun <T> parseImpl(builder: KMessageBuilder<T>?)
+  protected abstract fun <T> parseImpl(builder: KMessageBuilder<T>?)
 
   /**
    * Appends the unescaped literal representation of the given message string (assumed to be escaped

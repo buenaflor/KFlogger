@@ -39,6 +39,7 @@ class KMessageBuilderTest {
 
   @Test
   fun testNotCrashing() {
+    // This test is to ensure that the code compiles and does not crash.
     messageBuilder.addParameter(0, 0, parameter)
     assertThat(messageBuilder.message).isEqualTo(templateContext.message)
     assertThat(messageBuilder.build()).isEqualTo("${templateContext.message} + 1")
