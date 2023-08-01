@@ -7,35 +7,30 @@ import com.buenaflor.kflogger.util.IgnoreIos
 import kotlin.test.Test
 
 class KBackendFactoryTest {
-    private class CompileOnlyLoggerBackend : KLoggerBackend() {
-        override fun isLoggable(lvl: KLevel): Boolean {
-            return false
-        }
-
-        override fun log(data: KLogData?) {
-
-        }
-
-        override fun handleError(error: RuntimeException, badData: KLogData) {
-
-        }
-
-        override fun getLoggerName(): String {
-            return ""
-        }
-
+  private class CompileOnlyLoggerBackend : KLoggerBackend() {
+    override fun isLoggable(lvl: KLevel): Boolean {
+      return false
     }
 
-    private class CompileOnlyBackendFactory : KBackendFactory() {
-        override fun create(loggingClassName: String): KLoggerBackend {
-            return CompileOnlyLoggerBackend()
-        }
-    }
+    override fun log(data: KLogData?) {}
 
-    @Test
-    @IgnoreIos
-    fun testNotCrashing() {
-        // This test is to ensure that the code compiles and does not crash.
-        CompileOnlyBackendFactory().create("test")
+    override fun handleError(error: RuntimeException, badData: KLogData) {}
+
+    override fun getLoggerName(): String {
+      return ""
     }
+  }
+
+  private class CompileOnlyBackendFactory : KBackendFactory() {
+    override fun create(loggingClassName: String): KLoggerBackend {
+      return CompileOnlyLoggerBackend()
+    }
+  }
+
+  @Test
+  @IgnoreIos
+  fun testNotCrashing() {
+    // This test is to ensure that the code compiles and does not crash.
+    CompileOnlyBackendFactory().create("test")
+  }
 }
