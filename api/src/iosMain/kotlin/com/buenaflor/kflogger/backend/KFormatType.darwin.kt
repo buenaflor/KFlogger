@@ -59,4 +59,12 @@ public actual enum class KFormatType {
   }
 
   public actual abstract fun canFormat(arg: Any?): Boolean
+
+  /**
+   * True if this format type requires a [Number] instance (or one of the corresponding fundamental
+   * types) as an argument.
+   */
+  public actual open fun isNumeric(): Boolean {
+    TODO("Not yet implemented")
+  }
 }

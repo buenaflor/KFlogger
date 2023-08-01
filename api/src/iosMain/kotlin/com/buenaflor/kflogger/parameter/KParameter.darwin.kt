@@ -31,10 +31,6 @@ protected actual constructor(options: KFormatOptions, index: Int) {
   /** Returns the formatting options. */
   protected actual val formatOptions: KFormatOptions = TODO()
 
-  public actual fun accept(visitor: KParameterVisitor, args: Array<Any?>) {
-    TODO()
-  }
-
   /** Returns the printf format string specified for this parameter (eg, "%d" or "%tc"). */
   public actual abstract fun getFormat(): String
 

@@ -36,5 +36,11 @@ public expect enum class KFormatType {
    */
   internal open fun supportsPrecision(): Boolean
 
+  /**
+   * True if this format type requires a [Number] instance (or one of the corresponding fundamental
+   * types) as an argument.
+   */
+  public open fun isNumeric(): Boolean
+
   public abstract fun canFormat(arg: Any?): Boolean
 }

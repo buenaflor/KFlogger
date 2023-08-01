@@ -9,18 +9,18 @@ import com.buenaflor.kflogger.util.IgnoreIos
 import kotlin.test.Test
 
 class KMessageBuilderTest {
-  val parser = TestKMessageParser()
+  val parser = CustomMessageParser()
   val templateContext = KTemplateContext(parser, "message")
-  val messageBuilder = TestKMessageBuilder<String>(templateContext)
-  val parameter = TestKParameter(KFormatOptions.getDefault(), 0)
+  val messageBuilder = CustomMessageBuilder<String>(templateContext)
+  val parameter = CustomParameter(KFormatOptions.getDefault(), 0)
 
-  class TestKMessageParser : KMessageParser() {
+  class CustomMessageParser : KMessageParser() {
     override fun <T> parseImpl(builder: KMessageBuilder<T>?) {}
 
     override fun unescape(out: StringBuilder?, message: String?, start: Int, end: Int) {}
   }
 
-  class TestKMessageBuilder<T>(val templateContext: KTemplateContext) :
+  class CustomMessageBuilder<T>(val templateContext: KTemplateContext) :
       KMessageBuilder<String>(templateContext) {
     override fun addParameterImpl(termStart: Int, termEnd: Int, param: KParameter) {}
 
@@ -29,7 +29,7 @@ class KMessageBuilderTest {
     }
   }
 
-  class TestKParameter(options: KFormatOptions, index: Int) : KParameter(options, index) {
+  class CustomParameter(options: KFormatOptions, index: Int) : KParameter(options, index) {
     override fun accept(visitor: KParameterVisitor, value: Any) {}
 
     override fun getFormat(): String {

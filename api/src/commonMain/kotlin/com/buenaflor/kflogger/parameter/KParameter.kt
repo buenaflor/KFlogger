@@ -30,8 +30,6 @@ public expect abstract class KParameter protected constructor(options: KFormatOp
   /** Returns the formatting options. */
   protected val formatOptions: KFormatOptions
 
-  public fun accept(visitor: KParameterVisitor, args: Array<Any?>)
-
   protected abstract fun accept(visitor: KParameterVisitor, value: Any)
 
   /** Returns the printf format string specified for this parameter (eg, "%d" or "%tc"). */
