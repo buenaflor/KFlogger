@@ -17,7 +17,6 @@ package com.buenaflor.kflogger.backend.system
 
 import com.buenaflor.kflogger.KLevel
 import com.buenaflor.kflogger.KLogRecord
-import com.buenaflor.kflogger.KLogger
 import com.buenaflor.kflogger.backend.KLoggerBackend
 
 /**
@@ -36,18 +35,6 @@ public actual abstract class KAbstractBackend protected actual constructor(loggi
    * are circumstances in which this can fail.
    */
   public actual fun log(record: KLogRecord, wasForced: Boolean) {
-    TODO()
-  }
-
-  // WARNING: This code will fail for anonymous loggers (getName() == null) and when Flogger
-  // supports anonymous loggers it must ensure that this code path is avoided by not allowing
-  // subclasses of Logger to be used.
-  internal actual fun forceLoggingViaChildLogger(record: KLogRecord) {}
-
-  // Pass in the logger (even though it's in our instance) so that it's accessible for testing
-  // without needing to make the field accessible.
-  // VisibleForTesting
-  internal actual fun getForcingLogger(parent: KLogger): KLogger {
     TODO()
   }
 }
