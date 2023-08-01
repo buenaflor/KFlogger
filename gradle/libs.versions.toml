@@ -20,6 +20,7 @@ mockito-core = { group = "org.mockito", name = "mockito-core", version.ref = "mo
 guava-jre = { group = "com.google.guava", name = "guava", version.ref = "guava-jre" }
 auto-service = { group = "com.google.auto.service", name = "auto-service", version.ref = "auto-service" }
 kruth = { group = "androidx.kruth", name = "kruth", version.ref = "kruth" }
+kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
 
 [plugins]
 kotlin-multiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }

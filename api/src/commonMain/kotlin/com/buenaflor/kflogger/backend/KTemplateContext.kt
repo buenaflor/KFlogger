@@ -19,23 +19,20 @@ import com.buenaflor.kflogger.parser.KMessageParser
 
 /**
  * A context object for templates that allows caches to validate existing templates or create new
- * ones. If two template contexts are equal (via [.equals]) then the templates they produce
- * are interchangeable.
- *
+ * ones. If two template contexts are equal (via [.equals]) then the templates they produce are
+ * interchangeable.
  *
  * Template contexts are created by the frontend and passed through to backend implementations via
  * the [LogData] interface.
  */
 public expect class KTemplateContext(parser: KMessageParser?, message: String?) {
-    override fun equals(other: Any?): Boolean
+  override fun equals(other: Any?): Boolean
 
-    override fun hashCode(): Int
+  override fun hashCode(): Int
 }
 
-/** Returns the message parser for the log statement.  */
+/** Returns the message parser for the log statement. */
 public expect val KTemplateContext.parser: KMessageParser
 
-/** Returns the message for the log statement.  */
+/** Returns the message for the log statement. */
 public expect val KTemplateContext.message: String
-
-

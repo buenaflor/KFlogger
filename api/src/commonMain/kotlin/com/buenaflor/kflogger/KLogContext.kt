@@ -2,6 +2,8 @@ package com.buenaflor.kflogger
 
 import com.buenaflor.kflogger.backend.KLogData
 import com.buenaflor.kflogger.backend.KMetadata
+import com.buenaflor.kflogger.backend.KTemplateContext
+import com.buenaflor.kflogger.parser.KMessageParser
 
 /**
  * The base context for a logging statement, which implements the base logging API.
@@ -66,7 +68,7 @@ public expect abstract class KLogContext<LOGGER : KAbstractLogger<API>, API : KL
   protected abstract fun noOp(): API
 
   /** Returns the msg parser used for all log statements made through this logger. */
-  // TODO KFlogger: protected abstract fun getMessageParser(): MessageParser?
+  protected abstract fun getMessageParser(): KMessageParser?
 
   // ---- LogData API ----
 
@@ -505,8 +507,8 @@ public expect val <LOGGER : KAbstractLogger<API>, API : KLoggingApi<API>> KLogCo
 public expect val <LOGGER : KAbstractLogger<API>, API : KLoggingApi<API>> KLogContext<
     LOGGER, API>.logSite: KLogSite?
 
-// TODO KFlogger: public expect val <LOGGER : KAbstractLogger<API>, API : KLoggingApi<API>>
-// KLogContext<LOGGER, API>.templateContext: TemplateContext
+public expect val <LOGGER : KAbstractLogger<API>, API : KLoggingApi<API>> KLogContext<
+    LOGGER, API>.templateContext: KTemplateContext
 
 public expect val <LOGGER : KAbstractLogger<API>, API : KLoggingApi<API>> KLogContext<
     LOGGER, API>.arguments: Array<Any?>?

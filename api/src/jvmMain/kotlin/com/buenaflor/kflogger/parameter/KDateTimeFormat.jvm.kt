@@ -4,4 +4,5 @@ package com.buenaflor.kflogger.parameter
 @Suppress("NO_ACTUAL_CLASS_MEMBER_FOR_EXPECTED_CLASS")
 public actual typealias KDateTimeFormat = DateTimeFormat
 
-public actual val KDateTimeFormat.char: Char get() = char
+public actual val KDateTimeFormat.char: Char
+  get() = char
