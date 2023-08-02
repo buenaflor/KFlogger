@@ -48,8 +48,7 @@ public actual abstract class KLoggerBackend {
   public actual abstract fun handleError(error: RuntimeException, badData: KLogData)
 
   /**
-   * Returns the logger name (which is usually a canonicalized class name) or `null` if not
-   * given.
+   * Returns the logger name (which is usually a canonicalized class name) or `null` if not given.
    */
   public actual abstract fun getLoggerName(): String
 }

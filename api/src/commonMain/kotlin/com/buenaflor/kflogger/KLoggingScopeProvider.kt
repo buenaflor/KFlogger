@@ -9,9 +9,9 @@ package com.buenaflor.kflogger
  * "request" scopes and a provider for "sub-task" scopes)
  */
 public expect interface KLoggingScopeProvider {
-    /**
-     * Returns the current scope (most likely via global or thread local state) or `null` if
-     * there is no current scope.
-     */
-    public fun getCurrentScope(): KLoggingScope?
+  /**
+   * Returns the current scope (most likely via global or thread local state) or `null` if there is
+   * no current scope.
+   */
+  public fun getCurrentScope(): KLoggingScope?
 }
