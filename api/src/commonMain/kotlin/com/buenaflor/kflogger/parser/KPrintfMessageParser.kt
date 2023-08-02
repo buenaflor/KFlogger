@@ -46,6 +46,7 @@ public expect abstract class KPrintfMessageParser() : KMessageParser {
      * @param formatStart the index of the (first) format character in the term.
      * @return the index after the last character of the term.
      */
+    @Throws(KParseException::class)
     protected abstract fun parsePrintfTerm(
         builder: KMessageBuilder<*>?,
         index: Int,
@@ -55,9 +56,10 @@ public expect abstract class KPrintfMessageParser() : KMessageParser {
         formatStart: Int
     ): Int
 
-    final override fun unescape(out: StringBuilder?, message: String?, start: Int, end: Int)
+    public final override fun unescape(out: StringBuilder?, message: String?, start: Int, end: Int)
 
-    final override fun <T> parseImpl(builder: KMessageBuilder<T>?)
+    @Throws(KParseException::class)
+    protected final override fun <T> parseImpl(builder: KMessageBuilder<T>?)
 
     public companion object {
         /**
@@ -71,6 +73,7 @@ public expect abstract class KPrintfMessageParser() : KMessageParser {
          * found).
          */
         // VisibleForTesting
+        @Throws(KParseException::class)
         internal fun nextPrintfTerm(message: String, pos: Int): Int
 
         /**

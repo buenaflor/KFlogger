@@ -10,6 +10,7 @@ package com.buenaflor.kflogger.parser
  * This class is immutable and thread safe (and any subclasses must also be so).
  */
 public expect class KDefaultPrintfMessageParser private constructor() : KPrintfMessageParser {
+    @Throws(KParseException::class)
     override fun parsePrintfTerm(
         builder: KMessageBuilder<*>?,
         index: Int,

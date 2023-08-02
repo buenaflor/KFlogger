@@ -31,7 +31,7 @@ public expect abstract class KMessageParser() {
    * Implementations of this method are required to invoke the [MessageBuilder.addParameterImpl]
    * method of the supplied builder once for each parameter place-holder in the message.
    */
-  // TODO KFlogger : @Throws(com.buenaflor.kflogger.parser.ParseException::class)
+  @Throws(KParseException::class)
   protected abstract fun <T> parseImpl(builder: KMessageBuilder<T>?)
 
   /**

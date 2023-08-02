@@ -38,5 +38,6 @@ class KPrintfMessageParserTest {
     fun testNotCrashing() {
         // This test is to ensure that the code compiles and does not crash.
         messageParser.unescape(StringBuilder(), "", 0, 0)
+
     }
 }

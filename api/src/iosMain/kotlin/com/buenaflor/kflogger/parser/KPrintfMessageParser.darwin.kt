@@ -46,6 +46,7 @@ public actual abstract class KPrintfMessageParser : KMessageParser() {
      * @param formatStart the index of the (first) format character in the term.
      * @return the index after the last character of the term.
      */
+    @Throws(KParseException::class)
     protected actual abstract fun parsePrintfTerm(
         builder: KMessageBuilder<*>?,
         index: Int,
@@ -59,6 +60,7 @@ public actual abstract class KPrintfMessageParser : KMessageParser() {
         TODO()
     }
 
+    @Throws(KParseException::class)
     actual final override fun <T> parseImpl(builder: KMessageBuilder<T>?) {
         TODO()
     }
@@ -77,6 +79,7 @@ public actual abstract class KPrintfMessageParser : KMessageParser() {
          * found).
          */
         // VisibleForTesting
+        @Throws(KParseException::class)
         internal actual fun nextPrintfTerm(message: String, pos: Int): Int {
             TODO()
         }
