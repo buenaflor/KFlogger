@@ -28,7 +28,12 @@ kotlin {
 
   sourceSets {
     val commonMain by getting
-    val commonTest by getting { dependencies { implementation(libs.kruth) } }
+    val commonTest by getting {
+      dependencies {
+        implementation(libs.kotlin.test)
+        implementation(libs.kruth)
+      }
+    }
     val jvmMain by getting {
       dependencies {
         implementation(libs.checker)
@@ -44,6 +49,7 @@ kotlin {
         implementation(libs.guava.jre)
         configurations["kaptTest"].dependencies.add(implementation(libs.auto.service.get()))
         implementation(libs.auto.service)
+        implementation(libs.kruth)
       }
     }
     val iosX64Main by getting
