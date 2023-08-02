@@ -4,6 +4,4 @@ package com.buenaflor.kflogger.context
 @Suppress("NO_ACTUAL_CLASS_MEMBER_FOR_EXPECTED_CLASS")
 public actual typealias KTags = Tags
 
-// Suppress errors: build() is falsely open
-@Suppress("NO_ACTUAL_CLASS_MEMBER_FOR_EXPECTED_CLASS")
 public actual typealias KTagsBuilder = Tags.Builder
