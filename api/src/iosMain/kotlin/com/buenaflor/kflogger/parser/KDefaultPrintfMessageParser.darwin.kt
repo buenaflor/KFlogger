@@ -18,11 +18,11 @@ public actual class KDefaultPrintfMessageParser private actual constructor() : K
         specStart: Int,
         formatStart: Int
     ): Int {
-        TODO()
+        TODO("Not yet implemented")
     }
 
     public actual companion object {
-        public actual fun getInstance(): KPrintfMessageParser? {
+        public actual fun getInstance(): KPrintfMessageParser {
             TODO()
         }
     }

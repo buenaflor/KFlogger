@@ -20,6 +20,6 @@ public expect class KDefaultPrintfMessageParser private constructor() : KPrintfM
     ): Int
 
     public companion object {
-        public fun getInstance(): KPrintfMessageParser?
+        public fun getInstance(): KPrintfMessageParser
     }
 }

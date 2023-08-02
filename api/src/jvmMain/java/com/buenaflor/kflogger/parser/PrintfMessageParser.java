@@ -79,7 +79,7 @@ public abstract class PrintfMessageParser extends MessageParser {
    * @param formatStart the index of the (first) format character in the term.
    * @return the index after the last character of the term.
    */
-  abstract int parsePrintfTerm(
+  protected abstract int parsePrintfTerm(
       MessageBuilder<?> builder,
       int index,
       String message,

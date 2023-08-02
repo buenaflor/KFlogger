@@ -31,7 +31,7 @@ public class PrintfMessageParserTest {
   /** Fake parser that simply generates detail strings of the terms is was asked to parse. */
   private static final MessageParser PARSER = new PrintfMessageParser() {
     @Override
-    int parsePrintfTerm(
+    protected int parsePrintfTerm(
         MessageBuilder<?> builder,
         int index,
         String message,

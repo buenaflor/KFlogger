@@ -46,7 +46,7 @@ public actual abstract class KPrintfMessageParser : KMessageParser() {
      * @param formatStart the index of the (first) format character in the term.
      * @return the index after the last character of the term.
      */
-    internal actual abstract fun parsePrintfTerm(
+    protected actual abstract fun parsePrintfTerm(
         builder: KMessageBuilder<*>?,
         index: Int,
         message: String?,
