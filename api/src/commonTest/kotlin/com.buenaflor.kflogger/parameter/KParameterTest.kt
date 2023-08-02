@@ -5,7 +5,7 @@ import com.buenaflor.kflogger.util.IgnoreIos
 import kotlin.test.Test
 
 class KParameterTest {
-  class CompileOnlyParameter : KParameter(KFormatOptions.getDefault(), 1) {
+  private class CompileOnlyParameter : KParameter(KFormatOptions.getDefault(), 1) {
     override fun accept(visitor: KParameterVisitor, value: Any) {}
 
     override fun getFormat(): String {
