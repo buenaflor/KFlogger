@@ -2,7 +2,6 @@ package com.buenaflor.kflogger
 
 import com.buenaflor.kflogger.backend.KLogData
 import com.buenaflor.kflogger.backend.KLoggerBackend
-import com.buenaflor.kflogger.backend.metadata
 import com.buenaflor.kflogger.parser.KMessageBuilder
 import com.buenaflor.kflogger.parser.KMessageParser
 import com.buenaflor.kflogger.util.IgnoreIos
@@ -209,13 +208,13 @@ class KLogContextTest {
     context.withInjectedLogSite(CompileOnlyLogSite())
     context.withInjectedLogSite("", "", 0, "")
     context.withStackTrace(KStackSize.FULL)
-    context.arguments
-    context.level
-    context.logSite
-    context.loggerName
-    context.metadata
-    context.timestampNanos
-    context.timestampMicros
+    context.getArguments()
+    context.getLevel()
+    context.getLogSite()
+    context.getLoggerName()
+    context.getMetadata()
+    context.getTimestampNanos()
+    context.getTimestampMicros()
 
     KLogContextKey.LOG_CAUSE
     KLogContextKey.LOG_EVERY_N
