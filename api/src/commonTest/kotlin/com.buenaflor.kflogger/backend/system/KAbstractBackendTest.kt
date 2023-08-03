@@ -16,10 +16,6 @@ class KAbstractBackendTest {
     override fun log(data: KLogData?) {}
 
     override fun handleError(error: RuntimeException, badData: KLogData) {}
-
-    override fun getLoggerName(): String {
-      return ""
-    }
   }
 
   private class CompileOnlyLogData : KLogData {
@@ -71,7 +67,7 @@ class KAbstractBackendTest {
     compileOnlyBackend.handleError(RuntimeException(), CompileOnlyLogData())
     compileOnlyBackend.log(CompileOnlyLogData())
     compileOnlyBackend.log(KLogRecord(KLevel.INFO, "test"), false)
-    compileOnlyBackend.loggerName
+    compileOnlyBackend.getLoggerName()
     compileOnlyBackend.isLoggable(KLevel.INFO)
   }
 }

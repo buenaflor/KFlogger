@@ -33,6 +33,6 @@ public expect abstract class KAbstractBackend protected constructor(loggingClass
    * are circumstances in which this can fail.
    */
   public fun log(record: KLogRecord, wasForced: Boolean)
-}
 
-public expect val KAbstractBackend.loggerName: String
+  public final override fun getLoggerName(): String
+}
