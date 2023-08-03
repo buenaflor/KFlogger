@@ -37,7 +37,8 @@ public actual abstract class KAbstractBackend protected actual constructor(loggi
   public actual fun log(record: KLogRecord, wasForced: Boolean) {
     TODO()
   }
-}
 
-public actual val KAbstractBackend.loggerName: String
-  get() = TODO()
+  actual final override fun getLoggerName(): String {
+    TODO("Not yet implemented")
+  }
+}

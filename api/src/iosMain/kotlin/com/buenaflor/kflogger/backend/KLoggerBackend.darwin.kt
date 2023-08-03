@@ -50,5 +50,5 @@ public actual abstract class KLoggerBackend {
   /**
    * Returns the logger name (which is usually a canonicalized class name) or `null` if not given.
    */
-  public actual abstract fun getLoggerName(): String
+  public actual abstract fun getLoggerName(): String?
 }
