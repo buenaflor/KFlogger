@@ -71,7 +71,7 @@ public actual abstract class KLogContext<LOGGER : KAbstractLogger<API>, API : KL
   protected actual abstract fun noOp(): API
 
   /** Returns the message parser used for all log statements made through this logger. */
-  protected actual abstract fun getMessageParser(): KMessageParser?
+  protected actual abstract fun getMessageParser(): KMessageParser
 
   // ---- LogData API ----
 

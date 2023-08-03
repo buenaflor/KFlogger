@@ -46,8 +46,9 @@ public actual abstract class KLoggerBackend {
    * @throws LoggingException to indicate an error which should be propagated into user code.
    */
   public actual abstract fun handleError(error: RuntimeException, badData: KLogData)
-}
 
-/** Returns the logger name (which is usually a canonicalized class name) or `null` if not given. */
-public actual val KLoggerBackend.loggerName: String?
-  get() = TODO()
+  /**
+   * Returns the logger name (which is usually a canonicalized class name) or `null` if not given.
+   */
+  public actual abstract fun getLoggerName(): String
+}

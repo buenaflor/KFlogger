@@ -68,8 +68,8 @@ public expect abstract class KLogContext<LOGGER : KAbstractLogger<API>, API : KL
    */
   protected abstract fun noOp(): API
 
-  /** Returns the msg parser used for all log statements made through this logger. */
-  protected abstract fun getMessageParser(): KMessageParser?
+  /** Returns the message parser used for all log statements made through this logger. */
+  protected abstract fun getMessageParser(): KMessageParser
 
   // ---- LogData API ----
 
