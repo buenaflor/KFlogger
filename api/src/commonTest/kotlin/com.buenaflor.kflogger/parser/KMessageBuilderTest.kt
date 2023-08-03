@@ -9,18 +9,13 @@ import com.buenaflor.kflogger.util.IgnoreIos
 import kotlin.test.Test
 
 class KMessageBuilderTest {
-  val parser = CustomMessageParser()
-  val templateContext = KTemplateContext(parser, "message")
-  val messageBuilder = CustomMessageBuilder<String>(templateContext)
-  val parameter = CustomParameter(KFormatOptions.getDefault(), 0)
-
-  class CustomMessageParser : KMessageParser() {
+  private class CompileOnlyMessageParser : KMessageParser() {
     override fun <T> parseImpl(builder: KMessageBuilder<T>?) {}
 
     override fun unescape(out: StringBuilder?, message: String?, start: Int, end: Int) {}
   }
 
-  class CustomMessageBuilder<T>(val templateContext: KTemplateContext) :
+  private class CompileOnlyMessageBuilder<T>(val templateContext: KTemplateContext) :
       KMessageBuilder<String>(templateContext) {
     override fun addParameterImpl(termStart: Int, termEnd: Int, param: KParameter) {}
 
@@ -29,7 +24,8 @@ class KMessageBuilderTest {
     }
   }
 
-  class CustomParameter(options: KFormatOptions, index: Int) : KParameter(options, index) {
+  private class CompileOnlyParameter(options: KFormatOptions, index: Int) :
+      KParameter(options, index) {
     override fun accept(visitor: KParameterVisitor, value: Any) {}
 
     override fun getFormat(): String {
@@ -41,6 +37,11 @@ class KMessageBuilderTest {
   @IgnoreIos
   fun testNotCrashing() {
     // This test is to ensure that the code compiles and does not crash.
+    val parser = CompileOnlyMessageParser()
+    val templateContext = KTemplateContext(parser, "message")
+    val messageBuilder = CompileOnlyMessageBuilder<String>(templateContext)
+    val parameter = CompileOnlyParameter(KFormatOptions.getDefault(), 0)
+
     messageBuilder.addParameter(0, 0, parameter)
     messageBuilder.message
     messageBuilder.build()

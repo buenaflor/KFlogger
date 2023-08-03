@@ -47,34 +47,31 @@ public actual abstract class KLogSite : KLogSiteKey {
       TODO("Not yet implemented")
     }
   }
+
+  /** Returns the name of the class containing the log statement. */
+  public actual abstract fun getClassName(): String
+
+  /** Returns the name of the method containing the log statement. */
+  public actual abstract fun getMethodName(): String
+
+  /**
+   * Returns a valid line number for the log statement in the range 1 - 65535, or [.UNKNOWN_LINE] if
+   * not known.
+   *
+   * There is a limit of 16 bits for line numbers in a class. See
+   * [here](http://docs.oracle.com/javase/specs/jvms/se7/html/jvms-4.html#jvms-4.7.12) for more
+   * details.
+   */
+  public actual abstract fun getLineNumber(): Int
+
+  /**
+   * Returns the name of the class file containing the log statement (or null if not known). The
+   * source file name is optional and strictly for debugging.
+   *
+   * Normally this value (if present) is extracted from the SourceFile attribute of the class file
+   * (see the
+   * [JVM class file format specification](https://docs.oracle.com/javase/specs/jvms/se8/html/jvms-4.html#jvms-4.7.10)
+   * for more details).
+   */
+  public actual abstract fun getFileName(): String
 }
-
-/** Returns the name of the class containing the log statement. */
-public actual val KLogSite.className: String?
-  get() = TODO()
-
-/** Returns the name of the method containing the log statement. */
-public actual val KLogSite.methodName: String?
-  get() = TODO()
-
-/**
- * Returns a valid line number for the log statement in the range 1 - 65535, or [.UNKNOWN_LINE] if
- * not known.
- *
- * There is a limit of 16 bits for line numbers in a class. See
- * [here](http://docs.oracle.com/javase/specs/jvms/se7/html/jvms-4.html#jvms-4.7.12) for more
- * details.
- */
-public actual val KLogSite.lineNumber: Int
-  get() = TODO()
-
-/**
- * Returns the name of the class file containing the log statement (or null if not known). The
- * source file name is optional and strictly for debugging.
- *
- * <p>Normally this value (if present) is extracted from the SourceFile attribute of the class file
- * (see the <a href="https://docs.oracle.com/javase/specs/jvms/se8/html/jvms-4.html#jvms-4.7.10">JVM
- * class file format specification</a> for more details).
- */
-public actual val KLogSite.fileName: String?
-  get() = TODO()

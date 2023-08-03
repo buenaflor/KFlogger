@@ -17,9 +17,36 @@ package com.buenaflor.kflogger
  * `StackTraceElement`, this log site will not be unique if multiple log statements are on the the
  * same, or if line number information was stripped from the class file.
  */
-public expect abstract class KLogSite : KLogSiteKey {
+public expect abstract class KLogSite() : KLogSiteKey {
   // Provide a common toString() implementation for only the public attributes.
-  public override final fun toString(): String
+  public final override fun toString(): String
+
+  /** Returns the name of the class containing the log statement. */
+  public abstract fun getClassName(): String
+
+  /** Returns the name of the method containing the log statement. */
+  public abstract fun getMethodName(): String
+
+  /**
+   * Returns a valid line number for the log statement in the range 1 - 65535, or [.UNKNOWN_LINE] if
+   * not known.
+   *
+   * There is a limit of 16 bits for line numbers in a class. See
+   * [here](http://docs.oracle.com/javase/specs/jvms/se7/html/jvms-4.html#jvms-4.7.12) for more
+   * details.
+   */
+  public abstract fun getLineNumber(): Int
+
+  /**
+   * Returns the name of the class file containing the log statement (or null if not known). The
+   * source file name is optional and strictly for debugging.
+   *
+   * Normally this value (if present) is extracted from the SourceFile attribute of the class file
+   * (see the
+   * [JVM class file format specification](https://docs.oracle.com/javase/specs/jvms/se8/html/jvms-4.html#jvms-4.7.10)
+   * for more details).
+   */
+  public abstract fun getFileName(): String
 
   public companion object {
     /** A value used for line numbers when the true information is not available. */
@@ -64,29 +91,3 @@ public expect abstract class KLogSite : KLogSiteKey {
     ): KLogSite
   }
 }
-
-/** Returns the name of the class containing the log statement. */
-public expect val KLogSite.className: String?
-
-/** Returns the name of the method containing the log statement. */
-public expect val KLogSite.methodName: String?
-
-/**
- * Returns a valid line number for the log statement in the range 1 - 65535, or [.UNKNOWN_LINE] if
- * not known.
- *
- * There is a limit of 16 bits for line numbers in a class. See
- * [here](http://docs.oracle.com/javase/specs/jvms/se7/html/jvms-4.html#jvms-4.7.12) for more
- * details.
- */
-public expect val KLogSite.lineNumber: Int
-
-/**
- * Returns the name of the class file containing the log statement (or null if not known). The
- * source file name is optional and strictly for debugging.
- *
- * <p>Normally this value (if present) is extracted from the SourceFile attribute of the class file
- * (see the <a href="https://docs.oracle.com/javase/specs/jvms/se8/html/jvms-4.html#jvms-4.7.10">JVM
- * class file format specification</a> for more details).
- */
-public expect val KLogSite.fileName: String?

@@ -3,6 +3,7 @@ package com.buenaflor.kflogger
 import com.buenaflor.kflogger.backend.KLogData
 import com.buenaflor.kflogger.backend.KMetadata
 import com.buenaflor.kflogger.backend.KTemplateContext
+import com.buenaflor.kflogger.context.KTags
 import com.buenaflor.kflogger.parser.KMessageParser
 
 /**
@@ -67,8 +68,8 @@ public expect abstract class KLogContext<LOGGER : KAbstractLogger<API>, API : KL
    */
   protected abstract fun noOp(): API
 
-  /** Returns the msg parser used for all log statements made through this logger. */
-  protected abstract fun getMessageParser(): KMessageParser?
+  /** Returns the message parser used for all log statements made through this logger. */
+  protected abstract fun getMessageParser(): KMessageParser
 
   // ---- LogData API ----
 
@@ -608,7 +609,7 @@ public expect class KLogContextKey {
      * log message arguments is always the preferred way to indicate unstrctured log data. Users
      * should never build new [Tags] instances just to pass them into a log statement.
      */
-    // TODO KFlogger: val TAGS: KMetadataKey<com.buenaflor.kflogger.context.Tags>
+    public val TAGS: KMetadataKey<KTags>
 
     /**
      * Key associated with the metadata for specifying additional stack information with a log

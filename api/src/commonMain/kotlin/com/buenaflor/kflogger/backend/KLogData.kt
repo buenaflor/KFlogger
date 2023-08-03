@@ -40,56 +40,58 @@ public expect interface KLogData {
    */
   public fun wasForced(): Boolean
 
+  /** Returns the log level for the current log statement. */
+  public fun getLevel(): KLevel
+
+  /**
+   * Returns any additional metadata for this log statement. If no additional metadata is present,
+   * the immutable empty metadata instance is returned.
+   *
+   * IMPORTANT: The returned instance is restricted to metadata added at the log site, and will not
+   * include any scoped metadata to be applied to the log statement. To process combined log site
+   * and scoped metadata, obtain or create a [MetadataProcessor].
+   */
+  public fun getMetadata(): KMetadata?
+
+  /** Returns a microsecond timestamp for the current log statement. */
+  @Deprecated("Use timestampNanos") public fun getTimestampMicros(): Long
+
+  /** Returns a nanosecond timestamp for the current log statement. */
+  public fun getTimestampNanos(): Long
+
+  /**
+   * Returns the logger name (which is usually a canonicalized class name) or `null` if not given.
+   */
+  public fun getLoggerName(): String?
+
+  /**
+   * Returns the log site data for the current log statement.
+   *
+   * @throws IllegalStateException if called prior to the postProcess() method being called.
+   */
+  public fun getLogSite(): KLogSite?
+
+  /**
+   * Returns the arguments to be formatted with the message. Arguments exist when a `log()` method
+   * with a format message and separate arguments was invoked.
+   *
+   * @throws IllegalStateException if no arguments are available (ie, when there is no template
+   *   context).
+   */
+  public fun getArguments(): Array<Any?>?
+
+  /**
+   * Returns the single argument to be logged directly when no arguments were provided.
+   *
+   * @throws IllegalStateException if no single literal argument is available (ie, when a template
+   *   context exists).
+   */
+  public fun getLiteralArgument(): Any?
+
   /**
    * Returns a template key for this log statement, or `null` if the statement does not require
    * formatting (in which case the message to be logged can be determined by calling
    * [.getLiteralArgument]).
    */
-  // TODO KFlogger: val templateContext: TemplateContext?
+  public fun getTemplateContext(): KTemplateContext?
 }
-
-/**
- * Returns any additional metadata for this log statement. If no additional metadata is present, the
- * immutable empty metadata instance is returned.
- *
- * IMPORTANT: The returned instance is restricted to metadata added at the log site, and will not
- * include any scoped metadata to be applied to the log statement. To process combined log site and
- * scoped metadata, obtain or create a [MetadataProcessor].
- */
-public expect val KLogData.metadata: KMetadata?
-
-/** Returns the log level for the current log statement. */
-public expect val KLogData.level: KLevel?
-
-/** Returns a microsecond timestamp for the current log statement. */
-@Deprecated("Use timestampNanos") public expect val KLogData.timestampMicros: Long
-
-/** Returns a nanosecond timestamp for the current log statement. */
-public expect val KLogData.timestampNanos: Long
-
-/** Returns the logger name (which is usually a canonicalized class name) or `null` if not given. */
-public expect val KLogData.loggerName: String?
-
-/**
- * Returns the log site data for the current log statement.
- *
- * @throws IllegalStateException if called prior to the postProcess() method being called.
- */
-public expect val KLogData.logSite: KLogSite?
-
-/**
- * Returns the arguments to be formatted with the message. Arguments exist when a `log()` method
- * with a format message and separate arguments was invoked.
- *
- * @throws IllegalStateException if no arguments are available (ie, when there is no template
- *   context).
- */
-public expect val KLogData.arguments: Array<Any?>?
-
-/**
- * Returns the single argument to be logged directly when no arguments were provided.
- *
- * @throws IllegalStateException if no single literal argument is available (ie, when a template
- *   context exists).
- */
-public expect val KLogData.literalArgument: Any?
