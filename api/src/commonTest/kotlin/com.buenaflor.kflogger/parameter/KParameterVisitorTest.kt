@@ -6,7 +6,7 @@ import com.buenaflor.kflogger.util.IgnoreIos
 import kotlin.test.Test
 
 class KParameterVisitorTest {
-  class CustomParameterVisitor : KParameterVisitor {
+  private class CompileOnlyParameterVisitor : KParameterVisitor {
     override fun visit(value: Any?, format: KFormatChar?, options: KFormatOptions?) {}
 
     override fun visitDateTime(value: Any?, format: KDateTimeFormat?, options: KFormatOptions?) {}
@@ -22,7 +22,7 @@ class KParameterVisitorTest {
   @IgnoreIos
   fun testNotCrashing() {
     // This test is to ensure that the code compiles and does not crash.
-    val visitor = CustomParameterVisitor()
+    val visitor = CompileOnlyParameterVisitor()
     visitor.visit(null, null, null)
     visitor.visitDateTime(null, null, null)
     visitor.visitPreformatted(null, null)

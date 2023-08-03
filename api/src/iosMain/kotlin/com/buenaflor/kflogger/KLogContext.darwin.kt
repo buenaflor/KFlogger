@@ -71,7 +71,7 @@ public actual abstract class KLogContext<LOGGER : KAbstractLogger<API>, API : KL
   protected actual abstract fun noOp(): API
 
   /** Returns the message parser used for all log statements made through this logger. */
-  protected actual abstract fun getMessageParser(): KMessageParser?
+  protected actual abstract fun getMessageParser(): KMessageParser
 
   // ---- LogData API ----
 
@@ -729,6 +729,52 @@ public actual abstract class KLogContext<LOGGER : KAbstractLogger<API>, API : KL
   public actual final override fun logVarargs(message: String?, varargs: Array<Any?>?) {
     TODO()
   }
+
+  actual final override fun getLevel(): KLevel {
+    TODO("Not yet implemented")
+  }
+
+  @Deprecated("")
+  actual final override fun getTimestampMicros(): Long {
+    TODO("Not yet implemented")
+  }
+
+  actual final override fun getTimestampNanos(): Long {
+    TODO("Not yet implemented")
+  }
+
+  actual final override fun getLoggerName(): String? {
+    TODO("Not yet implemented")
+  }
+
+  actual final override fun getLogSite(): KLogSite {
+    TODO("Not yet implemented")
+  }
+
+  actual final override fun getTemplateContext(): KTemplateContext {
+    TODO("Not yet implemented")
+  }
+
+  actual final override fun getArguments(): Array<Any?>? {
+    TODO("Not yet implemented")
+  }
+
+  actual final override fun getLiteralArgument(): Any? {
+    TODO("Not yet implemented")
+  }
+
+  /**
+   * Returns any additional metadata for this log statement.
+   *
+   *
+   * When called outside of the logging backend, this method may return different values at
+   * different times (ie, it may initially return a shared static "empty" metadata object and later
+   * return a different implementation). As such it is not safe to cache the instance returned by
+   * this method or to attempt to cast it to any particular implementation.
+   */
+  actual final override fun getMetadata(): KMetadata {
+    TODO("Not yet implemented")
+  }
 }
 
 /**
@@ -839,42 +885,3 @@ public actual class KLogContextKey {
       get() = TODO("Not yet implemented")
   }
 }
-
-// ---- LogData API ----
-
-public actual val <LOGGER : KAbstractLogger<API>, API : KLoggingApi<API>> KLogContext<
-    LOGGER, API>.level: KLevel?
-  get() = TODO()
-
-@Deprecated("")
-public actual val <LOGGER : KAbstractLogger<API>, API : KLoggingApi<API>> KLogContext<
-    LOGGER, API>.timestampMicros: Long
-  get() = TODO()
-
-public actual val <LOGGER : KAbstractLogger<API>, API : KLoggingApi<API>> KLogContext<
-    LOGGER, API>.timestampNanos: Long
-  get() = TODO()
-
-public actual val <LOGGER : KAbstractLogger<API>, API : KLoggingApi<API>> KLogContext<
-    LOGGER, API>.loggerName: String?
-  get() = TODO()
-
-public actual val <LOGGER : KAbstractLogger<API>, API : KLoggingApi<API>> KLogContext<
-    LOGGER, API>.logSite: KLogSite?
-  get() = TODO()
-
-public actual val <LOGGER : KAbstractLogger<API>, API : KLoggingApi<API>> KLogContext<
-    LOGGER, API>.templateContext: KTemplateContext
-  get() = TODO()
-
-public actual val <LOGGER : KAbstractLogger<API>, API : KLoggingApi<API>> KLogContext<
-    LOGGER, API>.arguments: Array<Any?>?
-  get() = TODO()
-
-public actual val <LOGGER : KAbstractLogger<API>, API : KLoggingApi<API>> KLogContext<
-    LOGGER, API>.literalArguments: Any?
-  get() = TODO()
-
-public actual val <LOGGER : KAbstractLogger<API>, API : KLoggingApi<API>> KLogContext<
-    LOGGER, API>.metadata: KMetadata?
-  get() = TODO()
