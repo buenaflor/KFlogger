@@ -3,6 +3,7 @@ package com.buenaflor.kflogger
 import com.buenaflor.kflogger.backend.KLogData
 import com.buenaflor.kflogger.backend.KMetadata
 import com.buenaflor.kflogger.backend.KTemplateContext
+import com.buenaflor.kflogger.context.KTags
 import com.buenaflor.kflogger.parser.KMessageParser
 
 /**
@@ -750,7 +751,9 @@ public actual class KLogContextKey {
      * log message arguments is always the preferred way to indicate unstrctured log data. Users
      * should never build new [Tags] instances just to pass them into a log statement.
      */
-    // TODO KFlogger: val TAGS: KMetadataKey<com.buenaflor.kflogger.context.Tags>
+    public actual val TAGS: KMetadataKey<KTags>
+      get() = TODO()
+
     /**
      * The key associated with a [Throwable] cause to be associated with the log message. This value
      * is set by [LoggingApi.withCause].
