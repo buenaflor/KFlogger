@@ -4,9 +4,9 @@ import com.buenaflor.kflogger.KAbstractLogger
 import com.buenaflor.kflogger.KLevel
 import com.buenaflor.kflogger.KLogSite
 import com.buenaflor.kflogger.Klass
+import com.buenaflor.kflogger.backend.KLogCallerFinder
 import com.buenaflor.kflogger.backend.KLogData
 import com.buenaflor.kflogger.backend.KLoggerBackend
-import com.buenaflor.kflogger.backend.KPlatformLogCallerFinder
 import com.buenaflor.kflogger.util.IgnoreIos
 import kotlin.test.Test
 
@@ -25,22 +25,22 @@ class KDefaultPlatformTest {
     }
   }
 
-  private class CompileOnlyLogCallerFinder : KPlatformLogCallerFinder() {
+  private class CompileOnlyLogCallerFinder : KLogCallerFinder() {
     override fun findLoggingClass(loggerClass: Klass<out KAbstractLogger<*>>): String {
       return ""
     }
 
-    override fun findLogSite(loggerApi: Klass<*>?, stackFramesToSkip: Int): KLogSite {
+    override fun findLogSite(loggerApi: Klass<*>, stackFramesToSkip: Int): KLogSite {
       return KLogSite.INVALID
     }
   }
 
   private class CompileOnlyDefaultPlatform : KDefaultPlatform() {
-    override fun getCallerFinderImpl(): KPlatformLogCallerFinder {
+    override fun getCallerFinderImpl(): KLogCallerFinder {
       return CompileOnlyLogCallerFinder()
     }
 
-    override fun getBackendImpl(className: String?): KLoggerBackend {
+    override fun getBackendImpl(className: String): KLoggerBackend {
       return CompileOnlyLoggerBackend()
     }
 
@@ -54,7 +54,7 @@ class KDefaultPlatformTest {
 
     fun compile() {
       getCallerFinderImpl()
-      getBackendImpl(null)
+      getBackendImpl("")
       getConfigInfoImpl()
       getCurrentTimeNanosImpl()
     }

@@ -4,7 +4,7 @@ import com.buenaflor.kflogger.backend.KLogData
 import com.buenaflor.kflogger.backend.KLoggerBackend
 
 public actual abstract class KAbstractLogger<API : KLoggingApi<API>>
-protected actual constructor(backend: KLoggerBackend) {
+protected actual constructor(private val backend: KLoggerBackend) {
   /**
    * Returns a fluent logging API appropriate for the specified log level.
    *
@@ -30,7 +30,7 @@ protected actual constructor(backend: KLoggerBackend) {
 
   /** A convenience method for at([Level.WARNING]). */
   public actual fun atWarning(): API {
-    TODO("Not yet implemented")
+    return at(KLevel.WARNING)
   }
 
   /** A convenience method for at([Level.INFO]). */
@@ -81,8 +81,8 @@ protected actual constructor(backend: KLoggerBackend) {
    * This method also guards against unbounded reentrant logging, and will suppress further logging
    * if it detects significant recursion has occurred.
    */
-  public actual fun write(data: KLogData) {}
+  public actual fun write(data: KLogData) {
+    // TODO KFlogger
+    backend.log(data)
+  }
 }
-
-public actual val <API : KLoggingApi<API>> KAbstractLogger<API>.backend: KLoggerBackend
-  get() = TODO()

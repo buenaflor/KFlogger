@@ -17,22 +17,26 @@ package com.buenaflor.kflogger.backend.system
 
 import com.buenaflor.kflogger.KLevel
 import com.buenaflor.kflogger.KLogRecord
+import com.buenaflor.kflogger.KLogger
 import com.buenaflor.kflogger.backend.KLoggerBackend
 
 /**
  * Common backend to handle everything except formatting of log message and metadata. This is an
  * unstable implementation and should not be used outside of the Flogger core library.
  */
-public expect abstract class KAbstractBackend protected constructor(loggingClass: String) :
+public expect abstract class KAbstractBackend internal constructor(logger: KLogger) :
     KLoggerBackend {
-  public final override fun isLoggable(lvl: KLevel): Boolean
 
-  /**
-   * Logs the given record using this backend. If `wasForced` is set, the backend will make a best
-   * effort attempt to bypass any log level restrictions in the underlying Java [Logger], but there
-   * are circumstances in which this can fail.
-   */
-  public fun log(record: KLogRecord, wasForced: Boolean)
+    protected constructor(loggingClass: String)
 
-  public final override fun getLoggerName(): String
+    public final override fun isLoggable(lvl: KLevel): Boolean
+
+    /**
+     * Logs the given record using this backend. If `wasForced` is set, the backend will make a best
+     * effort attempt to bypass any log level restrictions in the underlying Java [Logger], but there
+     * are circumstances in which this can fail.
+     */
+    public fun log(record: KLogRecord, wasForced: Boolean)
+
+    public final override fun getLoggerName(): String
 }

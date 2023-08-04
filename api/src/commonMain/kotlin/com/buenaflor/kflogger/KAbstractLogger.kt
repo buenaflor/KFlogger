@@ -75,9 +75,3 @@ protected constructor(backend: KLoggerBackend) {
    */
   public fun write(data: KLogData)
 }
-
-/**
- * Returns the logging backend (not visible to logger subclasses to discourage tightly coupled
- * implementations).
- */
-public expect val <API : KLoggingApi<API>> KAbstractLogger<API>.backend: KLoggerBackend

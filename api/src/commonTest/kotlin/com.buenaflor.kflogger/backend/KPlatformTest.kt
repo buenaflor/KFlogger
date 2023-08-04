@@ -7,9 +7,8 @@ import com.buenaflor.kflogger.util.IgnoreIos
 import kotlin.test.Test
 
 class KPlatformTest {
-
   private class CompileOnlyLogger(backend: KLoggerBackend) :
-      KAbstractLogger<CompileOnlyLogger.Api>(backend) {
+    KAbstractLogger<CompileOnlyLogger.Api>(backend) {
     interface Api : KLoggingApi<Api>
 
     override fun at(level: KLevel?): Api {
@@ -17,9 +16,8 @@ class KPlatformTest {
     }
 
     /** Logging context implementing the fully specified API for this logger. */
-    // VisibleForTesting
     inner class Context internal constructor(level: KLevel, isForced: Boolean) :
-        KLogContext<CompileOnlyLogger, Api>(level, isForced), Api {
+      KLogContext<CompileOnlyLogger, Api>(level, isForced), Api {
 
       override fun getLogger(): CompileOnlyLogger {
         return this@CompileOnlyLogger
@@ -44,11 +42,13 @@ class KPlatformTest {
        * enclosing class using the system default logging backend.
        */
       fun forEnclosingClass(): CompileOnlyLogger {
-        // NOTE: It is _vital_ that the call to "caller finder" is made directly inside the static
-        // factory method. See getCallerFinder() for more information.
         val loggingClass: String =
             KPlatform.getCallerFinder().findLoggingClass(CompileOnlyLogger::class.toKlass())
         return CompileOnlyLogger(KPlatform.getBackend(loggingClass))
+      }
+
+      fun findLoggingClass(): String {
+        return KPlatform.getCallerFinder().findLoggingClass(CompileOnlyLogger::class.toKlass())
       }
     }
   }
@@ -72,5 +72,19 @@ class KPlatformTest {
     KPlatform.getInjectedTags()
     KPlatform.getInjectedMetadata()
     KPlatform.shouldForceLogging("", KLevel.INFO, true)
+  }
+
+  class Fao {
+    companion object {
+      fun log() {
+        CompileOnlyLogger.findLoggingClass()
+      }
+    }
+  }
+
+  @Test
+  fun testFindLoggingClass() {
+    val loggingClass = CompileOnlyLogger.forEnclosingClass()
+    loggingClass.atWarning().log("What's up")
   }
 }

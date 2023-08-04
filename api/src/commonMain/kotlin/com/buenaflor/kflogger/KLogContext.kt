@@ -83,7 +83,7 @@ public expect abstract class KLogContext<LOGGER : KAbstractLogger<API>, API : KL
 
   public final override fun getLogSite(): KLogSite
 
-  public final override fun getTemplateContext(): KTemplateContext
+  public final override fun getTemplateContext(): KTemplateContext?
 
   public final override fun getArguments(): Array<Any?>?
 

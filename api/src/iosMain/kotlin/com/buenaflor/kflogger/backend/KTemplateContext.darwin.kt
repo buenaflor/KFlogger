@@ -10,7 +10,7 @@ import com.buenaflor.kflogger.parser.KMessageParser
  * Template contexts are created by the frontend and passed through to backend implementations via
  * the [LogData] interface.
  */
-public actual class KTemplateContext actual constructor(parser: KMessageParser?, message: String?) {
+public actual class KTemplateContext actual constructor(parser: KMessageParser?, public val message: String) {
   actual override fun equals(other: Any?): Boolean {
     TODO()
   }
@@ -26,4 +26,4 @@ public actual val KTemplateContext.parser: KMessageParser
 
 /** Returns the message for the log statement. */
 public actual val KTemplateContext.message: String
-  get() = TODO()
+  get() = message

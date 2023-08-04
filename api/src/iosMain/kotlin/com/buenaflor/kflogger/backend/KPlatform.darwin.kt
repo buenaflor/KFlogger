@@ -4,7 +4,9 @@ import com.buenaflor.kflogger.KAbstractLogger
 import com.buenaflor.kflogger.KLevel
 import com.buenaflor.kflogger.KLogSite
 import com.buenaflor.kflogger.Klass
+import com.buenaflor.kflogger.backend.system.KDefaultPlatform
 import com.buenaflor.kflogger.context.KTags
+import com.buenaflor.kflogger.util.NSThreadBasedCallerFinder
 
 /**
  * Platform abstraction layer required to allow fluent logger implementations to work on differing
@@ -18,9 +20,9 @@ import com.buenaflor.kflogger.context.KTags
  * implementors must take care to avoid cycles during initialization and re-entrant behaviour.
  */
 public actual abstract class KPlatform actual constructor() {
-  protected actual abstract fun getCallerFinderImpl(): KPlatformLogCallerFinder
+  protected actual abstract fun getCallerFinderImpl(): KLogCallerFinder
 
-  protected actual abstract fun getBackendImpl(className: String?): KLoggerBackend
+  protected actual abstract fun getBackendImpl(className: String): KLoggerBackend
 
   protected actual open fun getCurrentTimeNanosImpl(): Long {
     TODO("Not yet implemented")
@@ -61,8 +63,8 @@ public actual abstract class KPlatform actual constructor() {
     }
 
     /** Returns the API for obtaining caller information about loggers and logging classes. */
-    public actual fun getCallerFinder(): KPlatformLogCallerFinder {
-      TODO("Not yet implemented")
+    public actual fun getCallerFinder(): KLogCallerFinder {
+      return NSThreadBasedCallerFinder.instance
     }
 
     /**
@@ -75,7 +77,7 @@ public actual abstract class KPlatform actual constructor() {
      *   associated. The logger name is derived from this string in a platform specific way.
      */
     public actual fun getBackend(className: String): KLoggerBackend {
-      TODO("Not yet implemented")
+      return (KDefaultPlatform() as KPlatform).getBackendImpl(className)
     }
 
     /**
@@ -172,7 +174,7 @@ public actual abstract class KPlatform actual constructor() {
  * can delay any actual work until its methods are called. For example if any additional state is
  * required in the implementation, it can be held via a "lazy holder" to defer initialization.
  */
-public actual abstract class KPlatformLogCallerFinder {
+public actual abstract class KLogCallerFinder {
   /**
    * Returns the name of the immediate caller of the given logger class. This is useful when
    * determining the class name with which to create a logger backend.
@@ -194,5 +196,5 @@ public actual abstract class KPlatformLogCallerFinder {
    * @return A log site inferred from the stack, or [LogSite.INVALID] if no log site can be
    *   determined.
    */
-  public actual abstract fun findLogSite(loggerApi: Klass<*>?, stackFramesToSkip: Int): KLogSite
+  public actual abstract fun findLogSite(loggerApi: Klass<*>, stackFramesToSkip: Int): KLogSite
 }

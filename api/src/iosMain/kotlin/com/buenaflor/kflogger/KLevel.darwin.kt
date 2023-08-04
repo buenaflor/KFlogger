@@ -27,7 +27,7 @@ public actual class KLevel {
      * <CODE>900</CODE>.
      */
     public actual val WARNING: KLevel
-      get() = TODO("Not yet implemented")
+      get() = KLevel()
 
     /**
      * INFO is a message LogKLevel for informational messages.

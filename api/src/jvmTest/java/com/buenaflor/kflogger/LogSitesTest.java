@@ -32,6 +32,7 @@ public final class LogSitesTest {
   @Test
   public void testCallerOf() {
     assertThat(MyLogUtil.getCallerLogSite().getMethodName()).isEqualTo("testCallerOf");
+    System.out.println(MyLogUtil.getCallerLogSite());
     assertThat(MyLogUtil.getCallerLogSiteWrapped().getMethodName()).isEqualTo("testCallerOf");
   }
 

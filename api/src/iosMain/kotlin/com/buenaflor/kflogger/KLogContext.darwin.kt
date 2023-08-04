@@ -24,6 +24,9 @@ import com.buenaflor.kflogger.parser.KMessageParser
  */
 public actual abstract class KLogContext<LOGGER : KAbstractLogger<API>, API : KLoggingApi<API>> :
     KLoggingApi<API>, KLogData {
+  /** The template context if formatting is required (set only after post-processing).  */
+  private var templateContext: KTemplateContext? = null
+
   /**
    * Creates a logging context with the specified level, and with a timestamp obtained from the
    * configured logging [Platform].
@@ -32,7 +35,7 @@ public actual abstract class KLogContext<LOGGER : KAbstractLogger<API>, API : KL
    * @param isForced whether to force this log statement (see [.wasForced] for details).
    */
   protected actual constructor(level: KLevel, isForced: Boolean) {
-    TODO()
+    // TODO KFlogger
   }
 
   /**
@@ -259,6 +262,12 @@ public actual abstract class KLogContext<LOGGER : KAbstractLogger<API>, API : KL
     TODO()
   }
 
+  private fun logImpl(message: String, vararg args: Any) {
+    // TODO KFlogger
+    templateContext = KTemplateContext(getMessageParser(), message)
+    getLogger().write(this)
+  }
+
   /*
    * Note that while all log statements look almost identical to each other, it is vital that we
    * keep the 'shouldLog()' call outside of the call to 'logImpl()' so we can decide whether or not
@@ -269,7 +278,8 @@ public actual abstract class KLogContext<LOGGER : KAbstractLogger<API>, API : KL
   }
 
   public actual final override fun log(msg: String?) {
-    TODO()
+    // TODO KFlogger: shouldLog()
+    logImpl(msg!!)
   }
 
   public actual final override fun log(msg: String?, p1: Any?) {
@@ -751,8 +761,8 @@ public actual abstract class KLogContext<LOGGER : KAbstractLogger<API>, API : KL
     TODO("Not yet implemented")
   }
 
-  actual final override fun getTemplateContext(): KTemplateContext {
-    TODO("Not yet implemented")
+  actual final override fun getTemplateContext(): KTemplateContext? {
+    return templateContext
   }
 
   actual final override fun getArguments(): Array<Any?>? {

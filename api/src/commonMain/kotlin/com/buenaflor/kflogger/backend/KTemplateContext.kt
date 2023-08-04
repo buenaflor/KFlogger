@@ -25,7 +25,7 @@ import com.buenaflor.kflogger.parser.KMessageParser
  * Template contexts are created by the frontend and passed through to backend implementations via
  * the [LogData] interface.
  */
-public expect class KTemplateContext(parser: KMessageParser?, message: String?) {
+public expect class KTemplateContext(parser: KMessageParser?, message: String) {
   override fun equals(other: Any?): Boolean
 
   override fun hashCode(): Int

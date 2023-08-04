@@ -17,28 +17,32 @@ package com.buenaflor.kflogger.backend.system
 
 import com.buenaflor.kflogger.KLevel
 import com.buenaflor.kflogger.KLogRecord
+import com.buenaflor.kflogger.KLogger
 import com.buenaflor.kflogger.backend.KLoggerBackend
 
 /**
  * Common backend to handle everything except formatting of log message and metadata. This is an
  * unstable implementation and should not be used outside of the Flogger core library.
  */
-public actual abstract class KAbstractBackend protected actual constructor(loggingClass: String) :
+public actual abstract class KAbstractBackend internal actual constructor(logger: KLogger) :
     KLoggerBackend() {
-  public actual final override fun isLoggable(lvl: KLevel): Boolean {
-    TODO()
-  }
 
-  /**
-   * Logs the given record using this backend. If `wasForced` is set, the backend will make a best
-   * effort attempt to bypass any log level restrictions in the underlying Java [Logger], but there
-   * are circumstances in which this can fail.
-   */
-  public actual fun log(record: KLogRecord, wasForced: Boolean) {
-    TODO()
-  }
+    protected actual constructor(loggingClass: String) : this(KLogger())
 
-  actual final override fun getLoggerName(): String {
-    TODO("Not yet implemented")
-  }
+    public actual final override fun isLoggable(lvl: KLevel): Boolean {
+        TODO()
+    }
+
+    /**
+     * Logs the given record using this backend. If `wasForced` is set, the backend will make a best
+     * effort attempt to bypass any log level restrictions in the underlying Java [Logger], but there
+     * are circumstances in which this can fail.
+     */
+    public actual fun log(record: KLogRecord, wasForced: Boolean) {
+        TODO()
+    }
+
+    actual final override fun getLoggerName(): String {
+        TODO("Not yet implemented")
+    }
 }
