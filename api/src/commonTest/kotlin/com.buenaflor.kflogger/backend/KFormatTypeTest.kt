@@ -1,6 +1,5 @@
 package com.buenaflor.kflogger.backend
 
-import androidx.kruth.assertThat
 import com.buenaflor.kflogger.util.IgnoreIos
 import kotlin.test.Test
 
