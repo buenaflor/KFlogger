@@ -31,7 +31,7 @@ public actual abstract class KLogContext<LOGGER : KAbstractLogger<API>, API : KL
    * @param level the log level for this log statement.
    * @param isForced whether to force this log statement (see [.wasForced] for details).
    */
-  protected actual constructor(level: KLevel?, isForced: Boolean) {
+  protected actual constructor(level: KLevel, isForced: Boolean) {
     TODO()
   }
 
@@ -46,7 +46,7 @@ public actual abstract class KLogContext<LOGGER : KAbstractLogger<API>, API : KL
    * @param isForced whether to force this log statement (see [.wasForced] for details).
    * @param timestampNanos the nanosecond timestamp for this log statement.
    */
-  protected actual constructor(level: KLevel?, isForced: Boolean, timestampNanos: Long) {
+  protected actual constructor(level: KLevel, isForced: Boolean, timestampNanos: Long) {
     TODO()
   }
 

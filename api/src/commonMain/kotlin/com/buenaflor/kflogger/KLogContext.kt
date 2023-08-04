@@ -32,7 +32,7 @@ public expect abstract class KLogContext<LOGGER : KAbstractLogger<API>, API : KL
      * @param level the log level for this log statement.
      * @param isForced whether to force this log statement (see [.wasForced] for details).
      */
-    protected constructor(level: KLevel?, isForced: Boolean)
+    protected constructor(level: KLevel, isForced: Boolean)
 
     /**
      * Creates a logging context with the specified level and timestamp. This constructor is provided
@@ -45,7 +45,7 @@ public expect abstract class KLogContext<LOGGER : KAbstractLogger<API>, API : KL
      * @param isForced whether to force this log statement (see [.wasForced] for details).
      * @param timestampNanos the nanosecond timestamp for this log statement.
      */
-    protected constructor(level: KLevel?, isForced: Boolean, timestampNanos: Long)
+    protected constructor(level: KLevel, isForced: Boolean, timestampNanos: Long)
 
     /**
      * Returns the current API (which is just the concrete sub-type of this instance). This is
