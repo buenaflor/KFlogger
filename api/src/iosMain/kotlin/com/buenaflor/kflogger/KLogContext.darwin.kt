@@ -766,7 +766,6 @@ public actual abstract class KLogContext<LOGGER : KAbstractLogger<API>, API : KL
   /**
    * Returns any additional metadata for this log statement.
    *
-   *
    * When called outside of the logging backend, this method may return different values at
    * different times (ie, it may initially return a shared static "empty" metadata object and later
    * return a different implementation). As such it is not safe to cache the instance returned by
