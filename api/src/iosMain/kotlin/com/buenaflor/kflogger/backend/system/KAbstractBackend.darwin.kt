@@ -22,9 +22,9 @@ import com.buenaflor.kflogger.backend.KLoggerBackend
 
 // TODO KFlogger
 private fun fromLoggingClass(loggingClass: String): KLogger {
-    val appender = OSLogSubsystemAppender(loggingClass)
-    val logger = appender.logger(loggingClass)
-    return KLogger(logger)
+  val appender = OSLogSubsystemAppender(loggingClass)
+  val logger = appender.logger(loggingClass)
+  return KLogger(logger)
 }
 
 /**
@@ -34,22 +34,22 @@ private fun fromLoggingClass(loggingClass: String): KLogger {
 public actual abstract class KAbstractBackend internal actual constructor(logger: KLogger) :
     KLoggerBackend() {
 
-    protected actual constructor(loggingClass: String) : this(fromLoggingClass(loggingClass))
+  protected actual constructor(loggingClass: String) : this(fromLoggingClass(loggingClass))
 
-    public actual final override fun isLoggable(level: KLevel): Boolean {
-        TODO()
-    }
+  public actual final override fun isLoggable(level: KLevel): Boolean {
+    TODO()
+  }
 
-    /**
-     * Logs the given record using this backend. If `wasForced` is set, the backend will make a best
-     * effort attempt to bypass any log level restrictions in the underlying Java [Logger], but there
-     * are circumstances in which this can fail.
-     */
-    public actual fun log(record: KLogRecord, wasForced: Boolean) {
-        TODO()
-    }
+  /**
+   * Logs the given record using this backend. If `wasForced` is set, the backend will make a best
+   * effort attempt to bypass any log level restrictions in the underlying Java [Logger], but there
+   * are circumstances in which this can fail.
+   */
+  public actual fun log(record: KLogRecord, wasForced: Boolean) {
+    TODO()
+  }
 
-    actual final override fun getLoggerName(): String {
-        TODO("Not yet implemented")
-    }
+  actual final override fun getLoggerName(): String {
+    TODO("Not yet implemented")
+  }
 }

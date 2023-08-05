@@ -8,7 +8,7 @@ import kotlin.test.Test
 
 class KPlatformTest {
   private class CompileOnlyLogger(backend: KLoggerBackend) :
-    KAbstractLogger<CompileOnlyLogger.Api>(backend) {
+      KAbstractLogger<CompileOnlyLogger.Api>(backend) {
     interface Api : KLoggingApi<Api>
 
     override fun at(level: KLevel): Api {
@@ -17,7 +17,7 @@ class KPlatformTest {
 
     /** Logging context implementing the fully specified API for this logger. */
     inner class Context internal constructor(level: KLevel, isForced: Boolean) :
-      KLogContext<CompileOnlyLogger, Api>(level, isForced), Api {
+        KLogContext<CompileOnlyLogger, Api>(level, isForced), Api {
 
       override fun getLogger(): CompileOnlyLogger {
         return this@CompileOnlyLogger

@@ -1,10 +1,11 @@
 package com.buenaflor.kflogger
 
-public actual open class KLevel protected constructor(public val name: String, public val value: Int) {
+public actual open class KLevel
+protected constructor(public val name: String, public val value: Int) {
   public actual companion object {
     /**
-     * OFF is a special KLevel that can be used to turn off logging. This KLevel is
-     * initialized to <CODE>Integer.MAX_VALUE</CODE>.
+     * OFF is a special KLevel that can be used to turn off logging. This KLevel is initialized to
+     * <CODE>Integer.MAX_VALUE</CODE>.
      */
     public actual val OFF: KLevel
       get() = KLevel("OFF", Int.MAX_VALUE)
@@ -32,9 +33,9 @@ public actual open class KLevel protected constructor(public val name: String, p
     /**
      * INFO is a message KLevel for informational messages.
      *
-     * Typically INFO messages will be written to the console or its equivalent. So the INFO
-     * KLevel should only be used for reasonably significant messages that will make sense to end
-     * users and system administrators. This KLevel is initialized to <CODE>800</CODE>.
+     * Typically INFO messages will be written to the console or its equivalent. So the INFO KLevel
+     * should only be used for reasonably significant messages that will make sense to end users and
+     * system administrators. This KLevel is initialized to <CODE>800</CODE>.
      */
     public actual val INFO: KLevel
       get() = KLevel("INFO", 800)
@@ -54,24 +55,24 @@ public actual open class KLevel protected constructor(public val name: String, p
      * FINE is a message KLevel providing tracing information.
      *
      * All of FINE, FINER, and FINEST are intended for relatively detailed tracing. The exact
-     * meaning of the three KLevels will vary between subsystems, but in general, FINEST should
-     * be used for the most voluminous detailed output, FINER for somewhat less detailed output, and
+     * meaning of the three KLevels will vary between subsystems, but in general, FINEST should be
+     * used for the most voluminous detailed output, FINER for somewhat less detailed output, and
      * FINE for the lowest volume (and most important) messages.
      *
-     * In general the FINE KLevel should be used for information that will be broadly interesting
-     * to developers who do not have a specialized interest in the specific subsystem.
+     * In general the FINE KLevel should be used for information that will be broadly interesting to
+     * developers who do not have a specialized interest in the specific subsystem.
      *
      * FINE messages might include things like minor (recoverable) failures. Issues indicating
-     * potential performance problems are also worth logging as FINE. This KLevel is initialized
-     * to <CODE>500</CODE>.
+     * potential performance problems are also worth logging as FINE. This KLevel is initialized to
+     * <CODE>500</CODE>.
      */
     public actual val FINE: KLevel
       get() = KLevel("FINE", 500)
 
     /**
      * FINER indicates a fairly detailed tracing message. By default logging calls for entering,
-     * returning, or throwing an exception are traced at this KLevel. This KLevel is
-     * initialized to <CODE>400</CODE>.
+     * returning, or throwing an exception are traced at this KLevel. This KLevel is initialized to
+     * <CODE>400</CODE>.
      */
     public actual val FINER: KLevel
       get() = KLevel("FINER", 400)

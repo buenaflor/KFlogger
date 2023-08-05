@@ -24,21 +24,20 @@ import com.buenaflor.kflogger.parser.KMessageParser
  */
 public actual abstract class KLogContext<LOGGER : KAbstractLogger<API>, API : KLoggingApi<API>> :
     KLoggingApi<API>, KLogData {
-  /** The template context if formatting is required (set only after post-processing).  */
+  /** The template context if formatting is required (set only after post-processing). */
   private var templateContext: KTemplateContext? = null
 
   // TODO: Aggressively attempt to reduce the number of fields in this instance.
-  /** The log level of the log statement that this context was created for.  */
+  /** The log level of the log statement that this context was created for. */
   private var level: KLevel
 
-  /** The timestamp of the log statement that this context is associated with.  */
+  /** The timestamp of the log statement that this context is associated with. */
   private var timestampNanos: Long
-
 
   /**
    * A simple token used to identify cases where a single literal value is logged. Note that this
-   * instance must be unique and it is important not to replace this with `""` or any other
-   * value than might be interned and be accessible to code outside this class.
+   * instance must be unique and it is important not to replace this with `""` or any other value
+   * than might be interned and be accessible to code outside this class.
    */
   private val LITERAL_VALUE_MESSAGE = String()
 
