@@ -31,13 +31,13 @@ private fun fromLoggingClass(loggingClass: String): KLogger {
  * Common backend to handle everything except formatting of log message and metadata. This is an
  * unstable implementation and should not be used outside of the Flogger core library.
  */
-public actual abstract class KAbstractBackend internal actual constructor(logger: KLogger) :
-    KLoggerBackend() {
+public actual abstract class KAbstractBackend
+internal actual constructor(private val logger: KLogger) : KLoggerBackend() {
 
   protected actual constructor(loggingClass: String) : this(fromLoggingClass(loggingClass))
 
   public actual final override fun isLoggable(level: KLevel): Boolean {
-    TODO()
+    return logger.isLoggable(level)
   }
 
   /**

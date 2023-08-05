@@ -19,7 +19,6 @@ import com.buenaflor.kflogger.parser.KMessageParser
  */
 public actual class KFluentLogger(backend: KLoggerBackend) :
     KAbstractLogger<KFluentLoggerApi>(backend) {
-
   actual override fun at(level: KLevel): KFluentLoggerApi {
     val isLoggable = isLoggable(level)
     // val isForced: Boolean = KPlatform.shouldForceLogging(getName(), level, isLoggable)
@@ -73,7 +72,8 @@ public actual class KFluentLogger(backend: KLoggerBackend) :
     }
   }
 
-  // TODO KFlogger: this is only a temporary implementation to allow compilation of the library
+  // TODO KFlogger: this is only a temporary implementation to allow compilation of the
+  // KFluentLogger
   private class NoOpMessageParser : KMessageParser() {
     override fun <T> parseImpl(builder: KMessageBuilder<T>?) {}
 
