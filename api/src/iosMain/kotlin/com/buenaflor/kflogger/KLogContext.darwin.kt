@@ -27,6 +27,21 @@ public actual abstract class KLogContext<LOGGER : KAbstractLogger<API>, API : KL
   /** The template context if formatting is required (set only after post-processing).  */
   private var templateContext: KTemplateContext? = null
 
+  // TODO: Aggressively attempt to reduce the number of fields in this instance.
+  /** The log level of the log statement that this context was created for.  */
+  private var level: KLevel
+
+  /** The timestamp of the log statement that this context is associated with.  */
+  private var timestampNanos: Long
+
+
+  /**
+   * A simple token used to identify cases where a single literal value is logged. Note that this
+   * instance must be unique and it is important not to replace this with `""` or any other
+   * value than might be interned and be accessible to code outside this class.
+   */
+  private val LITERAL_VALUE_MESSAGE = String()
+
   /**
    * Creates a logging context with the specified level, and with a timestamp obtained from the
    * configured logging [Platform].
@@ -34,9 +49,8 @@ public actual abstract class KLogContext<LOGGER : KAbstractLogger<API>, API : KL
    * @param level the log level for this log statement.
    * @param isForced whether to force this log statement (see [.wasForced] for details).
    */
-  protected actual constructor(level: KLevel, isForced: Boolean) {
-    // TODO KFlogger
-  }
+  // TODO KFlogger: Timestamp
+  protected actual constructor(level: KLevel, isForced: Boolean) : this(level, isForced, 0L)
 
   /**
    * Creates a logging context with the specified level and timestamp. This constructor is provided
@@ -50,7 +64,8 @@ public actual abstract class KLogContext<LOGGER : KAbstractLogger<API>, API : KL
    * @param timestampNanos the nanosecond timestamp for this log statement.
    */
   protected actual constructor(level: KLevel, isForced: Boolean, timestampNanos: Long) {
-    TODO()
+    this.level = level
+    this.timestampNanos = timestampNanos
   }
 
   /**
@@ -264,7 +279,9 @@ public actual abstract class KLogContext<LOGGER : KAbstractLogger<API>, API : KL
 
   private fun logImpl(message: String, vararg args: Any) {
     // TODO KFlogger
-    templateContext = KTemplateContext(getMessageParser(), message)
+    if (message != LITERAL_VALUE_MESSAGE) {
+      templateContext = KTemplateContext(getMessageParser(), message)
+    }
     getLogger().write(this)
   }
 
@@ -741,7 +758,7 @@ public actual abstract class KLogContext<LOGGER : KAbstractLogger<API>, API : KL
   }
 
   actual final override fun getLevel(): KLevel {
-    TODO("Not yet implemented")
+    return level
   }
 
   @Deprecated("")

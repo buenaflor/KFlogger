@@ -17,7 +17,7 @@ public interface KFluentLoggerApi : KLoggingApi<KFluentLoggerApi>
  * specific logger implementation always get the same behavior.
  */
 public expect class KFluentLogger : KAbstractLogger<KFluentLoggerApi> {
-  override fun at(level: KLevel?): KFluentLoggerApi
+  override fun at(level: KLevel): KFluentLoggerApi
 
   public companion object {
     /**

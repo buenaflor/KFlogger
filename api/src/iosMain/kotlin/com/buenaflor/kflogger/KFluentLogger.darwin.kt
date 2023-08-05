@@ -17,7 +17,7 @@ import com.buenaflor.kflogger.backend.KLoggerBackend
 public actual class KFluentLogger(backend: KLoggerBackend) :
     KAbstractLogger<KFluentLoggerApi>(backend) {
 
-  actual override fun at(level: KLevel?): KFluentLoggerApi {
+  actual override fun at(level: KLevel): KFluentLoggerApi {
     TODO()
   }
 

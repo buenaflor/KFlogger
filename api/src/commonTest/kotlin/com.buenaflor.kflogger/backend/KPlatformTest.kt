@@ -11,8 +11,8 @@ class KPlatformTest {
     KAbstractLogger<CompileOnlyLogger.Api>(backend) {
     interface Api : KLoggingApi<Api>
 
-    override fun at(level: KLevel?): Api {
-      return Context(level!!, false)
+    override fun at(level: KLevel): Api {
+      return Context(level, false)
     }
 
     /** Logging context implementing the fully specified API for this logger. */
@@ -84,7 +84,12 @@ class KPlatformTest {
 
   @Test
   fun testFindLoggingClass() {
-    val loggingClass = CompileOnlyLogger.forEnclosingClass()
-    loggingClass.atWarning().log("What's up")
+    val logger = CompileOnlyLogger.forEnclosingClass()
+    logger.atWarning().log("What's up")
+    logger.atFine().log("What's up2")
+    logger.atInfo().log("What's up3")
+    logger.atSevere().log("What's up4")
+    logger.atFiner().log("What's up5")
+    logger.atFinest().log("What's up6")
   }
 }

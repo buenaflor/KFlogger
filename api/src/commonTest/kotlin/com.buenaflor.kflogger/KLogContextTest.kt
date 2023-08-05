@@ -15,11 +15,11 @@ class KLogContextTest {
       KLogContext<LOGGER, API>(KLevel.WARNING, false)
 
   class CompileOnlyBackend : KLoggerBackend() {
-    override fun isLoggable(lvl: KLevel): Boolean {
+    override fun isLoggable(level: KLevel): Boolean {
       return true
     }
 
-    override fun log(data: KLogData?) {}
+    override fun log(data: KLogData) {}
 
     override fun handleError(error: RuntimeException, badData: KLogData) {}
 
@@ -33,7 +33,7 @@ class KLogContextTest {
 
     class NoOp : KLoggingApiNoOp<Api>(), Api
 
-    override fun at(level: KLevel?): Api {
+    override fun at(level: KLevel): Api {
       return NoOp()
     }
   }

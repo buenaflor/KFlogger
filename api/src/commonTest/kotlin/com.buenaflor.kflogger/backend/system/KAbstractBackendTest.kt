@@ -13,7 +13,7 @@ class KAbstractBackendTest {
   private val compileOnlyBackend = CompileOnlyBackend()
 
   private class CompileOnlyBackend : KAbstractBackend("") {
-    override fun log(data: KLogData?) {}
+    override fun log(data: KLogData) {}
 
     override fun handleError(error: RuntimeException, badData: KLogData) {}
   }

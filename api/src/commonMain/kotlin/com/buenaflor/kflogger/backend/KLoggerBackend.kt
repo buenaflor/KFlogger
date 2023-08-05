@@ -31,7 +31,7 @@ public expect abstract class KLoggerBackend() {
    * Returns whether logging is enabled for the given level for this backend. Different backends may
    * return different values depending on the class with which they are associated.
    */
-  public abstract fun isLoggable(lvl: KLevel): Boolean
+  public abstract fun isLoggable(level: KLevel): Boolean
 
   /**
    * Outputs the log statement represented by the given [KLogData] instance.
@@ -39,7 +39,7 @@ public expect abstract class KLoggerBackend() {
    * @param data user and logger supplied data to be rendered in a backend specific way. References
    *   to `data` must not be held after the [log] invocation returns.
    */
-  public abstract fun log(data: KLogData?)
+  public abstract fun log(data: KLogData)
 
   /**
    * Handles an error in a log statement. Errors passed into this method are expected to have only

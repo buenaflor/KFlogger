@@ -21,11 +21,11 @@ protected actual constructor(private val backend: KLoggerBackend) {
    * where `NO_OP` is a singleton, no-op instance of the logging API whose methods do nothing and
    * just `return noOp()`.
    */
-  public actual abstract fun at(level: KLevel?): API
+  public actual abstract fun at(level: KLevel): API
 
   /** A convenience method for at([Level.SEVERE]). */
   public actual fun atSevere(): API {
-    TODO("Not yet implemented")
+    return at(KLevel.SEVERE)
   }
 
   /** A convenience method for at([Level.WARNING]). */
@@ -35,27 +35,27 @@ protected actual constructor(private val backend: KLoggerBackend) {
 
   /** A convenience method for at([Level.INFO]). */
   public actual fun atInfo(): API {
-    TODO("Not yet implemented")
+    return at(KLevel.INFO)
   }
 
   /** A convenience method for at([Level.CONFIG]). */
   public actual fun atConfig(): API {
-    TODO("Not yet implemented")
+    return at(KLevel.CONFIG)
   }
 
   /** A convenience method for at([Level.FINE]). */
   public actual fun atFine(): API {
-    TODO("Not yet implemented")
+    return at(KLevel.FINE)
   }
 
   /** A convenience method for at([Level.FINER]). */
   public actual fun atFiner(): API {
-    TODO("Not yet implemented")
+    return at(KLevel.FINER)
   }
 
   /** A convenience method for at([Level.FINEST]). */
   public actual fun atFinest(): API {
-    TODO("Not yet implemented")
+    return at(KLevel.FINEST)
   }
 
   /**
@@ -69,8 +69,8 @@ protected actual constructor(private val backend: KLoggerBackend) {
    * Returns whether the given level is enabled for this logger. Users wishing to guard code with a
    * check for "loggability" should use `logger.atLevel().isEnabled()` instead.
    */
-  public actual fun isLoggable(level: KLevel?): Boolean {
-    TODO("Not yet implemented")
+  public actual fun isLoggable(level: KLevel): Boolean {
+    return backend.isLoggable(level)
   }
 
   /**

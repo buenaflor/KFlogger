@@ -29,7 +29,7 @@ public expect abstract class KAbstractBackend internal constructor(logger: KLogg
 
     protected constructor(loggingClass: String)
 
-    public final override fun isLoggable(lvl: KLevel): Boolean
+    public final override fun isLoggable(level: KLevel): Boolean
 
     /**
      * Logs the given record using this backend. If `wasForced` is set, the backend will make a best

@@ -20,6 +20,13 @@ import com.buenaflor.kflogger.KLogRecord
 import com.buenaflor.kflogger.KLogger
 import com.buenaflor.kflogger.backend.KLoggerBackend
 
+// TODO KFlogger
+private fun fromLoggingClass(loggingClass: String): KLogger {
+    val appender = OSLogSubsystemAppender(loggingClass)
+    val logger = appender.logger(loggingClass)
+    return KLogger(logger)
+}
+
 /**
  * Common backend to handle everything except formatting of log message and metadata. This is an
  * unstable implementation and should not be used outside of the Flogger core library.
@@ -27,9 +34,9 @@ import com.buenaflor.kflogger.backend.KLoggerBackend
 public actual abstract class KAbstractBackend internal actual constructor(logger: KLogger) :
     KLoggerBackend() {
 
-    protected actual constructor(loggingClass: String) : this(KLogger())
+    protected actual constructor(loggingClass: String) : this(fromLoggingClass(loggingClass))
 
-    public actual final override fun isLoggable(lvl: KLevel): Boolean {
+    public actual final override fun isLoggable(level: KLevel): Boolean {
         TODO()
     }
 

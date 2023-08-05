@@ -28,7 +28,7 @@ protected constructor(backend: KLoggerBackend) {
    * where `NO_OP` is a singleton, no-op instance of the logging API whose methods do nothing and
    * just `return noOp()`.
    */
-  public abstract fun at(level: KLevel?): API
+  public abstract fun at(level: KLevel): API
 
   /** A convenience method for at([Level.SEVERE]). */
   public fun atSevere(): API
@@ -62,7 +62,7 @@ protected constructor(backend: KLoggerBackend) {
    * Returns whether the given level is enabled for this logger. Users wishing to guard code with a
    * check for "loggability" should use `logger.atLevel().isEnabled()` instead.
    */
-  public fun isLoggable(level: KLevel?): Boolean
+  public fun isLoggable(level: KLevel): Boolean
 
   // ---- IMPLEMENTATION DETAIL (only visible to the base logging context) ----
   /**

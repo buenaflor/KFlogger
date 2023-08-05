@@ -8,11 +8,11 @@ import kotlin.test.Test
 
 class KBackendFactoryTest {
   private class CompileOnlyLoggerBackend : KLoggerBackend() {
-    override fun isLoggable(lvl: KLevel): Boolean {
+    override fun isLoggable(level: KLevel): Boolean {
       return false
     }
 
-    override fun log(data: KLogData?) {}
+    override fun log(data: KLogData) {}
 
     override fun handleError(error: RuntimeException, badData: KLogData) {}
 
