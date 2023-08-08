@@ -61,7 +61,8 @@ final class StackWalkerStackGetter implements StackGetter {
 
   private Predicate<StackFrame> isTargetClass(Class<?> target) {
     String name = target.getName();
-    return f -> f.getClassName().equals(name);
+    // KFlogger: To handle Kotlin companion calls we need to check for names suffixed with $Companion
+    return f -> f.getClassName().equals(name) || f.getClassName().equals(name + "$Companion");
   }
 
   private Stream<StackTraceElement> filterStackTraceAfterTarget(

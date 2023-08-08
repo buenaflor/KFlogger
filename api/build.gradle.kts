@@ -129,7 +129,7 @@ private val deleteServiceFilesFromBuildDir by
     }
 
 /**
- * Task for running tests from the FluentLoggerTest.java file.
+ * Task for running tests using FluentLogger.
  *
  * It depends on deleteServiceFilesFromBuildDir in order to remove service files that persist during
  * DefaultPlatformServiceLoadingTest. If not deleted, this will automatically try to load the
@@ -140,12 +140,18 @@ private val deleteServiceFilesFromBuildDir by
  */
 private val jvmFluentLoggerTest by
     tasks.registering(Test::class) {
-      filter { includeTestsMatching("*.testCreate") }
+      filter {
+        includeTestsMatching("*.testCreate")
+        includeTestsMatching("KPlatformTest.testNotCrashing")
+      }
       dependsOn(deleteServiceFilesFromBuildDir)
     }
 
 tasks.named<Test>("jvmTest") {
-  filter { excludeTestsMatching("*.testCreate") }
+  filter {
+    excludeTestsMatching("*.testCreate")
+    excludeTestsMatching("KPlatformTest.testNotCrashing")
+  }
   finalizedBy(jvmFluentLoggerTest)
 }
 
