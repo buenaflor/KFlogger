@@ -18,9 +18,10 @@ import com.buenaflor.kflogger.context.KTags
  * implementors must take care to avoid cycles during initialization and re-entrant behaviour.
  */
 public expect abstract class KPlatform() {
-  protected abstract fun getCallerFinderImpl(): KLogCallerFinder
+  protected abstract fun getCallerFinderImpl(): KPlatformLogCallerFinder
 
-  protected abstract fun getBackendImpl(className: String): KLoggerBackend
+  protected abstract fun getBackendImpl(className: String?): KLoggerBackend
+
   // TODO KFlogger: protected val contextDataProviderImpl: ContextDataProvider
   protected open fun getCurrentTimeNanosImpl(): Long
 
@@ -50,7 +51,7 @@ public expect abstract class KPlatform() {
     public fun getCurrentRecursionDepth(): Int
 
     /** Returns the API for obtaining caller information about loggers and logging classes. */
-    public fun getCallerFinder(): KLogCallerFinder
+    public fun getCallerFinder(): KPlatformLogCallerFinder
 
     /**
      * Returns a logger backend of the given class name for use by a Fluent Logger. Note that the
@@ -150,7 +151,7 @@ public expect abstract class KPlatform() {
  * can delay any actual work until its methods are called. For example if any additional state is
  * required in the implementation, it can be held via a "lazy holder" to defer initialization.
  */
-public expect abstract class KLogCallerFinder() {
+public expect abstract class KPlatformLogCallerFinder() {
   /**
    * Returns the name of the immediate caller of the given logger class. This is useful when
    * determining the class name with which to create a logger backend.

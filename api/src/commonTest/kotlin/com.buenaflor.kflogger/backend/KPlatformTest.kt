@@ -15,7 +15,6 @@ class KPlatformTest {
       return Context(level, false)
     }
 
-    /** Logging context implementing the fully specified API for this logger. */
     inner class Context internal constructor(level: KLevel, isForced: Boolean) :
         KLogContext<CompileOnlyLogger, Api>(level, isForced), Api {
 
@@ -46,10 +45,6 @@ class KPlatformTest {
             KPlatform.getCallerFinder().findLoggingClass(CompileOnlyLogger::class.toKlass())
         return CompileOnlyLogger(KPlatform.getBackend(loggingClass))
       }
-
-      fun findLoggingClass(): String {
-        return KPlatform.getCallerFinder().findLoggingClass(CompileOnlyLogger::class.toKlass())
-      }
     }
   }
 
@@ -72,14 +67,6 @@ class KPlatformTest {
     KPlatform.getInjectedTags()
     KPlatform.getInjectedMetadata()
     KPlatform.shouldForceLogging("", KLevel.INFO, true)
-  }
-
-  class Fao {
-    companion object {
-      fun log() {
-        CompileOnlyLogger.findLoggingClass()
-      }
-    }
   }
 
   @Test

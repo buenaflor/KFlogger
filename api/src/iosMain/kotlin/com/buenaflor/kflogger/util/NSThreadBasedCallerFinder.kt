@@ -3,10 +3,10 @@ package com.buenaflor.kflogger.util
 import com.buenaflor.kflogger.KAbstractLogger
 import com.buenaflor.kflogger.KLogSite
 import com.buenaflor.kflogger.Klass
-import com.buenaflor.kflogger.backend.KLogCallerFinder
+import com.buenaflor.kflogger.backend.KPlatformLogCallerFinder
 import platform.Foundation.NSThread
 
-public class NSThreadBasedCallerFinder private constructor() : KLogCallerFinder() {
+public class NSThreadBasedCallerFinder private constructor() : KPlatformLogCallerFinder() {
   private fun findCallerNameOf(target: Klass<*>): String {
     val name = target.kClass.qualifiedName
     checkNotNull(name) { "Logger class has no name" }

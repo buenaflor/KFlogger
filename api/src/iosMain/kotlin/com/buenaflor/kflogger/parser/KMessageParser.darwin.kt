@@ -31,6 +31,7 @@ public actual abstract class KMessageParser {
    * Implementations of this method are required to invoke the [MessageBuilder.addParameterImpl]
    * method of the supplied builder once for each parameter place-holder in the message.
    */
+  @Throws(KParseException::class)
   protected actual abstract fun <T> parseImpl(builder: KMessageBuilder<T>?)
 
   /**

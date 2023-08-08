@@ -4,4 +4,4 @@ package com.buenaflor.kflogger.backend
 @Suppress("NO_ACTUAL_CLASS_MEMBER_FOR_EXPECTED_CLASS")
 public actual typealias KPlatform = Platform
 
-public actual typealias KLogCallerFinder = Platform.LogCallerFinder
+public actual typealias KPlatformLogCallerFinder = Platform.LogCallerFinder

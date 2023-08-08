@@ -20,9 +20,9 @@ import com.buenaflor.kflogger.util.NSThreadBasedCallerFinder
  * implementors must take care to avoid cycles during initialization and re-entrant behaviour.
  */
 public actual abstract class KPlatform actual constructor() {
-  protected actual abstract fun getCallerFinderImpl(): KLogCallerFinder
+  protected actual abstract fun getCallerFinderImpl(): KPlatformLogCallerFinder
 
-  protected actual abstract fun getBackendImpl(className: String): KLoggerBackend
+  protected actual abstract fun getBackendImpl(className: String?): KLoggerBackend
 
   protected actual open fun getCurrentTimeNanosImpl(): Long {
     TODO("Not yet implemented")
@@ -63,8 +63,8 @@ public actual abstract class KPlatform actual constructor() {
     }
 
     /** Returns the API for obtaining caller information about loggers and logging classes. */
-    public actual fun getCallerFinder(): KLogCallerFinder {
-      return NSThreadBasedCallerFinder.instance
+    public actual fun getCallerFinder(): KPlatformLogCallerFinder {
+        return NSThreadBasedCallerFinder.instance
     }
 
     /**
@@ -174,7 +174,7 @@ public actual abstract class KPlatform actual constructor() {
  * can delay any actual work until its methods are called. For example if any additional state is
  * required in the implementation, it can be held via a "lazy holder" to defer initialization.
  */
-public actual abstract class KLogCallerFinder {
+public actual abstract class KPlatformLogCallerFinder {
   /**
    * Returns the name of the immediate caller of the given logger class. This is useful when
    * determining the class name with which to create a logger backend.

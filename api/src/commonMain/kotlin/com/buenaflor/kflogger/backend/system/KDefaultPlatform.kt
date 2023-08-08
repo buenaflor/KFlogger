@@ -1,8 +1,8 @@
 package com.buenaflor.kflogger.backend.system
 
-import com.buenaflor.kflogger.backend.KLogCallerFinder
 import com.buenaflor.kflogger.backend.KLoggerBackend
 import com.buenaflor.kflogger.backend.KPlatform
+import com.buenaflor.kflogger.backend.KPlatformLogCallerFinder
 
 /**
  * The default fluent logger platform for a server-side Java environment.
@@ -45,10 +45,9 @@ import com.buenaflor.kflogger.backend.KPlatform
  */
 // Non-final for testing.
 public expect open class KDefaultPlatform() : KPlatform {
+  override fun getCallerFinderImpl(): KPlatformLogCallerFinder
 
-  override fun getCallerFinderImpl(): KLogCallerFinder
-
-  override fun getBackendImpl(className: String): KLoggerBackend
+  override fun getBackendImpl(className: String?): KLoggerBackend
 
   // TODO KFlogger: protected val contextDataProviderImpl: ContextDataProvider
 
