@@ -9,11 +9,11 @@ import platform.Foundation.NSThread
 public class NSThreadBasedCallerFinder private constructor() : KLogCallerFinder() {
   private fun findCallerNameOf(target: Klass<*>): String {
     val name = target.kClass.qualifiedName
-    // TODO KFlogger: get the next frame after the last frame that contains the logger class
     checkNotNull(name) { "Logger class has no name" }
     val callstackSymbols = NSThread.callStackSymbols
     check(callstackSymbols.size > 1) { "Callstack is too short" }
-    val stackframeString = callstackSymbols[3] as String
+    val firstIndex = findIndexOfStringContainingSubstring(callstackSymbols as List<String>, target.kClass.qualifiedName + ".")
+    val stackframeString = callstackSymbols[firstIndex + 1]
     val stackFrameSignature = stackframeString.substringAfter("kfun:").substringBefore("#")
     val lastIndexOfDot = stackFrameSignature.lastIndexOf(".")
     check(lastIndexOfDot != -1) { "Stackframe signature does not contain a dot" }
@@ -23,6 +23,16 @@ public class NSThreadBasedCallerFinder private constructor() : KLogCallerFinder(
     }
     return stackFrameSignature
   }
+
+  private fun findIndexOfStringContainingSubstring(stackTrace: List<String>, substring: String): Int {
+    for ((index, line) in stackTrace.withIndex()) {
+      if (line.contains(substring)) {
+        return index
+      }
+    }
+    return -1
+  }
+
 
   override fun findLoggingClass(loggerClass: Klass<out KAbstractLogger<*>>): String {
     return findCallerNameOf(loggerClass)

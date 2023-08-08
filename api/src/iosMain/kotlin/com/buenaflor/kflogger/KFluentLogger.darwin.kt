@@ -58,7 +58,6 @@ public actual class KFluentLogger(backend: KLoggerBackend) :
     // the NoOp type instead of the Api type. This helps ProGuard optimization recognize the type of
     // this field more easily. This allows ProGuard to strip away low-level logs in Android apps in
     // fewer optimization passes. Do not change this to 'Api', or any less specific type.
-    // VisibleForTesting
     internal val NO_OP: NoOp = NoOp()
 
     /**
@@ -72,8 +71,7 @@ public actual class KFluentLogger(backend: KLoggerBackend) :
     }
   }
 
-  // TODO KFlogger: this is only a temporary implementation to allow compilation of the
-  // KFluentLogger
+  // TODO KFlogger: this is only a temporary implementation to allow compilation of KFluentLogger
   private class NoOpMessageParser : KMessageParser() {
     override fun <T> parseImpl(builder: KMessageBuilder<T>?) {}
 
