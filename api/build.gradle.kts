@@ -142,7 +142,8 @@ private val jvmFluentLoggerTest by
     tasks.registering(Test::class) {
       filter {
         includeTestsMatching("*.testCreate")
-        includeTestsMatching("KPlatformTest.testNotCrashing")
+        includeTestsMatching("*.testNotCrashing")
+        includeTestsMatching("*.testFindLoggingClass")
       }
       dependsOn(deleteServiceFilesFromBuildDir)
     }
@@ -150,7 +151,8 @@ private val jvmFluentLoggerTest by
 tasks.named<Test>("jvmTest") {
   filter {
     excludeTestsMatching("*.testCreate")
-    excludeTestsMatching("KPlatformTest.testNotCrashing")
+    excludeTestsMatching("*.testNotCrashing")
+    excludeTestsMatching("*.testFindLoggingClass")
   }
   finalizedBy(jvmFluentLoggerTest)
 }
