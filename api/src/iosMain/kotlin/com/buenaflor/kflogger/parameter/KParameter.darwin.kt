@@ -33,12 +33,12 @@ protected actual constructor(private val options: KFormatOptions, private val in
 
   protected actual abstract fun accept(visitor: KParameterVisitor, value: Any)
 
-  /** Returns the index of the argument to be processed by this parameter.  */
+  /** Returns the index of the argument to be processed by this parameter. */
   public actual fun getIndex(): Int {
     return index
   }
 
-  /** Returns the formatting options.  */
+  /** Returns the formatting options. */
   protected actual fun getFormatOptions(): KFormatOptions {
     return options
   }

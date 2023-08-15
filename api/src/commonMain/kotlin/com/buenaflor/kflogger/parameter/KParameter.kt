@@ -32,10 +32,9 @@ public expect abstract class KParameter protected constructor(options: KFormatOp
   /** Returns the printf format string specified for this parameter (eg, "%d" or "%tc"). */
   public abstract fun getFormat(): String
 
-  /** Returns the index of the argument to be processed by this parameter.  */
+  /** Returns the index of the argument to be processed by this parameter. */
   public fun getIndex(): Int
 
-  /** Returns the formatting options.  */
+  /** Returns the formatting options. */
   protected fun getFormatOptions(): KFormatOptions
 }
-

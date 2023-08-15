@@ -3,12 +3,12 @@ package com.buenaflor.kflogger.backend.system
 import com.buenaflor.kflogger.KLogger
 import com.buenaflor.kflogger.backend.KLogData
 import com.buenaflor.kflogger.toOsLogType
+import kotlin.native.concurrent.AtomicReference
 import kotlinx.cinterop.ptr
 import platform.darwin.__dso_handle
 import platform.darwin._os_log_internal
 import platform.darwin.os_log_create
 import platform.darwin.os_log_t
-import kotlin.native.concurrent.AtomicReference
 
 /** A logging backend that uses the `OSLog` class to output log statements. */
 public actual class KSimpleLoggerBackend actual constructor(public val logger: KLogger) :

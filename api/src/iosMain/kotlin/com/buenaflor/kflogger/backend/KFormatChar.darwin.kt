@@ -128,12 +128,14 @@ public actual enum class KFormatChar {
      * given character is not an ASCII letter, a runtime exception is thrown.
      */
     public actual fun of(c: Char): KFormatChar? {
-      // Get from the map by converting the char to lower-case (which is the most common case by far).
+      // Get from the map by converting the char to lower-case (which is the most common case by
+      // far).
       // If the given value wasn't an ASCII letter then the index will be out-of-range, but when
       // called by the parser, it's always guaranteed to be an ASCII letter (but perhaps not a valid
       // format character).
 
-      // Get from the map by converting the char to lower-case (which is the most common case by far).
+      // Get from the map by converting the char to lower-case (which is the most common case by
+      // far).
       // If the given value wasn't an ASCII letter then the index will be out-of-range, but when
       // called by the parser, it's always guaranteed to be an ASCII letter (but perhaps not a valid
       // format character).

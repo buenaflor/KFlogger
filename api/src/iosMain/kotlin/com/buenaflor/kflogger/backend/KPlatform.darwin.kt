@@ -64,7 +64,7 @@ public actual abstract class KPlatform actual constructor() {
 
     /** Returns the API for obtaining caller information about loggers and logging classes. */
     public actual fun getCallerFinder(): KPlatformLogCallerFinder {
-        return NSThreadBasedCallerFinder.instance
+      return NSThreadBasedCallerFinder.instance
     }
 
     /**

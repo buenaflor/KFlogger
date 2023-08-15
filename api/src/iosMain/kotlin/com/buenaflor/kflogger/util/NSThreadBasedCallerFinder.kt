@@ -12,7 +12,9 @@ public class NSThreadBasedCallerFinder private constructor() : KPlatformLogCalle
     checkNotNull(name) { "Logger class has no name" }
     val callstackSymbols = NSThread.callStackSymbols
     check(callstackSymbols.size > 1) { "Callstack is too short" }
-    val firstIndex = findIndexOfStringContainingSubstring(callstackSymbols as List<String>, target.kClass.qualifiedName + ".")
+    val firstIndex =
+        findIndexOfStringContainingSubstring(
+            callstackSymbols as List<String>, target.kClass.qualifiedName + ".")
     val stackframeString = callstackSymbols[firstIndex + 1]
     val stackFrameSignature = stackframeString.substringAfter("kfun:").substringBefore("#")
     val lastIndexOfDot = stackFrameSignature.lastIndexOf(".")
@@ -24,7 +26,10 @@ public class NSThreadBasedCallerFinder private constructor() : KPlatformLogCalle
     return stackFrameSignature
   }
 
-  private fun findIndexOfStringContainingSubstring(stackTrace: List<String>, substring: String): Int {
+  private fun findIndexOfStringContainingSubstring(
+      stackTrace: List<String>,
+      substring: String
+  ): Int {
     for ((index, line) in stackTrace.withIndex()) {
       if (line.contains(substring)) {
         return index
@@ -32,7 +37,6 @@ public class NSThreadBasedCallerFinder private constructor() : KPlatformLogCalle
     }
     return -1
   }
-
 
   override fun findLoggingClass(loggerClass: Klass<out KAbstractLogger<*>>): String {
     return findCallerNameOf(loggerClass)

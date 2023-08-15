@@ -18,7 +18,8 @@ public interface KFluentLoggerApi : KLoggingApi<KFluentLoggerApi>
  * The choice to prevent direct extension of loggers was made deliberately to ensure that users of a
  * specific logger implementation always get the same behavior.
  */
-public expect class KFluentLogger internal constructor(backend: KLoggerBackend)  : KAbstractLogger<KFluentLoggerApi> {
+public expect class KFluentLogger internal constructor(backend: KLoggerBackend) :
+    KAbstractLogger<KFluentLoggerApi> {
   override fun at(level: KLevel): KFluentLoggerApi
 
   public companion object {

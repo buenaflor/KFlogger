@@ -41,7 +41,7 @@ public actual abstract class KLogContext<LOGGER : KAbstractLogger<API>, API : KL
    */
   private val LITERAL_VALUE_MESSAGE = String()
 
-  /** The log arguments (set only after post-processing).  */
+  /** The log arguments (set only after post-processing). */
   private var args: Array<out Any>? = null
 
   /**

@@ -20,11 +20,8 @@ package com.buenaflor.kflogger.backend
  *
  * This class is immutable and thread safe.
  */
-public actual class KFormatOptions private constructor(
-    private val flags: Int,
-    private val width: Int,
-    private val precision: Int
-){
+public actual class KFormatOptions
+private constructor(private val flags: Int, private val width: Int, private val precision: Int) {
   /**
    * Returns a possibly new FormatOptions instance possibly containing a subset of the formatting
    * information. This is useful if a backend implementation wishes to create formatting options

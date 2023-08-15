@@ -4,5 +4,5 @@ package com.buenaflor.kflogger
 public actual typealias KLevel = java.util.logging.Level
 
 public actual fun KLevel.intValue(): Int {
-    return this.intValue()
+  return this.intValue()
 }

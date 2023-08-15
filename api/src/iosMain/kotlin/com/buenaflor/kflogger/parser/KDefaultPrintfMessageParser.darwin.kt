@@ -14,29 +14,26 @@ import com.buenaflor.kflogger.parameter.KParameter
 public actual class KDefaultPrintfMessageParser private actual constructor() :
     KPrintfMessageParser() {
 
-    actual override fun parsePrintfTerm(
-        builder: KMessageBuilder<*>?,
-        index: Int,
-        message: String?,
-        termStart: Int,
-        specStart: Int,
-        formatStart: Int
-    ): Int {
-        TODO("Not yet implemented")
+  actual override fun parsePrintfTerm(
+      builder: KMessageBuilder<*>?,
+      index: Int,
+      message: String?,
+      termStart: Int,
+      specStart: Int,
+      formatStart: Int
+  ): Int {
+    TODO("Not yet implemented")
+  }
+
+  public actual companion object {
+    private val INSTANCE: KPrintfMessageParser = KDefaultPrintfMessageParser()
+
+    public actual fun getInstance(): KPrintfMessageParser {
+      TODO("Not yet implemented")
     }
 
-    public actual companion object {
-        private val INSTANCE: KPrintfMessageParser = KDefaultPrintfMessageParser()
-
-        public actual fun getInstance(): KPrintfMessageParser {
-            TODO("Not yet implemented")
-        }
-
-        private fun wrapHexParameter(
-            options: KFormatOptions,
-            index: Int
-        ): KParameter {
-            TODO("Not yet implemented")
-        }
+    private fun wrapHexParameter(options: KFormatOptions, index: Int): KParameter {
+      TODO("Not yet implemented")
     }
+  }
 }

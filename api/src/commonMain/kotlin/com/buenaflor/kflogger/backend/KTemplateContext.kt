@@ -35,5 +35,4 @@ public expect class KTemplateContext(parser: KMessageParser, message: String) {
 
   /** Returns the message for the log statement. */
   public fun getMessage(): String
-
 }
