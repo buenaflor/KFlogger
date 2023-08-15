@@ -41,6 +41,9 @@ public actual abstract class KLogContext<LOGGER : KAbstractLogger<API>, API : KL
    */
   private val LITERAL_VALUE_MESSAGE = String()
 
+  /** The log arguments (set only after post-processing).  */
+  private var args: Array<out Any>? = null
+
   /**
    * Creates a logging context with the specified level, and with a timestamp obtained from the
    * configured logging [Platform].
@@ -93,7 +96,8 @@ public actual abstract class KLogContext<LOGGER : KAbstractLogger<API>, API : KL
   // ---- LogData API ----
 
   public actual final override fun wasForced(): Boolean {
-    TODO()
+    // TODO KFlogger
+    return false
   }
 
   // ---- Mutable Metadata ----
@@ -105,7 +109,9 @@ public actual abstract class KLogContext<LOGGER : KAbstractLogger<API>, API : KL
    * @param key the metadata key (see [LogData]).
    * @param value the metadata value.
    */
-  protected actual fun <T> addMetadata(key: KMetadataKey<T>?, value: T) {}
+  protected actual fun <T> addMetadata(key: KMetadataKey<T>?, value: T) {
+    TODO("Not yet implemented")
+  }
 
   /**
    * Removes all key/value pairs with the specified key. Note that this method does not resize any
@@ -114,7 +120,7 @@ public actual abstract class KLogContext<LOGGER : KAbstractLogger<API>, API : KL
    * @param key the metadata key (see [LogData]).
    */
   protected actual fun removeMetadata(key: KMetadataKey<*>?) {
-    TODO()
+    TODO("Not yet implemented")
   }
 
   // ---- Post processing ----
@@ -233,7 +239,7 @@ public actual abstract class KLogContext<LOGGER : KAbstractLogger<API>, API : KL
 
   // ---- Public logging API ----
   public actual final override fun isEnabled(): Boolean {
-    TODO()
+    return getLogger().isLoggable(level)
   }
 
   public actual final override fun <T> with(key: KMetadataKey<T>, value: T?): API {
@@ -276,11 +282,16 @@ public actual abstract class KLogContext<LOGGER : KAbstractLogger<API>, API : KL
     TODO()
   }
 
-  private fun logImpl(message: String, vararg args: Any) {
-    // TODO KFlogger
+  private fun logImpl(message: String?, vararg args: Any?) {
+    this.args = args as Array<out Any>?
+    // TODO KFlogger: Handle lazyargs
     if (message != LITERAL_VALUE_MESSAGE) {
+      if (message == null) {
+        throw NullPointerException("message must not be null")
+      }
       templateContext = KTemplateContext(getMessageParser(), message)
     }
+    // TODO KFlogger: Add tags and metadata
     getLogger().write(this)
   }
 
@@ -290,28 +301,27 @@ public actual abstract class KLogContext<LOGGER : KAbstractLogger<API>, API : KL
    * to abort logging before we do any varargs creation.
    */
   public actual final override fun log() {
-    TODO()
+    logImpl(LITERAL_VALUE_MESSAGE, "")
   }
 
   public actual final override fun log(msg: String?) {
-    // TODO KFlogger: shouldLog()
-    logImpl(msg!!)
+    logImpl(LITERAL_VALUE_MESSAGE, msg)
   }
 
   public actual final override fun log(msg: String?, p1: Any?) {
-    TODO()
+    logImpl(msg, p1)
   }
 
   public actual final override fun log(msg: String?, p1: Any?, p2: Any?) {
-    TODO()
+    logImpl(msg, p1, p2)
   }
 
   public actual final override fun log(msg: String?, p1: Any?, p2: Any?, p3: Any?) {
-    TODO()
+    logImpl(msg, p1, p2, p3)
   }
 
   public actual final override fun log(msg: String?, p1: Any?, p2: Any?, p3: Any?, p4: Any?) {
-    TODO()
+    logImpl(msg, p1, p2, p3, p4)
   }
 
   public actual final override fun log(
@@ -322,7 +332,7 @@ public actual abstract class KLogContext<LOGGER : KAbstractLogger<API>, API : KL
       p4: Any?,
       p5: Any?
   ) {
-    TODO()
+    logImpl(msg, p1, p2, p3, p4, p5)
   }
 
   public actual final override fun log(
@@ -334,7 +344,7 @@ public actual abstract class KLogContext<LOGGER : KAbstractLogger<API>, API : KL
       p5: Any?,
       p6: Any?
   ) {
-    TODO()
+    logImpl(msg, p1, p2, p3, p4, p5, p6)
   }
 
   public actual final override fun log(
@@ -347,7 +357,7 @@ public actual abstract class KLogContext<LOGGER : KAbstractLogger<API>, API : KL
       p6: Any?,
       p7: Any?
   ) {
-    TODO()
+    logImpl(msg, p1, p2, p3, p4, p5, p6, p7)
   }
 
   public actual final override fun log(
@@ -361,7 +371,7 @@ public actual abstract class KLogContext<LOGGER : KAbstractLogger<API>, API : KL
       p7: Any?,
       p8: Any?
   ) {
-    TODO()
+    logImpl(msg, p1, p2, p3, p4, p5, p6, p7, p8)
   }
 
   public actual final override fun log(
@@ -376,7 +386,7 @@ public actual abstract class KLogContext<LOGGER : KAbstractLogger<API>, API : KL
       p8: Any?,
       p9: Any?
   ) {
-    TODO()
+    logImpl(msg, p1, p2, p3, p4, p5, p6, p7, p8, p9)
   }
 
   public actual final override fun log(
@@ -392,7 +402,7 @@ public actual abstract class KLogContext<LOGGER : KAbstractLogger<API>, API : KL
       p9: Any?,
       p10: Any?
   ) {
-    TODO()
+    logImpl(msg, p1, p2, p3, p4, p5, p6, p7, p8, p9, p10)
   }
 
   public actual final override fun log(
@@ -409,351 +419,363 @@ public actual abstract class KLogContext<LOGGER : KAbstractLogger<API>, API : KL
       p10: Any?,
       vararg rest: Any?
   ) {
-    TODO()
+    // Manually create a new varargs array and copy the parameters in.
+    val params = arrayOfNulls<Any>(rest.size + 10)
+    params[0] = p1
+    params[1] = p2
+    params[2] = p3
+    params[3] = p4
+    params[4] = p5
+    params[5] = p6
+    params[6] = p7
+    params[7] = p8
+    params[8] = p9
+    params[9] = p10
+    logImpl(msg, rest.copyInto(params, 10))
   }
 
   public actual final override fun log(msg: String?, p1: Char) {
-    TODO()
+    logImpl(msg, p1)
   }
 
   public actual final override fun log(msg: String?, p1: Byte) {
-    TODO()
+    logImpl(msg, p1)
   }
 
   public actual final override fun log(msg: String?, p1: Short) {
-    TODO()
+    logImpl(msg, p1)
   }
 
   public actual final override fun log(msg: String?, p1: Int) {
-    TODO()
+    logImpl(msg, p1)
   }
 
   public actual final override fun log(msg: String?, p1: Long) {
-    TODO()
+    logImpl(msg, p1)
   }
 
   public actual final override fun log(msg: String?, p1: Any?, p2: Boolean) {
-    TODO()
+    logImpl(msg, p1, p2)
   }
 
   public actual final override fun log(msg: String?, p1: Any?, p2: Char) {
-    TODO()
+    logImpl(msg, p1, p2)
   }
 
   public actual final override fun log(msg: String?, p1: Any?, p2: Byte) {
-    TODO()
+    logImpl(msg, p1, p2)
   }
 
   public actual final override fun log(msg: String?, p1: Any?, p2: Short) {
-    TODO()
+    logImpl(msg, p1, p2)
   }
 
   public actual final override fun log(msg: String?, p1: Any?, p2: Int) {
-    TODO()
+    logImpl(msg, p1, p2)
   }
 
   public actual final override fun log(msg: String?, p1: Any?, p2: Long) {
-    TODO()
+    logImpl(msg, p1, p2)
   }
 
   public actual final override fun log(msg: String?, p1: Any?, p2: Float) {
-    TODO()
+    logImpl(msg, p1, p2)
   }
 
   public actual final override fun log(msg: String?, p1: Any?, p2: Double) {
-    TODO()
+    logImpl(msg, p1, p2)
   }
 
   public actual final override fun log(msg: String?, p1: Boolean, p2: Any?) {
-    TODO()
+    logImpl(msg, p1, p2)
   }
 
   public actual final override fun log(msg: String?, p1: Char, p2: Any?) {
-    TODO()
+    logImpl(msg, p1, p2)
   }
 
   public actual final override fun log(msg: String?, p1: Byte, p2: Any?) {
-    TODO()
+    logImpl(msg, p1, p2)
   }
 
   public actual final override fun log(msg: String?, p1: Short, p2: Any?) {
-    TODO()
+    logImpl(msg, p1, p2)
   }
 
   public actual final override fun log(msg: String?, p1: Int, p2: Any?) {
-    TODO()
+    logImpl(msg, p1, p2)
   }
 
   public actual final override fun log(msg: String?, p1: Long, p2: Any?) {
-    TODO()
+    logImpl(msg, p1, p2)
   }
 
   public actual final override fun log(msg: String?, p1: Float, p2: Any?) {
-    TODO()
+    logImpl(msg, p1, p2)
   }
 
   public actual final override fun log(msg: String?, p1: Double, p2: Any?) {
-    TODO()
+    logImpl(msg, p1, p2)
   }
 
   public actual final override fun log(msg: String?, p1: Boolean, p2: Boolean) {
-    TODO()
+    logImpl(msg, p1, p2)
   }
 
   public actual final override fun log(msg: String?, p1: Char, p2: Boolean) {
-    TODO()
+    logImpl(msg, p1, p2)
   }
 
   public actual final override fun log(msg: String?, p1: Byte, p2: Boolean) {
-    TODO()
+    logImpl(msg, p1, p2)
   }
 
   public actual final override fun log(msg: String?, p1: Short, p2: Boolean) {
-    TODO()
+    logImpl(msg, p1, p2)
   }
 
   public actual final override fun log(msg: String?, p1: Int, p2: Boolean) {
-    TODO()
+    logImpl(msg, p1, p2)
   }
 
   public actual final override fun log(msg: String?, p1: Long, p2: Boolean) {
-    TODO()
+    logImpl(msg, p1, p2)
   }
 
   public actual final override fun log(msg: String?, p1: Float, p2: Boolean) {
-    TODO()
+    logImpl(msg, p1, p2)
   }
 
   public actual final override fun log(msg: String?, p1: Double, p2: Boolean) {
-    TODO()
+    logImpl(msg, p1, p2)
   }
 
   public actual final override fun log(msg: String?, p1: Boolean, p2: Char) {
-    TODO()
+    logImpl(msg, p1, p2)
   }
 
   public actual final override fun log(msg: String?, p1: Char, p2: Char) {
-    TODO()
+    logImpl(msg, p1, p2)
   }
 
   public actual final override fun log(msg: String?, p1: Byte, p2: Char) {
-    TODO()
+    logImpl(msg, p1, p2)
   }
 
   public actual final override fun log(msg: String?, p1: Short, p2: Char) {
-    TODO()
+    logImpl(msg, p1, p2)
   }
 
   public actual final override fun log(msg: String?, p1: Int, p2: Char) {
-    TODO()
+    logImpl(msg, p1, p2)
   }
 
   public actual final override fun log(msg: String?, p1: Long, p2: Char) {
-    TODO()
+    logImpl(msg, p1, p2)
   }
 
   public actual final override fun log(msg: String?, p1: Float, p2: Char) {
-    TODO()
+    logImpl(msg, p1, p2)
   }
 
   public actual final override fun log(msg: String?, p1: Double, p2: Char) {
-    TODO()
+    logImpl(msg, p1, p2)
   }
 
   public actual final override fun log(msg: String?, p1: Boolean, p2: Byte) {
-    TODO()
+    logImpl(msg, p1, p2)
   }
 
   public actual final override fun log(msg: String?, p1: Char, p2: Byte) {
-    TODO()
+    logImpl(msg, p1, p2)
   }
 
   public actual final override fun log(msg: String?, p1: Byte, p2: Byte) {
-    TODO()
+    logImpl(msg, p1, p2)
   }
 
   public actual final override fun log(msg: String?, p1: Short, p2: Byte) {
-    TODO()
+    logImpl(msg, p1, p2)
   }
 
   public actual final override fun log(msg: String?, p1: Int, p2: Byte) {
-    TODO()
+    logImpl(msg, p1, p2)
   }
 
   public actual final override fun log(msg: String?, p1: Long, p2: Byte) {
-    TODO()
+    logImpl(msg, p1, p2)
   }
 
   public actual final override fun log(msg: String?, p1: Float, p2: Byte) {
-    TODO()
+    logImpl(msg, p1, p2)
   }
 
   public actual final override fun log(msg: String?, p1: Double, p2: Byte) {
-    TODO()
+    logImpl(msg, p1, p2)
   }
 
   public actual final override fun log(msg: String?, p1: Boolean, p2: Short) {
-    TODO()
+    logImpl(msg, p1, p2)
   }
 
   public actual final override fun log(msg: String?, p1: Char, p2: Short) {
-    TODO()
+    logImpl(msg, p1, p2)
   }
 
   public actual final override fun log(msg: String?, p1: Byte, p2: Short) {
-    TODO()
+    logImpl(msg, p1, p2)
   }
 
   public actual final override fun log(msg: String?, p1: Short, p2: Short) {
-    TODO()
+    logImpl(msg, p1, p2)
   }
 
   public actual final override fun log(msg: String?, p1: Int, p2: Short) {
-    TODO()
+    logImpl(msg, p1, p2)
   }
 
   public actual final override fun log(msg: String?, p1: Long, p2: Short) {
-    TODO()
+    logImpl(msg, p1, p2)
   }
 
   public actual final override fun log(msg: String?, p1: Float, p2: Short) {
-    TODO()
+    logImpl(msg, p1, p2)
   }
 
   public actual final override fun log(msg: String?, p1: Double, p2: Short) {
-    TODO()
+    logImpl(msg, p1, p2)
   }
 
   public actual final override fun log(msg: String?, p1: Boolean, p2: Int) {
-    TODO()
+    logImpl(msg, p1, p2)
   }
 
   public actual final override fun log(msg: String?, p1: Char, p2: Int) {
-    TODO()
+    logImpl(msg, p1, p2)
   }
 
   public actual final override fun log(msg: String?, p1: Byte, p2: Int) {
-    TODO()
+    logImpl(msg, p1, p2)
   }
 
   public actual final override fun log(msg: String?, p1: Short, p2: Int) {
-    TODO()
+    logImpl(msg, p1, p2)
   }
 
   public actual final override fun log(msg: String?, p1: Int, p2: Int) {
-    TODO()
+    logImpl(msg, p1, p2)
   }
 
   public actual final override fun log(msg: String?, p1: Long, p2: Int) {
-    TODO()
+    logImpl(msg, p1, p2)
   }
 
   public actual final override fun log(msg: String?, p1: Float, p2: Int) {
-    TODO()
+    logImpl(msg, p1, p2)
   }
 
   public actual final override fun log(msg: String?, p1: Double, p2: Int) {
-    TODO()
+    logImpl(msg, p1, p2)
   }
 
   public actual final override fun log(msg: String?, p1: Boolean, p2: Long) {
-    TODO()
+    logImpl(msg, p1, p2)
   }
 
   public actual final override fun log(msg: String?, p1: Char, p2: Long) {
-    TODO()
+    logImpl(msg, p1, p2)
   }
 
   public actual final override fun log(msg: String?, p1: Byte, p2: Long) {
-    TODO()
+    logImpl(msg, p1, p2)
   }
 
   public actual final override fun log(msg: String?, p1: Short, p2: Long) {
-    TODO()
+    logImpl(msg, p1, p2)
   }
 
   public actual final override fun log(msg: String?, p1: Int, p2: Long) {
-    TODO()
+    logImpl(msg, p1, p2)
   }
 
   public actual final override fun log(msg: String?, p1: Long, p2: Long) {
-    TODO()
+    logImpl(msg, p1, p2)
   }
 
   public actual final override fun log(msg: String?, p1: Float, p2: Long) {
-    TODO()
+    logImpl(msg, p1, p2)
   }
 
   public actual final override fun log(msg: String?, p1: Double, p2: Long) {
-    TODO()
+    logImpl(msg, p1, p2)
   }
 
   public actual final override fun log(msg: String?, p1: Boolean, p2: Float) {
-    TODO()
+    logImpl(msg, p1, p2)
   }
 
   public actual final override fun log(msg: String?, p1: Char, p2: Float) {
-    TODO()
+    logImpl(msg, p1, p2)
   }
 
   public actual final override fun log(msg: String?, p1: Byte, p2: Float) {
-    TODO()
+    logImpl(msg, p1, p2)
   }
 
   public actual final override fun log(msg: String?, p1: Short, p2: Float) {
-    TODO()
+    logImpl(msg, p1, p2)
   }
 
   public actual final override fun log(msg: String?, p1: Int, p2: Float) {
-    TODO()
+    logImpl(msg, p1, p2)
   }
 
   public actual final override fun log(msg: String?, p1: Long, p2: Float) {
-    TODO()
+    logImpl(msg, p1, p2)
   }
 
   public actual final override fun log(msg: String?, p1: Float, p2: Float) {
-    TODO()
+    logImpl(msg, p1, p2)
   }
 
   public actual final override fun log(msg: String?, p1: Double, p2: Float) {
-    TODO()
+    logImpl(msg, p1, p2)
   }
 
   public actual final override fun log(msg: String?, p1: Boolean, p2: Double) {
-    TODO()
+    logImpl(msg, p1, p2)
   }
 
   public actual final override fun log(msg: String?, p1: Char, p2: Double) {
-    TODO()
+    logImpl(msg, p1, p2)
   }
 
   public actual final override fun log(msg: String?, p1: Byte, p2: Double) {
-    TODO()
+    logImpl(msg, p1, p2)
   }
 
   public actual final override fun log(msg: String?, p1: Short, p2: Double) {
-    TODO()
+    logImpl(msg, p1, p2)
   }
 
   public actual final override fun log(msg: String?, p1: Int, p2: Double) {
-    TODO()
+    logImpl(msg, p1, p2)
   }
 
   public actual final override fun log(msg: String?, p1: Long, p2: Double) {
-    TODO()
+    logImpl(msg, p1, p2)
   }
 
   public actual final override fun log(msg: String?, p1: Float, p2: Double) {
-    TODO()
+    logImpl(msg, p1, p2)
   }
 
   public actual final override fun log(msg: String?, p1: Double, p2: Double) {
-    TODO()
+    logImpl(msg, p1, p2)
   }
 
   public actual final override fun logVarargs(message: String?, varargs: Array<Any?>?) {
-    TODO()
+    varargs?.copyOf()?.let { logImpl(message!!, it) }
   }
 
   actual final override fun getLevel(): KLevel {
@@ -782,11 +804,17 @@ public actual abstract class KLogContext<LOGGER : KAbstractLogger<API>, API : KL
   }
 
   actual final override fun getArguments(): Array<Any?>? {
-    TODO("Not yet implemented")
+    if (templateContext == null) {
+      throw IllegalStateException("cannot get arguments unless a template context exists")
+    }
+    return args as Array<Any?>
   }
 
   actual final override fun getLiteralArgument(): Any? {
-    TODO("Not yet implemented")
+    if (templateContext != null) {
+      throw IllegalStateException("cannot get literal argument if a template context exists")
+    }
+    return args?.get(0)
   }
 
   /**
@@ -834,7 +862,7 @@ public actual class KLogContextKey {
 
     /**
      * The key associated with a rate limiting counter for "1-in-N" rate limiting. The value is set
-     * by [LoggingApi.every].
+     * by [KLoggingApi.every].
      */
     public actual val LOG_EVERY_N: KMetadataKey<Int>
       get() = TODO("Not yet implemented")

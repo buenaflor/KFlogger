@@ -906,6 +906,7 @@ public abstract class LogContext<LOGGER extends AbstractLogger<API>, API extends
   @Override
   public final void log(String message, @NullableDecl Object p1) {
     if (shouldLog()) {
+      System.out.println("hello null");
       logImpl(message, p1);
     }
   }

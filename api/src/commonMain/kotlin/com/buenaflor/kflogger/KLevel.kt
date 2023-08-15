@@ -70,3 +70,5 @@ public expect class KLevel {
     public val ALL: KLevel
   }
 }
+
+public expect fun KLevel.intValue(): Int

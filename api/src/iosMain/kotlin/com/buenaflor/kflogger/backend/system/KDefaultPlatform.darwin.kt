@@ -2,8 +2,8 @@ package com.buenaflor.kflogger.backend.system
 
 import com.buenaflor.kflogger.backend.KLoggerBackend
 import com.buenaflor.kflogger.backend.KPlatform
-import com.buenaflor.kflogger.util.NSThreadBasedCallerFinder
 import com.buenaflor.kflogger.backend.KPlatformLogCallerFinder
+import com.buenaflor.kflogger.util.NSThreadBasedCallerFinder
 
 /**
  * The default fluent logger platform for a server-side Java environment.
@@ -47,11 +47,11 @@ import com.buenaflor.kflogger.backend.KPlatformLogCallerFinder
 // Non-final for testing.
 public actual open class KDefaultPlatform actual constructor() : KPlatform() {
   protected actual override fun getCallerFinderImpl(): KPlatformLogCallerFinder {
-    TODO("Not yet implemented")
+    return NSThreadBasedCallerFinder.instance
   }
 
-  protected actual override fun getBackendImpl(className: String?): KLoggerBackend {
-    TODO("Not yet implemented")
+  protected actual override fun getBackendImpl(className: String): KLoggerBackend {
+    return KSimpleBackendFactory.getInstance().create(className)
   }
 
   protected actual override fun getConfigInfoImpl(): String {

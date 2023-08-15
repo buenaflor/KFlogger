@@ -18,6 +18,8 @@ package com.buenaflor.kflogger.backend.system;
 
 import com.buenaflor.kflogger.backend.LogData;
 import com.buenaflor.kflogger.backend.Platform;
+
+import java.util.Arrays;
 import java.util.logging.Logger;
 
 /** A logging backend that uses the {@code java.util.logging} classes to output log statements. */

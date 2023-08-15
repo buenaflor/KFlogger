@@ -20,7 +20,7 @@ import com.buenaflor.kflogger.context.KTags
 public expect abstract class KPlatform() {
   protected abstract fun getCallerFinderImpl(): KPlatformLogCallerFinder
 
-  protected abstract fun getBackendImpl(className: String?): KLoggerBackend
+  protected abstract fun getBackendImpl(className: String): KLoggerBackend
 
   // TODO KFlogger: protected val contextDataProviderImpl: ContextDataProvider
   protected open fun getCurrentTimeNanosImpl(): Long

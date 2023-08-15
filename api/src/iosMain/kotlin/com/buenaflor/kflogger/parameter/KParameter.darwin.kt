@@ -27,17 +27,19 @@ import com.buenaflor.kflogger.backend.KFormatOptions
  * Note that all subclasses of Parameter must be immutable and thread safe.
  */
 public actual abstract class KParameter
-protected actual constructor(options: KFormatOptions, index: Int) {
-  /** Returns the formatting options. */
-  protected actual val formatOptions: KFormatOptions = TODO()
-
+protected actual constructor(private val options: KFormatOptions, private val index: Int) {
   /** Returns the printf format string specified for this parameter (eg, "%d" or "%tc"). */
   public actual abstract fun getFormat(): String
 
   protected actual abstract fun accept(visitor: KParameterVisitor, value: Any)
-}
 
-/** Returns the index of the argument to be processed by this parameter. */
-public actual fun KParameter.index(): Int {
-  TODO()
+  /** Returns the index of the argument to be processed by this parameter.  */
+  public actual fun getIndex(): Int {
+    return index
+  }
+
+  /** Returns the formatting options.  */
+  protected actual fun getFormatOptions(): KFormatOptions {
+    return options
+  }
 }

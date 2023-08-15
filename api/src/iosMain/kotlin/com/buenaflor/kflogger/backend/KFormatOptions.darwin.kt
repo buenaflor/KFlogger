@@ -20,7 +20,11 @@ package com.buenaflor.kflogger.backend
  *
  * This class is immutable and thread safe.
  */
-public actual class KFormatOptions {
+public actual class KFormatOptions private constructor(
+    private val flags: Int,
+    private val width: Int,
+    private val precision: Int
+){
   /**
    * Returns a possibly new FormatOptions instance possibly containing a subset of the formatting
    * information. This is useful if a backend implementation wishes to create formatting options
@@ -147,6 +151,9 @@ public actual class KFormatOptions {
   }
 
   public actual companion object {
+    // WARNING: Never add any more flags here (flag encoding breaks if > 7 flags).
+    private const val FLAG_CHARS_ORDERED = " #(+,-0"
+
     /**
      * A formatting flag which specifies that for signed numeric output, positive values should be
      * prefixed with an ASCII space (`' '`). This corresponds to the `' '` printf flag and is valid
@@ -262,6 +269,35 @@ public actual class KFormatOptions {
     public actual fun checkFlagConsistency(flags: Int, hasWidth: Boolean): Boolean {
       TODO("Not yet implemented")
     }
+  }
+
+  /**
+   * Appends the data for this options instance in a printf compatible form to the given buffer.
+   * This method neither appends the leading `%` symbol nor a format type character. Output is
+   * written in the form `[width][.precision][flags]` and for the default instance, nothing is
+   * appended.
+   *
+   * @param out The output buffer to which the options are appended.
+   */
+  public actual fun appendPrintfOptions(out: StringBuilder): StringBuilder {
+    if (!isDefault()) {
+      // Knock out the upper-case flag because that does not correspond to an options character.
+      val optionFlags: Int = flags and FLAG_UPPER_CASE.inv()
+      var bit = 0
+      while (1 shl bit <= optionFlags) {
+        if (optionFlags and (1 shl bit) != 0) {
+          out.append(FLAG_CHARS_ORDERED[bit])
+        }
+        bit++
+      }
+      if (width != UNSET) {
+        out.append(width)
+      }
+      if (precision != UNSET) {
+        out.append('.').append(precision)
+      }
+    }
+    return out
   }
 }
 

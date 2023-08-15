@@ -92,3 +92,7 @@ protected constructor(public val name: String, public val value: Int) {
       get() = KLevel("ALL", Int.MIN_VALUE)
   }
 }
+
+public actual fun KLevel.intValue(): Int {
+  return this.value
+}

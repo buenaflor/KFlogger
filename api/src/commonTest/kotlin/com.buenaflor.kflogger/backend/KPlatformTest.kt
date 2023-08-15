@@ -59,6 +59,7 @@ class KPlatformTest {
   fun testNotCrashing() {
     // This test is to ensure that the code compiles and does not crash.
     CompileOnlyLogger.forEnclosingClass() // test findLoggingClass
+    KFluentLogger.forEnclosingClass().atWarning().log("hello %s", 1)
     KPlatform.getCallerFinder().findLogSite(this::class.toKlass(), 0)
     KPlatform.getBackend("")
     KPlatform.getConfigInfo()

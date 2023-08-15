@@ -18,7 +18,7 @@ class KTemplateContextTest {
     // This test is to ensure that the code compiles and does not crash.
     val parser = CompileOnlyMessageParser()
     val templateContext = KTemplateContext(parser, "message")
-    templateContext.message
-    templateContext.parser
+    templateContext.getMessage()
+    templateContext.getParser()
   }
 }

@@ -40,7 +40,7 @@ class KDefaultPlatformTest {
       return CompileOnlyLogCallerFinder()
     }
 
-    override fun getBackendImpl(className: String?): KLoggerBackend {
+    override fun getBackendImpl(className: String): KLoggerBackend {
       return CompileOnlyLoggerBackend()
     }
 
@@ -54,7 +54,7 @@ class KDefaultPlatformTest {
 
     fun compile() {
       getCallerFinderImpl()
-      getBackendImpl(null)
+      getBackendImpl("null")
       getConfigInfoImpl()
       getCurrentTimeNanosImpl()
     }

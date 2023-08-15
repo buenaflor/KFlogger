@@ -42,7 +42,7 @@ public final class DefaultPlatformServiceLoadingTest {
         .contains("LogCallerFinder: Default stack-based caller finder");
   }
 
-  @AutoService(BackendFactory.class)
+  //@AutoService(BackendFactory.class)
   public static final class TestBackendFactoryService extends BackendFactory {
     @Override
     public LoggerBackend create(String loggingClassName) {
@@ -55,7 +55,7 @@ public final class DefaultPlatformServiceLoadingTest {
     }
   }
 
-  @AutoService(ContextDataProvider.class)
+  //@AutoService(ContextDataProvider.class)
   public static final class TestContextDataProviderService extends ContextDataProvider {
     @Override
     public ScopedLoggingContext getContextApiSingleton() {

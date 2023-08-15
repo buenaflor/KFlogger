@@ -47,7 +47,7 @@ import com.buenaflor.kflogger.backend.KPlatformLogCallerFinder
 public expect open class KDefaultPlatform() : KPlatform {
   override fun getCallerFinderImpl(): KPlatformLogCallerFinder
 
-  override fun getBackendImpl(className: String?): KLoggerBackend
+  override fun getBackendImpl(className: String): KLoggerBackend
 
   // TODO KFlogger: protected val contextDataProviderImpl: ContextDataProvider
 

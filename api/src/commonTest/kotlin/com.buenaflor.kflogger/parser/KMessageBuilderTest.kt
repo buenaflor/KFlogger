@@ -2,7 +2,6 @@ package com.buenaflor.kflogger.parser
 
 import com.buenaflor.kflogger.backend.KFormatOptions
 import com.buenaflor.kflogger.backend.KTemplateContext
-import com.buenaflor.kflogger.backend.message
 import com.buenaflor.kflogger.parameter.KParameter
 import com.buenaflor.kflogger.parameter.KParameterVisitor
 import com.buenaflor.kflogger.util.IgnoreIos
@@ -20,7 +19,7 @@ class KMessageBuilderTest {
     override fun addParameterImpl(termStart: Int, termEnd: Int, param: KParameter) {}
 
     override fun buildImpl(): String {
-      return "${templateContext.message} + 1"
+      return "${templateContext.getMessage()} + 1"
     }
   }
 

@@ -22,7 +22,7 @@ import com.buenaflor.kflogger.util.NSThreadBasedCallerFinder
 public actual abstract class KPlatform actual constructor() {
   protected actual abstract fun getCallerFinderImpl(): KPlatformLogCallerFinder
 
-  protected actual abstract fun getBackendImpl(className: String?): KLoggerBackend
+  protected actual abstract fun getBackendImpl(className: String): KLoggerBackend
 
   protected actual open fun getCurrentTimeNanosImpl(): Long {
     TODO("Not yet implemented")

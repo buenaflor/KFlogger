@@ -9,7 +9,6 @@ class KParameterTest {
     override fun accept(visitor: KParameterVisitor, value: Any) {}
 
     override fun getFormat(): String {
-      formatOptions
       return "format"
     }
   }
@@ -20,6 +19,6 @@ class KParameterTest {
     // This test is to ensure that the code compiles and does not crash.
     val parameter = CompileOnlyParameter()
     parameter.getFormat()
-    parameter.index()
+    parameter.getIndex()
   }
 }

@@ -128,7 +128,7 @@ public expect class KFormatOptions {
    *
    * @param out The output buffer to which the options are appended.
    */
-  // TODO KFlogger: fun appendPrintfOptions(out: java.lang.StringBuilder): java.lang.StingBuilder
+  public fun appendPrintfOptions(out: StringBuilder): StringBuilder
 
   override fun equals(other: Any?): Boolean
 

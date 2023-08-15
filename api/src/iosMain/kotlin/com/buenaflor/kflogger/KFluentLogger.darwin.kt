@@ -17,7 +17,7 @@ import com.buenaflor.kflogger.parser.KMessageParser
  * The choice to prevent direct extension of loggers was made deliberately to ensure that users of a
  * specific logger implementation always get the same behavior.
  */
-public actual class KFluentLogger(backend: KLoggerBackend) :
+public actual class KFluentLogger internal actual constructor(backend: KLoggerBackend) :
     KAbstractLogger<KFluentLoggerApi>(backend) {
   actual override fun at(level: KLevel): KFluentLoggerApi {
     val isLoggable = isLoggable(level)
@@ -39,6 +39,7 @@ public actual class KFluentLogger(backend: KLoggerBackend) :
     }
 
     override fun getMessageParser(): KMessageParser {
+      // TODO KFlogger: this is only a temporary implementation to allow compilation of KFluentLogger
       return NoOpMessageParser()
     }
 

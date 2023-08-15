@@ -107,13 +107,49 @@ public actual enum class KFormatChar {
   EXPONENT_HEX;
 
   public actual companion object {
+    // A direct mapping from character offset to FormatChar instance. Have all 26 letters accounted
+    // for because we know that the caller has already checked that this is an ASCII letter.
+    // This mapping needs to be fast as it's called for every argument in every log message.
+    private val MAP: Array<KFormatChar?> = arrayOfNulls<KFormatChar>(26)
+
+    // Returns whether a given ASCII letter is lower case.
+    private fun isLowerCase(letter: Char): Boolean {
+      return letter.code and 0x20 != 0
+    }
+
+    // Returns the numeric index [0-25] of a given ASCII letter (upper or lower case). If the given
+    // value is not an ASCII letter, the returned value is not in the range 0-25.
+    private fun indexOf(letter: Char): Int {
+      return (letter.code or 0x20) - 'a'.code
+    }
+
     /**
      * Returns the FormatChar instance associated with the given printf format specifier. If the
      * given character is not an ASCII letter, a runtime exception is thrown.
      */
     public actual fun of(c: Char): KFormatChar? {
-      TODO()
+      // Get from the map by converting the char to lower-case (which is the most common case by far).
+      // If the given value wasn't an ASCII letter then the index will be out-of-range, but when
+      // called by the parser, it's always guaranteed to be an ASCII letter (but perhaps not a valid
+      // format character).
+
+      // Get from the map by converting the char to lower-case (which is the most common case by far).
+      // If the given value wasn't an ASCII letter then the index will be out-of-range, but when
+      // called by the parser, it's always guaranteed to be an ASCII letter (but perhaps not a valid
+      // format character).
+      val fc: KFormatChar? = KFormatChar.MAP[KFormatChar.indexOf(c)]
+      if (KFormatChar.isLowerCase(c)) {
+        // If we were given a lower case char to find, we're done (even if the result is null).
+        return fc
+      }
+      // Otherwise handle the case where we found a lower-case format char but no upper-case one.
+      // Otherwise handle the case where we found a lower-case format char but no upper-case one.
+      return if (fc != null && fc.hasUpperCaseVariant()) fc else null
     }
+  }
+
+  private fun hasUpperCaseVariant(): Boolean {
+    return (allowedFlags and KFormatOptions.FLAG_UPPER_CASE) != 0
   }
 }
 
