@@ -1,11 +1,14 @@
+
 import org.jetbrains.kotlin.gradle.internal.KaptWithoutKotlincTask
 import org.jetbrains.kotlin.gradle.plugin.KotlinDependencyHandler
+import java.util.*
 
 plugins {
   alias(libs.plugins.kotlin.multiplatform)
   alias(libs.plugins.errorprone)
   kotlin("kapt")
   `maven-publish`
+  signing
 }
 
 group = properties["groupName"].toString()
@@ -158,28 +161,84 @@ tasks.named<Test>("jvmTest") {
 }
 
 fun KotlinDependencyHandler.errorprone(dependencyNotation: Any): Dependency? {
-  val dependency = implementation(dependencyNotation)
+  val dependency = compileOnly(dependencyNotation)
   return dependency?.let {
     project.configurations.getByName("errorprone").dependencies.add(dependency)
     it
   }
 }
 
-publishing {
-  // TODO: Create a separate publication for "system-backend"
-  publications {
-    // Define the publication with the desired artifact name
-    create<MavenPublication>("KFlogger") {
-      artifactId = "kflogger"
-      groupId = group.toString()
-      version = version.toString()
+// Stub secrets to let the project sync and build without the publication values set up
+ext["signing.keyId"] = null
 
-      from(components["kotlin"])
+ext["signing.password"] = null
+
+ext["signing.secretKeyRingFile"] = null
+
+ext["ossrhUsername"] = null
+
+ext["ossrhPassword"] = null
+
+// Grabbing secrets from local.properties file or from environment variables, which could be used on
+// CI
+val secretPropsFile = project.rootProject.file("local.properties")
+
+if (secretPropsFile.exists()) {
+  secretPropsFile
+      .reader()
+      .use { Properties().apply { load(it) } }
+      .onEach { (name, value) -> ext[name.toString()] = value }
+} else {
+  ext["signing.keyId"] = System.getenv("SIGNING_KEY_ID")
+  ext["signing.password"] = System.getenv("SIGNING_PASSWORD")
+  ext["signing.secretKeyRingFile"] = System.getenv("SIGNING_SECRET_KEY_RING_FILE")
+  ext["ossrhUsername"] = System.getenv("OSSRH_USERNAME")
+  ext["ossrhPassword"] = System.getenv("OSSRH_PASSWORD")
+}
+
+val javadocJar by tasks.registering(Jar::class) { archiveClassifier.set("javadoc") }
+
+fun getExtraString(name: String) = ext[name]?.toString()
+
+publishing {
+  repositories {
+    maven {
+      name = "sonatype"
+      setUrl("https://s01.oss.sonatype.org/content/repositories/releases/")
+      credentials {
+        username = getExtraString("ossrhUsername")
+        password = getExtraString("ossrhPassword")
+      }
+    }
+    publications.withType<MavenPublication> {
+      artifactId = artifactId.replace("api", "kflogger")
+
+      // Stub javadoc.jar artifact
+      // artifact(javadocJar.get())
+
+      // Provide artifacts information requited by Maven Central
+      pom {
+        name.set("KFlogger")
+        description.set("Kotlin Multiplatform port of Flogger")
+        url.set("https://github.com/buenaflor/kflogger")
+
+        licenses {
+          license {
+            name.set("Apache License 2.0")
+            url.set("https://opensource.org/license/apache-2-0/")
+          }
+        }
+        developers {
+          developer {
+            id.set("buenaflor")
+            name.set("Giancarlo Buenaflor")
+            email.set("giancarlo_buenaflor@yahoo.com")
+          }
+        }
+        scm { url.set("https://github.com/buenaflor/KFlogger") }
+      }
     }
   }
-
-  repositories {
-    // Configure the Maven repository where we want to publish
-    mavenLocal()
-  }
 }
+
+signing { sign(publishing.publications) }
