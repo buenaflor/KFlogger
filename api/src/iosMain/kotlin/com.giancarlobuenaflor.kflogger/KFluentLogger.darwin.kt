@@ -39,8 +39,7 @@ public actual class KFluentLogger internal actual constructor(backend: KLoggerBa
     }
 
     override fun getMessageParser(): KMessageParser {
-      // TODO KFlogger: this is only a temporary implementation to allow compilation of
-      // KFluentLogger
+      // TODO KFlogger: this is only a temporary implementation to allow compilation of KFluentLogger
       return NoOpMessageParser()
     }
 
@@ -75,7 +74,9 @@ public actual class KFluentLogger internal actual constructor(backend: KLoggerBa
 
   // TODO KFlogger: this is only a temporary implementation to allow compilation of KFluentLogger
   private class NoOpMessageParser : KMessageParser() {
-    override fun <T> parseImpl(builder: KMessageBuilder<T>?) {}
+    override fun <T> parseImpl(builder: KMessageBuilder<T>) {
+      TODO("Not yet implemented")
+    }
 
     override fun unescape(out: StringBuilder?, message: String?, start: Int, end: Int) {}
   }

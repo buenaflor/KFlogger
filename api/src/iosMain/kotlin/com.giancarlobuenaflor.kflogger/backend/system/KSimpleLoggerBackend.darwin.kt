@@ -2,6 +2,7 @@ package com.giancarlobuenaflor.kflogger.backend.system
 
 import com.giancarlobuenaflor.kflogger.KLogger
 import com.giancarlobuenaflor.kflogger.backend.KLogData
+import com.giancarlobuenaflor.kflogger.parser.KPrintfMessageParser
 import com.giancarlobuenaflor.kflogger.toOsLogType
 import kotlinx.cinterop.ptr
 import platform.darwin.__dso_handle
@@ -11,12 +12,11 @@ import platform.darwin.os_log_t
 import kotlin.native.concurrent.AtomicReference
 
 /** A logging backend that uses the `OSLog` class to output log statements. */
-public actual class KSimpleLoggerBackend actual constructor(public val logger: KLogger) :
-    KAbstractBackend(logger) {
+public actual class KSimpleLoggerBackend actual constructor(public val logger: KLogger) : KAbstractBackend(logger) {
 
   public actual override fun log(data: KLogData) {
     val templateContext = data.getTemplateContext()
-
+    data.getTemplateContext()?.getParser()
     if (templateContext != null) {
       if (logger.isLoggable(data.getLevel())) {
         log(data.getLevel().toOsLogType(), templateContext.message.formatArgs(data.getArguments()))
@@ -65,7 +65,7 @@ public fun String.formatArgs(args: Array<out Any?>?): String {
   var argIndex = 0
   var skipFormatChar = false
 
-  return buildString {
+  val printfFormatted = buildString {
     for (char in this@formatArgs) {
       if (char == '%' && argIndex < args.size) {
         val formatSpecifier = parseFormatSpecifier()
@@ -85,6 +85,9 @@ public fun String.formatArgs(args: Array<out Any?>?): String {
       }
     }
   }
+  val stringBuilder = StringBuilder()
+  KPrintfMessageParser.unescapePrintf(stringBuilder, printfFormatted, 0, printfFormatted.length)
+  return stringBuilder.toString()
 }
 
 private fun String.parseFormatSpecifier(): String {
@@ -94,6 +97,19 @@ private fun String.parseFormatSpecifier(): String {
   }
 
   val specifierChar = this[startIndex + 1]
+  if (specifierChar != 's' && specifierChar != 'd' && specifierChar != 'f') {
+    throw IllegalArgumentException("Invalid format string: $this")
+  }
+
+  return "%$specifierChar"
+}
+
+private fun String.parseFormatSpecifier(pos: Int): String {
+  if (pos == -1 || pos == length - 1) {
+    throw IllegalArgumentException("Invalid format string: $this")
+  }
+
+  val specifierChar = this[pos + 1]
   if (specifierChar != 's' && specifierChar != 'd' && specifierChar != 'f') {
     throw IllegalArgumentException("Invalid format string: $this")
   }

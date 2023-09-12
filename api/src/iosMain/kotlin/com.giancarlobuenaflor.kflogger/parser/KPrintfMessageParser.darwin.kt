@@ -57,17 +57,20 @@ public actual abstract class KPrintfMessageParser : KMessageParser() {
   }
 
   @Throws(KParseException::class)
-  actual final override fun <T> parseImpl(builder: KMessageBuilder<T>?) {
+  protected actual final override fun <T> parseImpl(builder: KMessageBuilder<T>) {
     TODO()
   }
 
   public actual companion object {
+    private val SYSTEM_NEWLINE = getSafeSystemNewline()
+
     /**
      * Returns the system newline separator avoiding any issues with security exceptions or
      * "suspicious" values. The only allowed return values are "\n" (default), "\r" or "\r\n".
      */
     internal actual fun getSafeSystemNewline(): String {
-      TODO()
+      // TODO
+      return "\n"
     }
 
     /**
@@ -77,7 +80,27 @@ public actual abstract class KPrintfMessageParser : KMessageParser() {
     // VisibleForTesting
     @Throws(KParseException::class)
     internal actual fun nextPrintfTerm(message: String, pos: Int): Int {
-      TODO()
+      var pos = pos
+      while (pos < message.length) {
+        if (message[pos++] != '%') {
+          continue
+        }
+        if (pos < message.length) {
+          val c = message[pos]
+          if (c == '%' || c == 'n') {
+            // We encountered '%%' or '%n', so keep going (these will be unescaped later).
+            pos += 1
+            continue
+          }
+          // We were pointing at the character after the '%', so adjust back by one.
+          return pos - 1
+        }
+        // We ran off the end while looking for the character after the first '%'.
+        // TODO: should be KParseException
+        throw IllegalArgumentException("trailing unquoted '%' character")
+      }
+      // We never found another unescaped '%'.
+      return -1
     }
 
     /**
@@ -86,7 +109,35 @@ public actual abstract class KPrintfMessageParser : KMessageParser() {
      */
     // VisibleForTesting
     internal actual fun unescapePrintf(out: StringBuilder, message: String, start: Int, end: Int) {
-      TODO()
+      var start = start
+      var pos = start
+      while (pos < end) {
+        if (message[pos++] != '%') {
+          continue
+        }
+        if (pos == end) {
+          // Ignore unexpected trailing '%'.
+          break
+        }
+        val chr = message[pos]
+        if (chr == '%') {
+          // Append the section up to and including the first '%'.
+          out.append(message, start, pos)
+        } else if (chr == 'n') {
+          // %n encountered, rewind one position to not emit leading '%' and emit newline.
+          out.append(message, start, pos - 1)
+          out.append(KPrintfMessageParser.SYSTEM_NEWLINE)
+        } else {
+          // A single unescaped '%' is ignored and left in the output as-is.
+          continue
+        }
+        // Increment the position and reset the start point after the last processed character.
+        start = ++pos
+      }
+      // Append the last section (if it's non empty).
+      if (start < end) {
+        out.append(message, start, end)
+      }
     }
   }
 }

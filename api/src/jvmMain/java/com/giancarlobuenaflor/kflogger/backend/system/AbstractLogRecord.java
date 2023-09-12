@@ -183,6 +183,7 @@ public abstract class AbstractLogRecord extends LogRecord {
     if (cachedMessage != null) {
       return cachedMessage;
     }
+    System.out.println(data.getTemplateContext().getMessage());
     String formattedMessage = getLogMessageFormatter().format(data, metadata);
     super.setMessage(formattedMessage);
     return formattedMessage;

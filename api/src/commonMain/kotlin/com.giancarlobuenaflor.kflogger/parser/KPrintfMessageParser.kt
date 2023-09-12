@@ -55,7 +55,7 @@ public expect abstract class KPrintfMessageParser() : KMessageParser {
   public final override fun unescape(out: StringBuilder?, message: String?, start: Int, end: Int)
 
   @Throws(KParseException::class)
-  protected final override fun <T> parseImpl(builder: KMessageBuilder<T>?)
+  protected final override fun <T> parseImpl(builder: KMessageBuilder<T>)
 
   public companion object {
     /**

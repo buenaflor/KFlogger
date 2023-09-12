@@ -6,7 +6,7 @@ class KFluentLoggerTest {
   @Test
   fun testNotCrashing() {
     val logger = KFluentLogger.forEnclosingClass()
-    logger.atInfo().log("Hello, world!", arrayOf("1", 2))
+    logger.atInfo().log("Hello, world! %s", "test")
     logger.atWarning().log("Hello, world!")
     logger.atSevere().log("Hello, world!")
     logger.atFine().log("Hello, world!")

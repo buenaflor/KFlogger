@@ -49,7 +49,7 @@ class KPlatformTest {
   }
 
   private class CompileOnlyMessageParser : KMessageParser() {
-    override fun <T> parseImpl(builder: KMessageBuilder<T>?) {}
+    override fun <T> parseImpl(builder: KMessageBuilder<T>) {}
 
     override fun unescape(out: StringBuilder?, message: String?, start: Int, end: Int) {}
   }

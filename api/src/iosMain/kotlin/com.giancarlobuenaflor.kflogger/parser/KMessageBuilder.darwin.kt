@@ -25,7 +25,7 @@ import com.giancarlobuenaflor.kflogger.parameter.KParameter
  *
  * @param <T> The message type being built. </T>
  */
-public actual abstract class KMessageBuilder<T> actual constructor(context: KTemplateContext) {
+public actual abstract class KMessageBuilder<T> actual constructor(internal val context: KTemplateContext) {
   /**
    * Called by parser implementations to signify that the parsing of the next parameter is complete.
    * This method will call [.addParameterImpl] with exactly the same arguments, but may also do
@@ -66,17 +66,17 @@ public actual abstract class KMessageBuilder<T> actual constructor(context: KTem
    * @return the implementation specific result of parsing the current log message.
    */
   public actual fun build(): T {
-    TODO("Not yet implemented")
+    TODO()
   }
 }
 
 /** Returns the parser used to process the log format message in this builder. */
 public actual val <T> KMessageBuilder<T>.parser: KMessageParser
-  get() = TODO()
+  get() = context.getParser()
 
 /** Returns the log format message to be parsed by this builder. */
 public actual val <T> KMessageBuilder<T>.message: String
-  get() = TODO()
+  get() = context.message
 
 /**
  * Returns the expected number of arguments to be formatted by this message. This is only valid once

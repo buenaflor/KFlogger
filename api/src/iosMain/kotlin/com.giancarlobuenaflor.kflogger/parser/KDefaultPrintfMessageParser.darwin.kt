@@ -25,12 +25,22 @@ public actual class KDefaultPrintfMessageParser private actual constructor() :
     TODO("Not yet implemented")
   }
 
+  public fun pubParsePrintfTerm(
+      builder: KMessageBuilder<*>?,
+      index: Int,
+      message: String?,
+      termStart: Int,
+      specStart: Int,
+      formatStart: Int,
+  ): Int {
+    return parsePrintfTerm(builder, index, message, termStart, specStart, formatStart)
+  }
+
   public actual companion object {
-    private val INSTANCE: KPrintfMessageParser =
-        com.giancarlobuenaflor.kflogger.parser.KDefaultPrintfMessageParser()
+    private val INSTANCE: KPrintfMessageParser = KDefaultPrintfMessageParser()
 
     public actual fun getInstance(): KPrintfMessageParser {
-      TODO("Not yet implemented")
+      return INSTANCE
     }
 
     private fun wrapHexParameter(options: KFormatOptions, index: Int): KParameter {
