@@ -30,7 +30,6 @@ public class SimpleLoggerBackend extends AbstractBackend {
 
   @Override
   public void log(LogData data) {
-    System.out.println("SimpleLoggerBackend.log(LogData data) " + data.getTemplateContext().getMessage());
     log(SimpleLogRecord.create(data, Platform.getInjectedMetadata()), data.wasForced());
   }
 

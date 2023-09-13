@@ -1,11 +1,11 @@
 package com.giancarlobuenaflor.kflogger
 
 import kotlin.test.Test
-val logger = KFluentLogger.forEnclosingClass()
 
 class KFluentLoggerTest {
   @Test
   fun testNotCrashing() {
+    val logger = KFluentLogger.forEnclosingClass()
     logger.atInfo().log("Hello, world! %s", "test")
     logger.atWarning().log("Hello, world!")
     logger.atSevere().log("Hello, world!")
