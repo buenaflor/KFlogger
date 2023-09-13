@@ -16,18 +16,18 @@ public actual class KSimpleLoggerBackend actual constructor(public val logger: K
 
   public actual override fun log(data: KLogData) {
     val templateContext = data.getTemplateContext()
-    data.getTemplateContext()?.getParser()
     if (templateContext != null) {
       if (logger.isLoggable(data.getLevel())) {
         log(data.getLevel().toOsLogType(), templateContext.message.formatArgs(data.getArguments()))
       }
     } else {
-      log(data.getLevel().toOsLogType(), data.getLiteralArgument().toString())
+      if (logger.isLoggable(data.getLevel())) {
+        log(data.getLevel().toOsLogType(), data.getLiteralArgument().toString())
+      }
     }
   }
 
   private fun log(osLogSeverity: UByte, message: String) {
-    // TODO: KFlogger implement MessageFormatting so we can support arguments as well
     _os_log_internal(__dso_handle.ptr, logger.osLogger, osLogSeverity, message)
   }
 
@@ -57,7 +57,7 @@ public class OSLogSubsystemAppender(private val subsystem: String) {
   }
 }
 
-public fun String.formatArgs(args: Array<out Any?>?): String {
+private fun String.formatArgs(args: Array<out Any?>?): String {
   if (args == null || args.isEmpty()) {
     return this
   }
@@ -97,19 +97,6 @@ private fun String.parseFormatSpecifier(): String {
   }
 
   val specifierChar = this[startIndex + 1]
-  if (specifierChar != 's' && specifierChar != 'd' && specifierChar != 'f') {
-    throw IllegalArgumentException("Invalid format string: $this")
-  }
-
-  return "%$specifierChar"
-}
-
-private fun String.parseFormatSpecifier(pos: Int): String {
-  if (pos == -1 || pos == length - 1) {
-    throw IllegalArgumentException("Invalid format string: $this")
-  }
-
-  val specifierChar = this[pos + 1]
   if (specifierChar != 's' && specifierChar != 'd' && specifierChar != 'f') {
     throw IllegalArgumentException("Invalid format string: $this")
   }
