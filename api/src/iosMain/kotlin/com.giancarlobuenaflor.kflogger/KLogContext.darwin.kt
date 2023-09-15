@@ -289,9 +289,9 @@ public actual abstract class KLogContext<LOGGER : KAbstractLogger<API>, API : KL
     // argument was evaluated at the call site anyway).
     for (n in args.indices) {
       if (args[n] is KLazyArg<*>) {
-        val a = (args[n] as KLazyArg<*>).evaluate()
-        a?.let {
-          args[n] = a
+        val arg = (args[n] as KLazyArg<*>).evaluate()
+        arg?.let {
+          args[n] = arg
         }
       }
     }
