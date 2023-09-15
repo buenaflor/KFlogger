@@ -283,8 +283,18 @@ public actual abstract class KLogContext<LOGGER : KAbstractLogger<API>, API : KL
   }
 
   private fun logImpl(message: String?, vararg args: Any?) {
-    this.args = args as Array<out Any>?
-    // TODO KFlogger: Handle lazyargs
+    this.args = args as Array<Any>?
+    // Evaluate any (rare) LazyArg instances early. This may throw exceptions from user code, but
+    // it seems reasonable to propagate them in this case (they would have been thrown if the
+    // argument was evaluated at the call site anyway).
+    for (n in args.indices) {
+      if (args[n] is KLazyArg<*>) {
+        val a = (args[n] as KLazyArg<*>).evaluate()
+        a?.let {
+          args[n] = a
+        }
+      }
+    }
     if (message != LITERAL_VALUE_MESSAGE) {
       if (message == null) {
         throw NullPointerException("message must not be null")

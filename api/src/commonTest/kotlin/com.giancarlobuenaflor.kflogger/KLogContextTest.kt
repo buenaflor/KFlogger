@@ -462,4 +462,18 @@ class KLogContextTest {
     logger.atInfo().log(ms, CHAR_ARG, OBJECT_ARG)
     backend.assertLastLogged().hasArguments(CHAR_ARG, OBJECT_ARG)
   }
+
+  @Test
+  fun testLazyArgs() {
+    val backend = KFakeLoggerBackend()
+    val logger = KFluentLogger(backend)
+    logger.atInfo().log("Hello %s", KLazyArgs.lazy { "World" })
+    logger.atFine().log(
+      "Hello %s",
+      KLazyArgs.lazy { throw AssertionError("Should not be evaluated") })
+
+    // By the time the backend processes a log statement, lazy arguments have been evaluated.
+    backend.assertLastLogged().hasMessage("Hello %s")
+    backend.assertLastLogged().hasArguments("World")
+  }
 }
