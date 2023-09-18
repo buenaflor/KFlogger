@@ -12,8 +12,8 @@ import platform.darwin.os_log_t
 import kotlin.native.concurrent.AtomicReference
 
 /** A logging backend that uses the `OSLog` class to output log statements. */
-public actual class KSimpleLoggerBackend actual constructor(public val logger: KLogger) : KAbstractBackend(logger) {
-
+public actual class KSimpleLoggerBackend actual constructor(public val logger: KLogger) :
+    KAbstractBackend(logger) {
   public actual override fun log(data: KLogData) {
     val templateContext = data.getTemplateContext()
     if (templateContext != null) {
@@ -110,7 +110,8 @@ private fun formatArgument(arg: Any?, formatSpecifier: String): Any {
   }
   return when (formatSpecifier) {
     "%s" -> arg.toString()
-    "%d", "%i" -> arg.toString().toIntOrNull() ?: 0
+    "%d",
+    "%i" -> arg.toString().toIntOrNull() ?: 0
     "%f" -> arg.toString().toDoubleOrNull() ?: 0.0
     else -> arg.toString()
   }

@@ -110,8 +110,7 @@ public actual enum class KFormatChar {
     // A direct mapping from character offset to FormatChar instance. Have all 26 letters accounted
     // for because we know that the caller has already checked that this is an ASCII letter.
     // This mapping needs to be fast as it's called for every argument in every log message.
-    private val MAP: Array<KFormatChar?> =
-        arrayOfNulls<KFormatChar>(26)
+    private val MAP: Array<KFormatChar?> = arrayOfNulls<KFormatChar>(26)
 
     // Returns whether a given ASCII letter is lower case.
     private fun isLowerCase(letter: Char): Boolean {

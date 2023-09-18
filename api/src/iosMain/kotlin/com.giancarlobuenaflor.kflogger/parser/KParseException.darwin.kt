@@ -52,8 +52,7 @@ public actual class KParseException(errorMessage: String, logMessage: String) :
         logMessage: String,
         position: Int
     ): KParseException {
-      return KParseException(
-          msg(errorMessage, logMessage, position, position + 1), logMessage)
+      return KParseException(msg(errorMessage, logMessage, position, position + 1), logMessage)
     }
 
     /**
@@ -72,8 +71,7 @@ public actual class KParseException(errorMessage: String, logMessage: String) :
         start: Int,
         end: Int
     ): KParseException {
-      return KParseException(
-          msg(errorMessage, logMessage, start, end), logMessage)
+      return KParseException(msg(errorMessage, logMessage, start, end), logMessage)
     }
   }
 }

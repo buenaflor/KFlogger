@@ -39,7 +39,8 @@ public actual class KFluentLogger internal actual constructor(backend: KLoggerBa
     }
 
     override fun getMessageParser(): KMessageParser {
-      // TODO KFlogger: this is only a temporary implementation to allow compilation of KFluentLogger
+      // TODO KFlogger: this is only a temporary implementation to allow compilation of
+      // KFluentLogger
       return NoOpMessageParser()
     }
 

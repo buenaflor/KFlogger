@@ -25,7 +25,8 @@ import com.giancarlobuenaflor.kflogger.parameter.KParameter
  *
  * @param <T> The message type being built. </T>
  */
-public actual abstract class KMessageBuilder<T> actual constructor(internal val context: KTemplateContext) {
+public actual abstract class KMessageBuilder<T>
+actual constructor(internal val context: KTemplateContext) {
   /**
    * Called by parser implementations to signify that the parsing of the next parameter is complete.
    * This method will call [.addParameterImpl] with exactly the same arguments, but may also do

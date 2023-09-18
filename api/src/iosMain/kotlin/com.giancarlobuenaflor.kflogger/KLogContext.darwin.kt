@@ -290,9 +290,7 @@ public actual abstract class KLogContext<LOGGER : KAbstractLogger<API>, API : KL
     for (n in args.indices) {
       if (args[n] is KLazyArg<*>) {
         val arg = (args[n] as KLazyArg<*>).evaluate()
-        arg?.let {
-          args[n] = arg
-        }
+        arg?.let { args[n] = arg }
       }
     }
     if (message != LITERAL_VALUE_MESSAGE) {

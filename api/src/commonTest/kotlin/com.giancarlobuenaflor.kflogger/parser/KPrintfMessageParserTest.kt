@@ -13,19 +13,19 @@ class KPrintfMessageParserTest {
 
   private class CompileOnlyPrintfMessageParser : KPrintfMessageParser() {
     override fun parsePrintfTerm(
-      builder: KMessageBuilder<*>?,
-      index: Int,
-      message: String?,
-      termStart: Int,
-      specStart: Int,
-      formatStart: Int
+        builder: KMessageBuilder<*>?,
+        index: Int,
+        message: String?,
+        termStart: Int,
+        specStart: Int,
+        formatStart: Int
     ): Int {
       return 1
     }
   }
 
   private class CompileOnlyMessageBuilder<T>(val templateContext: KTemplateContext) :
-    KMessageBuilder<String>(templateContext) {
+      KMessageBuilder<String>(templateContext) {
     override fun addParameterImpl(termStart: Int, termEnd: Int, param: KParameter) {}
 
     override fun buildImpl(): String {
@@ -68,12 +68,11 @@ class KPrintfMessageParserTest {
 
   @Test
   fun testUnescapePrintf() {
-    assertThat(unescapePrintf("")).isEqualTo("");
-    assertThat(unescapePrintf("Hello World")).isEqualTo("Hello World");
-    assertThat(unescapePrintf("Hello %% World")).isEqualTo("Hello % World");
-    assertThat(unescapePrintf("Hello %%%% World")).isEqualTo("Hello %% World");
-    assertThat(unescapePrintf("%% 'Hello {%%}{%%} World' %%"))
-      .isEqualTo("% 'Hello {%}{%} World' %");
+    assertThat(unescapePrintf("")).isEqualTo("")
+    assertThat(unescapePrintf("Hello World")).isEqualTo("Hello World")
+    assertThat(unescapePrintf("Hello %% World")).isEqualTo("Hello % World")
+    assertThat(unescapePrintf("Hello %%%% World")).isEqualTo("Hello %% World")
+    assertThat(unescapePrintf("%% 'Hello {%%}{%%} World' %%")).isEqualTo("% 'Hello {%}{%} World' %")
   }
 
   private companion object {

@@ -1,7 +1,6 @@
-
+import java.util.*
 import org.jetbrains.kotlin.gradle.internal.KaptWithoutKotlincTask
 import org.jetbrains.kotlin.gradle.plugin.KotlinDependencyHandler
-import java.util.*
 
 plugins {
   alias(libs.plugins.kotlin.multiplatform)

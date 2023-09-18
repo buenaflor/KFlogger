@@ -31,8 +31,7 @@ public expect abstract class KMessageParser() {
    * Implementations of this method are required to invoke the [MessageBuilder.addParameterImpl]
    * method of the supplied builder once for each parameter place-holder in the message.
    */
-  @Throws(KParseException::class)
-  protected abstract fun <T> parseImpl(builder: KMessageBuilder<T>)
+  @Throws(KParseException::class) protected abstract fun <T> parseImpl(builder: KMessageBuilder<T>)
 
   /**
    * Appends the unescaped literal representation of the given message string (assumed to be escaped
