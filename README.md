@@ -48,7 +48,7 @@ The workaround here is to ignore those errors and make sure compilation works th
 
 The core functionality will work as usual on JVM.
 
-Most of the code has been directly transffered from [Flogger](https://github.com/google/flogger/). Changes to the Flogger API to accomodate KMP are very minimal and are the following:
+Most of the code has been directly transferred from [Flogger](https://github.com/google/flogger/). Changes to the Flogger API to accomodate KMP are very minimal and are the following:
  - [Change modifier of `parsePrintfTerm` to protected](https://github.com/buenaflor/KFlogger/pull/13#discussion_r1283879010)
  - [Add functionality to `isTargetClass`](https://github.com/buenaflor/KFlogger/pull/12#discussion_r1283877056)
 
