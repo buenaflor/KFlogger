@@ -66,9 +66,9 @@ It only contains the core implementations necessary to make the common functiona
 
 ### Testing
 
-All the JVM Flogger contains the original test cases.
+JVM Flogger contains the original test cases.
 
 The common code is tested via [Kruth](https://github.com/androidx/androidx/tree/androidx-main/kruth/kruth).
 The approach here is to take the JVM Flogger tests 1:1 and apply them to Kruth to make sure functionality is consistent across all platforms.
 
-In addition to ensure the `actual typealias` work for all defined common code we test compilation of all classes to make sure we don't run into any runtime errors.
+In addition to ensure the `actual typealias` work for all defined common code we test compilation of all KMP classes to make sure we don't run into any runtime errors.
